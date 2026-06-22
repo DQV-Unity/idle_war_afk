@@ -1,0 +1,9 @@
+﻿idle_afk_war/.idea
+idle_afk_war/Assets/_qtLib
+idle_afk_war/Library
+idle_afk_war/Logs
+idle_afk_war/obj
+idle_afk_war/UserSettings
+*.csproj
+*.sln
+idle_afk_war/Temp
