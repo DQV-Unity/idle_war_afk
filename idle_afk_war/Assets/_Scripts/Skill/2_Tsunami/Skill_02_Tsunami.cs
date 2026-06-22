@@ -12,7 +12,11 @@ namespace _Scripts.Skill
         
         public override bool Active()
         {
-            base.Active();
+            if (!base.Active())
+            {
+                return false;
+            }
+
             ChangeState(ESkillState.Playing);
             IBullet bullet = GameController.BulletFactory(bulletConfig.bulletPrefab.Value);
             bullet.onCompleteMove += OnBulletCompleteMove;

@@ -30,6 +30,16 @@ namespace _Scripts.Data.Config
         {
             return _mapConfigs.GetMapConfig(mapID);
         }
+
+        public StageConfig GetStageConfig(int mapID, int stageID)
+        {
+            return _mapConfigs.GetMapConfig(mapID).GetStageConfig(stageID);
+        }
+
+        public SubStageConfig GetSubStageConfig(int mapID, int stageID, int subStageID)
+        {
+            return GetStageConfig(mapID, stageID).GetSubStageConfig(subStageID);
+        }
         
         public SkillConfig GetSkillConfig(int skillID)
         {

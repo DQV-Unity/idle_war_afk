@@ -1,5 +1,7 @@
+using System;
 using _Scripts.Data.Config;
 using _Scripts.Definition;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace _Scripts.Board
@@ -12,6 +14,15 @@ namespace _Scripts.Board
         private StageConfig _currentStageConfig;
         private SubStageConfig _currentSubStageConfig;
         
+        #endregion
+
+        #region ----- Events -----
+
+        public event Action<int> onWaveComplete;
+        public event Action onSubStageComplete;
+        public event Action onStageComplete;
+        public event Action onMapComplete;
+
         #endregion
 
         #region ----- Properties -----
@@ -32,88 +43,44 @@ namespace _Scripts.Board
 
         #region ----- Public Functions -----
 
-        public override void SetUpLevel(int mapID, int stageID, int subStageID, IEnemyProvider enemyProvider)
+        public override void SetUpLevel(CampaignData campaignData, IEnemyProvider enemyProvider)
         {
-            base.SetUpLevel(mapID, stageID, subStageID, enemyProvider);
-            
-            _currentMapConfig = GameConfig.Instance.GetMapConfig(mapID);
-            for (var i = 0; i < _currentMapConfig.StageConfigs.Count; i++)
-            {
-                if (_currentMapConfig.StageConfigs[i].ID == stageID)
-                {
-                    _currentStageConfig = _currentMapConfig.StageConfigs[i];
-                    break;
-                }
-            }
+            base.SetUpLevel(campaignData, enemyProvider);
+            UpdateLevel(campaignData);
+        }
 
-            for (int i = 0; i < _currentStageConfig.SubStageConfigs.Count; i++)
-            {
-                if (_currentStageConfig.SubStageConfigs[i].ID == subStageID)
-                {
-                    _currentSubStageConfig = _currentStageConfig.SubStageConfigs[i];
-                    break;
-                }
-            }
-            
+        public void UpdateLevel(CampaignData campaignData)
+        {
+            _currentMapConfig = GameConfig.Instance.GetMapConfig(campaignData.mapID);
+            _currentStageConfig = _currentMapConfig.GetStageConfig(campaignData.stageID);
+            _currentSubStageConfig = _currentStageConfig.GetSubStageConfig(campaignData.subStageID);
             _currentWaveConfig = _currentSubStageConfig.WaveConfigs[0];
-
-            SpawnEnemyWave();
         }
 
         #endregion
 
         #region ----- Private Functions -----
 
-        protected override void CompleteWave()
+        protected override async void CompleteWave()
         {
+            onWaveComplete?.Invoke(_currentSubStageConfig.WaveConfigs.IndexOf(_currentWaveConfig) + 1);
             int nextWave = _currentSubStageConfig.WaveConfigs.IndexOf(_currentWaveConfig) + 1;
             if (nextWave >= _currentSubStageConfig.WaveConfigs.Count)
             {
                 CompleteSubStage();
-                return;
+            }
+            else
+            {
+                _currentWaveConfig = _currentSubStageConfig.WaveConfigs[nextWave];
             }
             
-            _currentWaveConfig = _currentSubStageConfig.WaveConfigs[nextWave];
+            await UniTask.Delay(2000);
             SpawnEnemyWave();
         }
 
         private void CompleteSubStage()
         {
-            int nextSubStage = _currentSubStageConfig.ID + 1;
-            
-            for (var i = 0; i < _currentStageConfig.SubStageConfigs.Count; i++)
-            {
-                if (_currentStageConfig.SubStageConfigs[i].ID == nextSubStage)
-                {
-                    _currentSubStageConfig = _currentStageConfig.SubStageConfigs[i];
-                    _currentWaveConfig = _currentSubStageConfig.WaveConfigs[0];
-                    SpawnEnemyWave();
-                    return;
-                }
-            }
-            
-            CompleteStage();
-        }
-
-        private void CompleteStage()
-        {
-            int stageIndex = _currentMapConfig.StageConfigs.IndexOf(_currentStageConfig);
-            stageIndex += 1;
-            if (stageIndex >= _currentStageConfig.SubStageConfigs.Count)
-            {
-                CompleteMap();
-                return;
-            }
-            
-            _currentStageConfig = _currentMapConfig.StageConfigs[stageIndex];
-            _currentSubStageConfig = _currentStageConfig.SubStageConfigs[0];
-            _currentWaveConfig = _currentSubStageConfig.WaveConfigs[0];
-            SpawnEnemyWave();
-        }
-
-        private void CompleteMap()
-        {
-            
+            onSubStageComplete?.Invoke();
         }
 
 

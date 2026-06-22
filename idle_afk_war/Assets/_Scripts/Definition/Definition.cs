@@ -163,6 +163,14 @@ namespace _Scripts.Definition
         public int ID;
         public int level;
     }
+
+    [Serializable]
+    public struct CampaignData
+    {
+        public int mapID;
+        public int stageID;
+        public int subStageID;
+    }
     
     public struct AttackSnapshot
     {

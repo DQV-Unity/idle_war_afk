@@ -13,5 +13,10 @@ namespace _Scripts.API
         {
             return _characterService.GetCharacterCollection();
         }
+
+        public StatLevel GetStatLevel()
+        {
+            return _characterService.GetStatLevel();
+        }
     }
 }

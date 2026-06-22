@@ -6,6 +6,7 @@ using _Scripts.Enemy;
 using _Scripts.Unit;
 using _Scripts.Unit.Character;
 using UnityEngine;
+using Character = _Scripts.Definition.Character;
 
 namespace _Scripts.Board
 {
@@ -55,17 +56,23 @@ namespace _Scripts.Board
         
         #region ----- Public Functions -----
 
-        public void SetUp(int characterID, IEnemyProvider enemyProvider, IStatProvider statProvider)
+        public void SetUp(Definition.Character equippedCharacter, IEnemyProvider enemyProvider, IStatProvider statProvider)
         {
             _statController = statProvider;
             _enemyProvider = enemyProvider;
             
-            CharacterAsset characterAsset = GameAsset.Instance.GetCharacterAsset(characterID);
+            CharacterAsset characterAsset = GameAsset.Instance.GetCharacterAsset(equippedCharacter.ID);
             _character = Instantiate(characterAsset.Prefab, _spawnPosition.position, Quaternion.identity).GetComponent<ICharacter>();
             _character.onDie += OnCharacterDie;
             
-            _character.InitStat(characterID, _statController.Damage, _statController.MaxHitPoints, _statController.AttackSpeed, _statController.AttackRange, _statController.CritRate, _statController.CritDamage);
+            _character.InitStat(equippedCharacter.ID, _statController.Damage, _statController.MaxHitPoints, _statController.AttackSpeed, _statController.AttackRange, _statController.CritRate, _statController.CritDamage);
             _character.SetUp(_enemyProvider.GetEnemy);
+            _character.GameObject.SetActive(false);
+        }
+
+        public void StartGame()
+        {
+            _character.GameObject.SetActive(true);
             _character.Appear(_inBattlePosition.position - _spawnPosition.position);
         }
 

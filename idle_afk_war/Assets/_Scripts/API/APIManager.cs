@@ -11,12 +11,14 @@ namespace _Scripts.API
         
         private InventoryService _inventoryService;
         private CharacterService _characterService;
+        private BattleService _battleService;
         
         protected override void _Init()
         {
             base._Init();
             _inventoryService = new InventoryService();
             _characterService = new CharacterService();
+            _battleService = new BattleService();
         }
 
         // private void _CollectReward(RewardModel reward)

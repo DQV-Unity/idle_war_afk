@@ -1,6 +1,5 @@
 using _Scripts.Definition;
 using _Scripts.Unit;
-using UnityEngine;
 
 namespace _Scripts.Board
 {
@@ -9,7 +8,19 @@ namespace _Scripts.Board
         private void OnCharacterDie(long characterID)
         {
             onGameOver?.Invoke(_levelController.GameMode, _levelController.isFinalWave);
-            SwitchToIdleMode();
+            if (_levelController.isFinalWave)
+            {
+                SwitchToIdleMode();
+            }
+            else
+            {
+                SwitchToCampaignMode();
+            }
+                        
+            _levelController.SetUpLevel(_campaignData, _characterController);
+            SetUpCharacter(_equippedCharacter);
+            
+            StartGame();
         }
         
         private void OnEnemyDie(int enemyID){}
@@ -20,10 +31,26 @@ namespace _Scripts.Board
             _skillController.OnSpawnedEnemy();
         }
 
-        private void OnCompleteWave()
+        private void OnWaveComplete(int completedWaveCount)
         {
             _characterController.OnCompleteWave();
             _skillController.OnCompleteWave();
+            onWaveComplete?.Invoke(completedWaveCount);
+        }
+
+        private void OnSubStageComplete()
+        {
+            onSubStageComplete?.Invoke();
+        }
+
+        private void OnStageComplete()
+        {
+            onStageComplete?.Invoke();
+        }
+
+        private void OnMapComplete()
+        {
+            onMapComplete?.Invoke();
         }
 
         private void OnEnemyAttack(AttackSnapshot dataSnapShot, IUnit target)

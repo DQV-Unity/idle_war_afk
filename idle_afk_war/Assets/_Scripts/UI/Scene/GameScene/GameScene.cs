@@ -1,4 +1,5 @@
 using System;
+using _Scripts.Data.Config;
 using _Scripts.Definition;
 using qtLib.UI.Base;
 using TMPro;
@@ -10,8 +11,13 @@ namespace _Scripts.UI.Scene.GameScene
     public class GameScene : qtScene
     {
         #region ----- Component Config -----
-
+        
+        [SerializeField] private GameObject _goIdleMode;
         [SerializeField] private Button _btnSwitchToCampaignMode;
+
+        [SerializeField] private GameObject _goCampaignMode;
+        [SerializeField] private TextMeshProUGUI _txtStageDetail;
+        [SerializeField] private Slider _sldWaveProgress;
         
         [SerializeField] private PanelStat _pnlStats;
         [SerializeField] private PanelSkill _pnlSkills;
@@ -27,6 +33,14 @@ namespace _Scripts.UI.Scene.GameScene
 
         #region ----- Public Functions -----
 
+        public void ShowSubStage(CampaignData campaignData)
+        {
+            _txtStageDetail.SetText($"m{campaignData.mapID} - s{campaignData.stageID} - sub{campaignData.subStageID}");
+            SubStageConfig subStageConfig = GameConfig.Instance.GetSubStageConfig(campaignData.mapID, campaignData.stageID, campaignData.subStageID);
+            _sldWaveProgress.maxValue = subStageConfig.WaveConfigs.Count;
+            _sldWaveProgress.value = 0;
+        }
+        
         public void ShowDamage(int damage)
         {
             _pnlStats.txtDamage.SetText(damage.ToString());
@@ -43,11 +57,6 @@ namespace _Scripts.UI.Scene.GameScene
                 EUnitStatType.CritDamage => _pnlStats.pnlCritDamage,
                 _ => throw new ArgumentOutOfRangeException(nameof(statType), statType, null)
             }).ShowStat(data, levelUp);
-        }
-
-        public void ShowButtonSwitchToCampaignMode(bool isShow)
-        {
-            _btnSwitchToCampaignMode.gameObject.SetActive(isShow);
         }
         
         public void ShowSkills(int[] skills, Action<int> active)
@@ -67,6 +76,34 @@ namespace _Scripts.UI.Scene.GameScene
         public void AutoSkill(bool isAuto)
         {
             _pnlSkills.txtAutoSkill.SetText($"Auto\n{(isAuto ? "auto" : "manual")}");
+        }
+
+        public void OnChangeGameMode(EGameMode gameMode)
+        {
+            switch (gameMode)
+            {
+                case EGameMode.Campaign:
+                {
+                    _goCampaignMode.SetActive(true);
+                    _goIdleMode.SetActive(false);
+                    break;
+                }
+                case EGameMode.Idle:
+                {
+                    _goIdleMode.SetActive(true);
+                    _goCampaignMode.SetActive(false);
+                    break;
+                }
+                default:
+                {
+                    throw new ArgumentOutOfRangeException(nameof(gameMode), gameMode, null);
+                }
+            }
+        }
+
+        public void OnWaveComplete(int subStageCompleted)
+        {
+            _sldWaveProgress.value = subStageCompleted;
         }
 
         public void OnSkillReload(int skillID, float percent)

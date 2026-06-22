@@ -1,100 +1,12 @@
 using System;
-using _Scripts.API;
-using _Scripts.Board;
 using _Scripts.Definition;
 using _Scripts.UI.Popup.CharacterPopup;
 using Cysharp.Threading.Tasks;
 using qtLib.Helper;
 using qtLib.UI.Base;
-using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace _Scripts.UI.Scene.GameScene
 {
-    public class GameSceneLogic : qtLogic
-    {
-        private GameController _gameController;
-        
-        public event Action<int, float> onSkillReload
-        {
-            add => _gameController.onSkillReload += value;
-            remove => _gameController.onSkillReload -= value;
-        }
-        
-        public event Action<int> onSkillActive
-        {
-            add => _gameController.onSkillActive += value;
-            remove => _gameController.onSkillActive -= value;
-        }
-        
-        public event Action<EGameMode, bool> onGameOver
-        {
-            add => _gameController.onGameOver += value;
-            remove => _gameController.onGameOver -= value;
-        } 
-        
-        public override UniTask Initialize()
-        {
-            if (_gameController == null)
-            {
-                _gameController = Object.FindAnyObjectByType<GameController>(FindObjectsInactive.Include);
-                _gameController.SetUpBoard();
-            }
-
-            return base.Initialize();
-        }
-
-        public void SetUpBoard()
-        {
-            Character equippedCharacter = APIManager.Instance.GetEquippedCharacter();
-            _gameController.SetUpEquipment(APIManager.Instance.GetEquipmentCatalogues());
-            _gameController.CalculateStat(equippedCharacter);
-            _gameController.SetUpCharacter(equippedCharacter.ID);
-            _gameController.SetUpLevel(1, 1, 1);
-            _gameController.SetUpSkill(new int[]{2});
-        }
-
-        public int GetDamage()
-        {
-            return _gameController.GetDamage();
-        }
-        
-        public ((int level, int value) stat, int cost) GetStat(EUnitStatType statType)
-        {
-            return (_gameController.GetStat(statType), 0);
-        }
-
-        public int[] GetSkillIDs()
-        {
-            return _gameController.GetSkillIDs();
-        }
-
-        public bool IsAutoSkill()
-        {
-            return _gameController.IsAutoSkill();
-        }
-
-        public void ChangeAutoSkill()
-        {
-            _gameController.ChangeAutoSkill();
-        }
-        
-        public void LevelUpStat(EUnitStatType statType)
-        {
-            _gameController.LevelUpStat(statType);
-        }
-
-        public void ActiveSkill(int skillID)
-        {
-            _gameController.ActiveSkill(skillID);
-        }
-
-        public void SwitchToCampaignMode()
-        {
-            _gameController.SwitchToCampaignMode();
-        }
-    }
-    
     public class GameSceneMediator : qtMediator<GameScene, GameSceneLogic>
     {
         public GameSceneMediator() : base()
@@ -105,25 +17,37 @@ namespace _Scripts.UI.Scene.GameScene
                 
                 logic.onSkillReload += ui.OnSkillReload;
                 logic.onSkillActive += ui.OnSkillActive;
+
+                logic.onChangeGameMode += ui.OnChangeGameMode;
+                
+                logic.onWaveComplete += ui.OnWaveComplete;
+                logic.onSubStageComplete += OnSubStageComplete;
                 
                 logic.onGameOver += OnGameOver;
                 
                 ui.BtnAutoSkill.onClick.AddListener(ChangeAutoSkill);
                 ui.BtnSwitchToCampaignMode.onClick.AddListener(SwitchToCampaignMode);
                 
-                ui.ShowButtonSwitchToCampaignMode(false);
                 return UniTask.CompletedTask;
             };
 
             _beforeUIShow = (ui, logic, mediator) =>
             {
-                logic.SetUpBoard();
+                logic.SetUpLevel();
+                logic.SetUpCharacter();
+                ui.ShowSubStage(logic.CampaignData);
                 
                 ShowStats();
                 
                 ui.ShowSkills(logic.GetSkillIDs(), ActiveSkill);
                 ui.AutoSkill(logic.IsAutoSkill());
                 
+                return UniTask.CompletedTask;
+            };
+
+            _afterUIShow = (ui, logic, mediator) =>
+            {
+                logic.StartGame();
                 return UniTask.CompletedTask;
             };
         }
@@ -135,6 +59,8 @@ namespace _Scripts.UI.Scene.GameScene
             
             _logic.onSkillReload -= _ui.OnSkillReload;
             _logic.onSkillActive -= _ui.OnSkillActive;
+
+            _logic.onWaveComplete -= _ui.OnWaveComplete;
             
             _logic.onGameOver -= OnGameOver;
                 
@@ -181,14 +107,17 @@ namespace _Scripts.UI.Scene.GameScene
             _ui.ShowStats(EUnitStatType.CritDamage, _logic.GetStat(EUnitStatType.CritDamage), LevelUpStat);
         }
 
+        private void OnSubStageComplete()
+        {
+               
+        }
+        
         private void OnGameOver(EGameMode gameMode, bool isFinalStage)
         {
-            if (gameMode != EGameMode.Campaign || !isFinalStage)
+            if (gameMode == EGameMode.Campaign)
             {
-                return;
+                _ui.ShowSubStage(_logic.CampaignData);
             }
-            
-            _ui.ShowButtonSwitchToCampaignMode(true);
         }
 
         private void OnSwitchTab(MessageDispatcher.MessageObject message)

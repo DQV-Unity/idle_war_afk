@@ -36,6 +36,7 @@ namespace _Scripts.Unit.Module.Attack
             _getEnemy = getEnemy;
             
             _attackInterval = 1 / unitStatProvider.AttackSpeed;
+            _event.onDie += OnDie;
         }
 
         public void Attack(IUnit target)
@@ -98,6 +99,15 @@ namespace _Scripts.Unit.Module.Attack
         {
             _target.onDie -= OnTargetDie;
             _target = _getEnemy?.Invoke(transform.position);
+        }
+
+        private void OnDie()
+        {
+            _event.onDie -= OnDie;
+            if (_target != null)
+            {
+                _target.onDie -= OnTargetDie;
+            }
         }
         
         #endregion

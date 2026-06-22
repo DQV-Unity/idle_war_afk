@@ -27,9 +27,10 @@ namespace _Scripts.Board
 
         #endregion
 
-        public void SetUp(EquipmentCatalogue[] inventoryData)
+        public void SetUp(EquipmentCatalogue[] inventoryData,  List<Definition.Equipment> equippedEquipments)
         {
             _inventoryData = inventoryData;
+            _equippedEquipments = equippedEquipments;
         }
 
         // public void EquipEquipment(EEquipmentType equipmentType, int equipmentID)

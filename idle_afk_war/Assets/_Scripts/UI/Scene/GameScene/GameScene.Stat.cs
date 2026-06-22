@@ -45,7 +45,7 @@ namespace _Scripts.UI.Scene.GameScene
         public void ShowStat(((int level, int value) stat, int cost) data, Action<EUnitStatType> levelUp)
         {
             _levelUp = levelUp;
-            _txtLevel.SetText(data.stat.level.ToString());
+            _txtLevel.SetText($"Level {data.stat.level}");
             _txtStat.SetText(data.stat.value.ToString());
             _txtCost.SetText(data.cost.ToString());
         }

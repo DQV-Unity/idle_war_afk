@@ -103,6 +103,7 @@ namespace _Scripts.Unit
 
         public async UniTask Appear(Vector3 direction)
         {
+            gameObject.SetActive(true);
             _animation.OnAppear();
             ChangeState(EUnitState.PreBattling);
             await Move(transform.position + direction);

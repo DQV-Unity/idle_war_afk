@@ -11,12 +11,17 @@ namespace _Scripts.API.Services
 
         public Character GetEquippedCharacter()
         {
-            return _data.GetEquippedCharacter();
+            return _data.EquippedCharacter;
         }
         
         public CharacterCollection GetCharacterCollection()
         {
-            return _data.GetCharacterCollection();
+            return _data.CharacterCollection;
+        }
+
+        public StatLevel GetStatLevel()
+        {
+            return _data.StatLevel;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace _Scripts.Data.Config
         [SerializeField] private int _damage;
         [SerializeField] private int _maxHitPoints;
         [SerializeField] private int _attackSpeed;
-        [SerializeField] private int _attackRange;
+        [SerializeField] private float _attackRange;
         
         public int ID => _id;
         public int Damage => _damage;

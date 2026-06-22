@@ -11,5 +11,18 @@ namespace _Scripts.Data.Config
         
         public int ID => _id;
         public List<SubStageConfig> SubStageConfigs => _subStageConfigs;
+                
+        public SubStageConfig GetSubStageConfig(int subStageID)
+        {
+            for (var i = 0; i < _subStageConfigs.Count; i++)
+            {
+                if (_subStageConfigs[i].ID == subStageID)
+                {
+                    return _subStageConfigs[i];
+                }
+            }
+            
+            throw new KeyNotFoundException($"Sub stage ID {subStageID} not found");
+        }
     }
 }

@@ -32,9 +32,7 @@ namespace _Scripts.Board
         #region ----- Events -----
 
         public event Action onSpawnedEnemy;
-        public event Action onCompleteWave;
         public event Action<AttackSnapshot, IUnit> onEnemyAttack; 
-        public event Action onLevelComplete;
 
         #endregion
 
@@ -59,16 +57,21 @@ namespace _Scripts.Board
             {
                 return null;
             }
-            return _enemies.TakeRandom();
+            return _enemies.TakeRandom(enemy => enemy.IsAlive);
         }
         
         #endregion
         
         #region ----- Public Functions -----
 
-        public virtual void SetUpLevel(int mapID, int stageID, int subStageID, IEnemyProvider enemyProvider)
+        public virtual void SetUpLevel(CampaignData campaignData, IEnemyProvider enemyProvider)
         {
             _enemyProvider = enemyProvider;
+        }
+        
+        public virtual void StartGame()
+        {
+            SpawnEnemyWave();
         }
 
         public void ClearScene()
@@ -108,8 +111,6 @@ namespace _Scripts.Board
 
             if (_enemies.Count == 0)
             {
-                onCompleteWave?.Invoke();
-                await UniTask.Delay(2000);
                 CompleteWave();
             }
         }
@@ -143,8 +144,7 @@ namespace _Scripts.Board
                 _enemies[i].Attack(_enemyProvider.GetEnemy(_enemies[i].Transform.position));
             }
         }
-
-
+        
         #endregion
     }
 }

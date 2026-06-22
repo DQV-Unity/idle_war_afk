@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using _Scripts.Definition;
 
 namespace _Scripts.Board
@@ -6,23 +8,19 @@ namespace _Scripts.Board
     {
         public void SetUpBoard()
         {
-            SwitchToCampaignMode();
             _characterController.onCharacterDie += OnCharacterDie;
         }
 
-        public void SetUpEquipment(EquipmentCatalogue[] inventoryData)
+        //Character
+        public void SetUpEquipment(EquipmentCatalogue[] inventoryData, List<Definition.Equipment> equippedEquipments)
         {
-            _equipmentController.SetUp(inventoryData);
+            _equipmentController.SetUp(inventoryData, equippedEquipments);
         }
         
-        public void SetUpCharacter(int characterID)
+        public void SetUpCharacter(Character equippedCharacter)
         {
-            _characterController.SetUp(characterID, _levelController, _statController);
-        }
-        
-        public void SetUpLevel(int mapID, int stageID, int subStageID)
-        {
-            _levelController.SetUpLevel(mapID, stageID, subStageID, _characterController);
+            _equippedCharacter = equippedCharacter;
+            _characterController.SetUp(_equippedCharacter, _levelController, _statController);
         }
         
         public void SetUpSkill(int[] skillIDs)
@@ -30,9 +28,54 @@ namespace _Scripts.Board
             _skillController.Setup(skillIDs, _statController);
         }
         
-        public void CalculateStat(Character equippedCharacter)
+        //Level
+        public void SetUpLevel(CampaignData campaignData)
         {
-            _statController.SetUp(equippedCharacter, _equipmentController, new StatLevel(1,1,1,1, 1));
+            _campaignData = campaignData;
+               
+            _levelController.SetUpLevel(_campaignData, _characterController);
+        }
+
+        public void SetUpLevel(EGameMode gameMode)
+        {
+            switch (gameMode)
+            {
+                case EGameMode.Campaign:
+                {
+                    SwitchToCampaignMode();
+                    break;
+                }
+                case EGameMode.Idle:
+                {
+                    SwitchToIdleMode();
+                    break;
+                }
+                default:
+                {
+                    throw new ArgumentOutOfRangeException(nameof(gameMode), gameMode, null);
+                }
+            }
+        }
+
+        public void UpdateLevel(CampaignData campaignData)
+        {
+            _campaignData = campaignData;
+            if (_levelController is CampaignMode campaignMode)
+            {
+                campaignMode.UpdateLevel(_campaignData);
+            }
+        }
+
+        public void StartGame()
+        {
+            _characterController.StartGame();
+            _levelController.StartGame();
+        }
+        
+        //Stat
+        public void CalculateStat(Character equippedCharacter, StatLevel statLevel)
+        {
+            _statController.SetUp(equippedCharacter, _equipmentController, statLevel);
         }
 
         public void LevelUpStat(EUnitStatType unitStatType)
@@ -40,6 +83,8 @@ namespace _Scripts.Board
             _statController.LevelUpStat(unitStatType);
         }
 
+        
+        //Skill
         public void ChangeAutoSkill()
         {
             _skillController.ChangeAutoSkill();

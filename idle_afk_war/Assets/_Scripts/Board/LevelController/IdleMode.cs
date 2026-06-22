@@ -1,5 +1,6 @@
 using _Scripts.Data.Config;
 using _Scripts.Definition;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace _Scripts.Board
@@ -18,36 +19,20 @@ namespace _Scripts.Board
 
         #endregion
 
-        public override void SetUpLevel(int mapID, int stageID, int subStageID, IEnemyProvider enemyProvider)
+        public override void SetUpLevel(CampaignData campaignData, IEnemyProvider enemyProvider)
         {
-            base.SetUpLevel(mapID, stageID, subStageID, enemyProvider);
-            MapConfig currentMapConfig = GameConfig.Instance.GetMapConfig(mapID);
-            StageConfig currentStageConfig = null;
-            SubStageConfig currentSubStageConfig = null;
-            for (var i = 0; i < currentMapConfig.StageConfigs.Count; i++)
-            {
-                if (currentMapConfig.StageConfigs[i].ID == stageID)
-                {
-                    currentStageConfig = currentMapConfig.StageConfigs[i];
-                    break;
-                }
-            }
-
-            for (int i = 0; i < currentStageConfig.SubStageConfigs.Count; i++)
-            {
-                if (currentStageConfig.SubStageConfigs[i].ID == subStageID)
-                {
-                    currentSubStageConfig = currentStageConfig.SubStageConfigs[i];
-                    break;
-                }
-            }
+            base.SetUpLevel(campaignData, enemyProvider);
+            MapConfig currentMapConfig = GameConfig.Instance.GetMapConfig(campaignData.mapID);
+            StageConfig currentStageConfig = currentMapConfig.GetStageConfig(campaignData.stageID);
+            SubStageConfig currentSubStageConfig = currentStageConfig.GetSubStageConfig(campaignData.subStageID);
             
             _currentWaveConfig = currentSubStageConfig.WaveConfigs[0];
             SpawnEnemyWave();
         }
-
-        protected override void CompleteWave()
+        
+        protected override async void CompleteWave()
         {
+            await UniTask.Delay(2000);
             SpawnEnemyWave();
         }
     }

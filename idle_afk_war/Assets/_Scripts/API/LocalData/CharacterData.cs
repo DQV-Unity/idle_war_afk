@@ -12,7 +12,10 @@ namespace _Scripts.API.Services
         [SerializeField] private CharacterCollection _characterCollection;
         [SerializeField] private Character _equippedCharacter;
         
-
+        public StatLevel StatLevel => _statLevel;
+        public CharacterCollection CharacterCollection => _characterCollection;
+        public Character EquippedCharacter => _equippedCharacter;
+        
         public CharacterData()
         {
             _statLevel = new StatLevel
@@ -37,21 +40,6 @@ namespace _Scripts.API.Services
             };
             
             _equippedCharacter = _characterCollection.characters[0];
-        }
-
-        public StatLevel GetStatLevel()
-        {
-            return _statLevel;
-        }
-
-        public CharacterCollection GetCharacterCollection()
-        {
-            return _characterCollection;
-        }
-
-        public Character GetEquippedCharacter()
-        {
-            return _equippedCharacter;
         }
     }
 }
