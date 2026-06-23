@@ -109,8 +109,8 @@ namespace _Scripts.UI.Scene.GameScene
 
         private void OnSubStageComplete()
         {
-               
-        }
+            _ui.ShowSubStage(_logic.CampaignData);
+        }  
         
         private void OnGameOver(EGameMode gameMode, bool isFinalStage)
         {

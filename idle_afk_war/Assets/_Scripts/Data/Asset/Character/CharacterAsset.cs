@@ -1,5 +1,6 @@
 ﻿using _Scripts.Board.Bullet;
 using AYellowpaper;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace _Scripts.Data.Asset
@@ -8,8 +9,10 @@ namespace _Scripts.Data.Asset
     public class CharacterAsset : ScriptableObject
     {
         [SerializeField] private int _id;
+        [ShowAssetPreview]
         [SerializeField] private Sprite _sprAvatar;
         [SerializeField] private string _name;
+        [ShowAssetPreview]
         [SerializeField] private GameObject _prefab;
         [SerializeField] private InterfaceReference<IBullet, MonoBehaviour> _bullet;
         

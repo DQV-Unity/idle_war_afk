@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using _Scripts.Definition;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace _Scripts.Data.Asset
@@ -9,6 +8,8 @@ namespace _Scripts.Data.Asset
     {
         [SerializeField] private int _id;
         [SerializeField] private string _name;
+        
+        [ShowAssetPreview]
         [SerializeField] private Sprite _sprIcon;
         
         public int ID => _id;

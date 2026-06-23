@@ -50,7 +50,8 @@ namespace _Scripts.Board.Bullet
         public async void Move(Vector2 from, Vector2 to)
         {
             transform.position = from;
-            await transform.DOMove(to, 1).SetEase(Ease.Linear).ToUniTask();
+            Vector3 target = transform.position + (Vector3)(to - from).normalized * 10;
+            await transform.DOMove(target, 1).SetEase(Ease.Linear).ToUniTask();
             onCompleteMove?.Invoke(this);
             SelfRelease();
         }

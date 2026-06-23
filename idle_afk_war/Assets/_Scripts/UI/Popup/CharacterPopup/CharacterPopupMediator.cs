@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using _Scripts.API;
 using _Scripts.Definition;
+using _Scripts.UI.Popup.CharacterCollectionPopup;
 using Cysharp.Threading.Tasks;
 using qtLib.UI.Base;
 
@@ -43,7 +44,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
 
 	    private void OnClickChangeCharacterButton()
 	    {
-		    //Todo: show popup character collection
+		    qtUiFlow.Request<CharacterCollectionPopupMediator>().Move();
 	    }
 
 	    public override UniTask<CharacterPopupParamInput> RequestData()

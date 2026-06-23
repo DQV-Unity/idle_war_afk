@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53dc423085764551a8e67e00b4c45640, type: 3}
   m_Name: EquipmentAssets
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Data.Asset.EquipmentAssets
-  _equipmentCatalogues: []
+  _equipmentCatalogues:
+  - {fileID: 11400000, guid: 857ff53fcece21f4ab3a20f236b40716, type: 2}
+  - {fileID: 11400000, guid: 76f534e0e40f7bb48b816a51e1288f31, type: 2}
+  - {fileID: 11400000, guid: 4b9480312f9259840aa4d56ff2cd3ffd, type: 2}
+  - {fileID: 11400000, guid: 17c35c29cee4d7d4abd8420baca61b85, type: 2}

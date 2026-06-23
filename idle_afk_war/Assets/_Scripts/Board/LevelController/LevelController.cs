@@ -26,6 +26,8 @@ namespace _Scripts.Board
         private IEnemyProvider _enemyProvider;
 
         protected WaveConfig _currentWaveConfig;
+
+        protected int _enemyUniqueID = 1;
         
         #endregion
 
@@ -57,7 +59,7 @@ namespace _Scripts.Board
             {
                 return null;
             }
-            return _enemies.TakeRandom(enemy => enemy.IsAlive);
+            return _enemies.TakeRandom(enemy => enemy.IsAlive, true);
         }
         
         #endregion
@@ -123,11 +125,12 @@ namespace _Scripts.Board
             
             for (int i = 0; i < _currentWaveConfig.EnemyAmount; i++)
             {
+                _enemyUniqueID++;
                 Vector3 spawnPosition = qtGameExtension.RandomPointInCircleXY(_spawnPosition.position, 0.5f);
                 IEnemy enemy = GameController.EnemyFactory(_currentWaveConfig.EnemyID);
                 enemy.Transform.position = spawnPosition;
                 EnemyConfig enemyConfig = GameConfig.Instance.GetEnemyConfig(_currentWaveConfig.EnemyID);
-                enemy.InitStat(enemyConfig.ToStat());
+                enemy.InitStat(enemyConfig.ToStat(), _enemyUniqueID);
                 enemy.SetUp(_enemyProvider.GetEnemy);
                 enemy.onDie += OnEnemyDeath;
                 enemy.onAttack += OnEnemyAttack;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using _Scripts.Board;
 using _Scripts.Board.Bullet;
 using _Scripts.Definition;
@@ -10,7 +11,7 @@ namespace _Scripts.Unit.Module.Attack
     public class BurstAttack : RangeAttack
     {
         [SerializeField] private BurstAttackConfig _bulletConfig;
-        
+
         protected override async void OnTriggerAttack()
         {
             //todo: trigger ngay sau khi all enemy chết...
@@ -18,21 +19,27 @@ namespace _Scripts.Unit.Module.Attack
             {
                 return;
             }
-            
+
             Vector3 position = _target.Transform.position;
 
-            for (int i = 0; i < _bulletConfig.bulletAmount; i++)
+            try
             {
-                IBullet bullet = GameController.BulletFactory(_bulletPrefab);
-                bullet.InitStat(new AttackSnapshot()
+                for (int i = 0; i < _bulletConfig.bulletAmount; i++)
                 {
-                    Damage = _unitStatProvider.Damage,
-                    CritRate =  _unitStatProvider.CritRate,
-                    CritDamage =  _unitStatProvider.CritDamage
-                });
-                bullet.Move(transform.position, position);
+                    IBullet bullet = GameController.BulletFactory(_bulletPrefab);
+                    bullet.InitStat(new AttackSnapshot()
+                    {
+                        Damage = _unitStatProvider.Damage,
+                        CritRate = _unitStatProvider.CritRate,
+                        CritDamage = _unitStatProvider.CritDamage
+                    });
+                    bullet.Move(transform.position, position);
 
-                await UniTask.Delay(_bulletConfig.spaceBetweenBullets);
+                    await UniTask.Delay(_bulletConfig.spaceBetweenBullets, cancellationToken: _destroyToken.Token);
+                }
+            }
+            catch (TaskCanceledException _)
+            {
             }
         }
 

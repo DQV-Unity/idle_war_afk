@@ -27,6 +27,7 @@ namespace _Scripts.Unit
         #region ----- Variables -----
 
         protected EUnitState _state;
+        protected int _uniqueID;
 
         #endregion
         
@@ -50,6 +51,7 @@ namespace _Scripts.Unit
 
         public abstract EUnitSide Side { get; }
         public EUnitState State => _state;
+        public int UniqueID => _uniqueID;
         public int ID => _stat.ID;
         public int MaxHitPoints => _stat.MaxHitPoints;
         public int HitPoints => _stat.HitPoints;
@@ -59,7 +61,6 @@ namespace _Scripts.Unit
         public int CritRate => _stat.CritRate;
         public int CritDamage => _stat.CritDamage;
         public bool IsAlive => _stat.HitPoints > 0;
-        public GameObject GameObject => gameObject;
         public Transform Transform => transform;
 
         public override object ObjectPoolID => _stat.ID;
@@ -96,8 +97,9 @@ namespace _Scripts.Unit
             _stat.InitStat(id,damage, maxHitPoints, attackSpeed, attackRange, critRate, critDamage);
         }
         
-        public void InitStat(UnitStat stat, long uniqueID)
+        public void InitStat(UnitStat stat, int uniqueID)
         {
+            _uniqueID = uniqueID;
             _stat.InitStat(stat, uniqueID);
         }
 
@@ -145,7 +147,6 @@ namespace _Scripts.Unit
         protected virtual void OnDie()
         {
             ChangeState(EUnitState.Dead);
-            gameObject.SetActive(false);
         }
 
         #endregion

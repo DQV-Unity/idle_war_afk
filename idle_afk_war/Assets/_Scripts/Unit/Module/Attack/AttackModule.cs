@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using _Scripts.Definition;
 using _Scripts.Extension;
 using DG.Tweening;
@@ -15,6 +16,8 @@ namespace _Scripts.Unit.Module.Attack
         
         private float _attackInterval;
         private float _attackTimer;
+        
+        protected CancellationTokenSource _destroyToken;
 
         #endregion
 
@@ -37,6 +40,7 @@ namespace _Scripts.Unit.Module.Attack
             
             _attackInterval = 1 / unitStatProvider.AttackSpeed;
             _event.onDie += OnDie;
+            _destroyToken = new CancellationTokenSource();
         }
 
         public void Attack(IUnit target)
@@ -97,6 +101,10 @@ namespace _Scripts.Unit.Module.Attack
 
         private void OnTargetDie(long uniqueID)
         {
+            if (_target == null)
+            {
+                return;
+            }
             _target.onDie -= OnTargetDie;
             _target = null;
         }
@@ -110,7 +118,12 @@ namespace _Scripts.Unit.Module.Attack
                 _target = null;
             }
         }
-        
+
+        private void OnDestroy()
+        {
+            _destroyToken?.Dispose();
+        }
+
         #endregion
     }
 }

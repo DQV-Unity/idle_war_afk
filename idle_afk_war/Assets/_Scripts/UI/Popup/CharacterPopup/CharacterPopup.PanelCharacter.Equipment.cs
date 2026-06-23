@@ -1,3 +1,5 @@
+using _Scripts.Data.Asset;
+using _Scripts.Data.Config;
 using _Scripts.Definition;
 using TMPro;
 using UnityEngine;
@@ -31,11 +33,19 @@ namespace _Scripts.UI.Popup.CharacterPopup
         
         #region ----- Public Functioons -----
 
-        public void ShowEquipment(Definition.Equipment  equippedEquipment)
+        public void ShowEquipment(Definition.Equipment equippedEquipment)
         {
             _goEquipment.SetActive(true);
             _goEmpty.SetActive(false);
             _goLock.SetActive(false);
+
+            EquipmentConfig equipmentConfig = GameConfig.Instance.GetEquipmentConfig(equippedEquipment.equipmentType, equippedEquipment.ID);
+            EquipmentAsset equipmentAsset = GameAsset.Instance.GetEquipmentAsset(equippedEquipment.equipmentType, equippedEquipment.ID);
+            _imgEquipmentIcon.sprite = equipmentAsset.SprIcon;
+            _txtEquipmentLevel.SetText($"Level {equippedEquipment.level}");
+
+            _imgEquipmentClass.sprite = GameAsset.Instance.GetClassAsset(equipmentConfig.Class).SprIcon;
+            _imgEquipmentRarity.sprite = GameAsset.Instance.GetRarityAsset(equipmentConfig.Rarity).SprBackground;
         }
 
         public void ShowEmpty()
