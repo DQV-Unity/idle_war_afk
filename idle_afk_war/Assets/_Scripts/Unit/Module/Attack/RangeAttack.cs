@@ -11,7 +11,7 @@ namespace _Scripts.Unit.Module.Attack
     {
         #region ----- Variables -----
 
-        private IBullet _bulletPrefab;
+        protected IBullet _bulletPrefab;
 
         #endregion
         

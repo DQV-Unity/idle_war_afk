@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using _Scripts.Data.Config;
 using _Scripts.Definition;
 using _Scripts.Unit;
 using UnityEngine;
-using EquipmentCatalogue = _Scripts.Definition.EquipmentCatalogue;
 
 namespace _Scripts.Board
 {
@@ -201,10 +199,20 @@ namespace _Scripts.Board
                 }
             }
             
-            List<Definition.Equipment> equippedEquipment = _inventoryProvider.EquippedEquipments;
-            for (var i = 0; i < equippedEquipment.Count; i++)
+            EquipmentSlot[] equipmentSlots = _inventoryProvider.EquipmentSlots;
+            for (var i = 0; i < equipmentSlots.Length; i++)
             {
-                equipmentConfig = GameConfig.Instance.GetEquipmentConfig(equipmentCatalogue[i].equipmentType, equippedEquipment[i].ID);
+                if (!equipmentSlots[i].isUnlock)
+                {
+                    continue;
+                }
+
+                if (equipmentSlots[i].equippedEquipment.ID <= 0)
+                {
+                    continue;
+                }
+                
+                equipmentConfig = GameConfig.Instance.GetEquipmentConfig(equipmentCatalogue[i].equipmentType, equipmentSlots[i].equippedEquipment.ID);
                 if (equipmentConfig.EquippedBonus.bonusStat != statType)
                 {
                     continue;

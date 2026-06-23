@@ -18,7 +18,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
         //Unique skill
         [SerializeField] private UniqueSkill _uniqueSkill;
         //Collection
-        public Button _btnChangeCharacter;
+        [SerializeField] private Button _btnChangeCharacter;
 
         #endregion
 
@@ -30,24 +30,36 @@ namespace _Scripts.UI.Popup.CharacterPopup
 
         #region ----- Public Functions -----
 
-        public void ShowCharacterDetail(int characterID, int characterLevel)
+        public void ShowCharacterDetail(Definition.Character equippedCharacter)
         {
-            _characterDetail.ShowCharacterDetail(characterID, characterLevel);
+            _characterDetail.ShowCharacterDetail(equippedCharacter);
         }
 
-        public void ShowEquipment(List<Definition.Equipment> equippedEquipments)
+        public void ShowEquipment(EquipmentSlot[] equipmentSlots)
         {
             for (var i = 0; i < _equipments.Length; i++)
             {
-                _equipments[i].Lock();
-
-                for (var j = 0; j < equippedEquipments.Count; j++)
+                for (var j = 0; j < equipmentSlots.Length; j++)
                 {
-                    if (equippedEquipments[i].equipmentType == _equipments[i].EquipmentType)
+                    if (equipmentSlots[j].equipmentType != _equipments[i].EquipmentType)
                     {
-                        _equipments[i].ShowEquipment(equippedEquipments[i]);
+                        continue;
+                    }
+
+                    if (!equipmentSlots[j].isUnlock)
+                    {
+                        _equipments[i].Lock();
                         break;
                     }
+
+                    if (equipmentSlots[j].equippedEquipment.ID <= 0)
+                    {
+                        _equipments[i].ShowEmpty();
+                        break;
+                    }
+                   
+                    _equipments[i].ShowEquipment(equipmentSlots[i].equippedEquipment);
+                    break;
                 }
             }
         }

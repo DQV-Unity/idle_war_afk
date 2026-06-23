@@ -6,6 +6,6 @@ namespace _Scripts.Board
     public interface IInventoryProvider
     {
         public EquipmentCatalogue[] EquipmentCatalogues { get; }
-        public List<Definition.Equipment> EquippedEquipments { get; }
+        public EquipmentSlot[] EquipmentSlots { get; }
     }
 }

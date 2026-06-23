@@ -10,7 +10,7 @@ namespace _Scripts.Board
         #region ----- Variables -----
 
         private EquipmentCatalogue[] _inventoryData;
-        private List<Definition.Equipment> _equippedEquipments;
+        private EquipmentSlot[] _equipmentSlots;
 
         #endregion
 
@@ -23,14 +23,14 @@ namespace _Scripts.Board
         #region ----- Properties -----
 
         public EquipmentCatalogue[] EquipmentCatalogues => _inventoryData;
-        public List<Definition.Equipment> EquippedEquipments => _equippedEquipments;
+        public EquipmentSlot[] EquipmentSlots => _equipmentSlots;
 
         #endregion
 
-        public void SetUp(EquipmentCatalogue[] inventoryData,  List<Definition.Equipment> equippedEquipments)
+        public void SetUp(EquipmentCatalogue[] inventoryData,  EquipmentSlot[] equipmentSlots)
         {
             _inventoryData = inventoryData;
-            _equippedEquipments = equippedEquipments;
+            _equipmentSlots = equipmentSlots;
         }
 
         // public void EquipEquipment(EEquipmentType equipmentType, int equipmentID)

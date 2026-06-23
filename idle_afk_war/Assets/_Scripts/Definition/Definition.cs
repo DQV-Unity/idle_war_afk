@@ -33,7 +33,10 @@ namespace _Scripts.Definition
 
     public enum EEquipmentType
     {
-        
+        Axe,
+        Hammer,
+        Sword,
+        Boom,
     }
 
     public enum ETextDamageType
@@ -76,12 +79,12 @@ namespace _Scripts.Definition
 
     public enum ERarity
     {
-        
+        Common,
     }
 
     public enum EClass
     {
-        
+        Human
     }
     
     //Stat
@@ -106,7 +109,6 @@ namespace _Scripts.Definition
     public struct EquipmentCatalogue
     {
         public EEquipmentType equipmentType;
-        public bool isUnlock;
         public List<Equipment> owned;
     }
 
@@ -116,6 +118,14 @@ namespace _Scripts.Definition
         public EEquipmentType equipmentType;
         public int ID;
         public int level;
+    }
+
+    [Serializable]
+    public struct EquipmentSlot
+    {
+        public EEquipmentType equipmentType;
+        public bool isUnlock;
+        public Equipment equippedEquipment;
     }
 
     [Serializable]

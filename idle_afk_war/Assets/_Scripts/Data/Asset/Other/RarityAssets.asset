@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee68b023ab324de880658175ed7872b4, type: 3}
   m_Name: RarityAssets
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Data.Asset.RarityAssets
-  _rarityAssets: []
+  _rarityAssets:
+  - {fileID: 11400000, guid: ee5decf7e00a2544183183ba6ac20dd3, type: 2}

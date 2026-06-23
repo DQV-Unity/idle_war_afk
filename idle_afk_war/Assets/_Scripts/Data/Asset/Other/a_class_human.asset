@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b363524eef43178552cc125cba5152, type: 3}
+  m_Name: a_class_human
+  m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Data.Asset.ClassAsset
+  _class: 0
+  _sprIcon: {fileID: 890421709184888939, guid: b94c2941b5eb1574fa303bc0b7568929, type: 3}

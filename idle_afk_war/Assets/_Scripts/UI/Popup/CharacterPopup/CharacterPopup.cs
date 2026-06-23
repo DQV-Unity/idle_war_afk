@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using _Scripts.Definition;
 using qtLib.UI.Base;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace _Scripts.UI.Popup.CharacterPopup
 {
@@ -8,16 +10,22 @@ namespace _Scripts.UI.Popup.CharacterPopup
     {
         [SerializeField] private PanelCharacter _pnlCharacter;
 
+        #region ----- Properties -----
+
+        public Button BtnChangeCharacter => _pnlCharacter.BtnChangeCharacter;
+
+        #endregion
+
         #region ----- Public Functions -----
 
-        public void ShowCharacterDetails(int characterID, int characterLevel)
+        public void ShowCharacterDetails(Definition.Character equippedCharacter)
         {
-            _pnlCharacter.ShowCharacterDetail(characterID, characterLevel);
+            _pnlCharacter.ShowCharacterDetail(equippedCharacter);
         }
 
-        public void ShowEquipment(List<Definition.Equipment> equippedEquipments)
+        public void ShowEquipment(EquipmentSlot[] equipmentSlots)
         {
-            _pnlCharacter.ShowEquipment(equippedEquipments);
+            _pnlCharacter.ShowEquipment(equipmentSlots);
         }
 
         #endregion

@@ -98,7 +98,7 @@ namespace _Scripts.Unit.Module.Attack
         private void OnTargetDie(long uniqueID)
         {
             _target.onDie -= OnTargetDie;
-            _target = _getEnemy?.Invoke(transform.position);
+            _target = null;
         }
 
         private void OnDie()
@@ -107,6 +107,7 @@ namespace _Scripts.Unit.Module.Attack
             if (_target != null)
             {
                 _target.onDie -= OnTargetDie;
+                _target = null;
             }
         }
         

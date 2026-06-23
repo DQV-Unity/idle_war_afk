@@ -10,14 +10,27 @@ namespace _Scripts.API.Services
             return "Inventory";
         }
 
-        public void UnlockEquipment(EEquipmentType equipmentType, int equipmentID)
+        public void UnlockEquipmentSlot(EEquipmentType equipmentType)
         {
-            EquipmentCatalogue equipmentCatalogue = GetEquipmentCatalogue(equipmentType);
-
-            if (!equipmentCatalogue.isUnlock)
+            EquipmentSlot equipmentSlot = GetEquipmentSlot(equipmentType);
+            if (equipmentSlot.isUnlock)
             {
                 return;
             }
+            
+            equipmentSlot.isUnlock = true;
+            SaveData();
+        }
+        
+        public void UnlockEquipment(EEquipmentType equipmentType, int equipmentID)
+        {
+            EquipmentSlot equipmentSlot = GetEquipmentSlot(equipmentType);
+            if (!equipmentSlot.isUnlock)
+            {
+                return;
+            }
+            
+            EquipmentCatalogue equipmentCatalogue = GetEquipmentCatalogue(equipmentType);
 
             for (var j = 0; j < equipmentCatalogue.owned.Count; j++)
             {
@@ -37,11 +50,14 @@ namespace _Scripts.API.Services
 
         public bool ChangeEquipment(EEquipmentType equipmentType, int equipmentID)
         {
-            EquipmentCatalogue equipmentCatalogue = GetEquipmentCatalogue(equipmentType);
-            if (!equipmentCatalogue.isUnlock)
+            EquipmentSlot equipmentSlot = GetEquipmentSlot(equipmentType);
+            if (!equipmentSlot.isUnlock)
             {
                 return false;
             }
+
+            equipmentSlot.equippedEquipment = default;
+            EquipmentCatalogue equipmentCatalogue = GetEquipmentCatalogue(equipmentType);
 
             for (var i = 0; i < equipmentCatalogue.owned.Count; i++)
             {
@@ -49,26 +65,8 @@ namespace _Scripts.API.Services
                 {
                     continue;
                 }
-                List<Definition.Equipment> equippedEquipment = _data.EquippedEquipments;
 
-                for (var j = 0; j < equippedEquipment.Count; j++)
-                {
-                    if (equippedEquipment[j].equipmentType != equipmentType)
-                    {
-                        continue;
-                    }
-
-                    if (equippedEquipment[j].ID == equipmentID)
-                    {
-                        return false;
-                    }
-                    
-                    equippedEquipment[j] = equipmentCatalogue.owned[i];
-                    SaveData();
-                    return true;
-                }
-                
-                equippedEquipment.Add(equipmentCatalogue.owned[i]);
+                equipmentSlot.equippedEquipment = equipmentCatalogue.owned[i];
                 SaveData();
                 return true;
             }
@@ -111,9 +109,23 @@ namespace _Scripts.API.Services
             return _data.Equipments;
         }
 
-        public List<Definition.Equipment> GetEquippedEquipments()
+        public EquipmentSlot[] GetEquippedEquipments()
         {
             return  _data.EquippedEquipments;
+        }
+
+        public EquipmentSlot GetEquipmentSlot(EEquipmentType equipmentType)
+        {
+            EquipmentSlot[] equipmentSlots = GetEquippedEquipments();
+            for (var i = 0; i < equipmentSlots.Length; i++)
+            {
+                if (equipmentSlots[i].equipmentType == equipmentType)
+                {
+                    return equipmentSlots[i];
+                }
+            }
+            
+            throw new KeyNotFoundException($"Equipment type {equipmentType} not found");
         }
     }
 }

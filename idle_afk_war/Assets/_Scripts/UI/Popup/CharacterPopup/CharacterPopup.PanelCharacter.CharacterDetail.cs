@@ -22,14 +22,14 @@ namespace _Scripts.UI.Popup.CharacterPopup
 
         #region ----- Public Functions -----
 
-        public void ShowCharacterDetail(int characterID, int characterLevel)
+        public void ShowCharacterDetail(Definition.Character equippedCharacter)
         {
-            CharacterAsset characterAsset = GameAsset.Instance.GetCharacterAsset(characterID);
+            CharacterAsset characterAsset = GameAsset.Instance.GetCharacterAsset(equippedCharacter.ID);
             _imgCharacterAvatar.sprite = characterAsset.SprAvatar;
             _txtCharacterName.SetText(characterAsset.Name);
-            _txtCharacterLevel.SetText($"Level {characterLevel}");
+            _txtCharacterLevel.SetText($"Level {equippedCharacter.level}");
             
-            CharacterConfig characterConfig = GameConfig.Instance.GetCharacterConfig(characterID);
+            CharacterConfig characterConfig = GameConfig.Instance.GetCharacterConfig(equippedCharacter.ID);
             _imgCharacterRarity.sprite = GameAsset.Instance.GetRarityAsset(characterConfig.Rarity).SprIcon;
             _imgCharacterClass.sprite = GameAsset.Instance.GetClassAsset(characterConfig.Class).SprIcon;
         }

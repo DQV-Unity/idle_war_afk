@@ -30,7 +30,7 @@ namespace _Scripts.API
             return _inventoryService.GetEquipmentCatalogues();
         }
         
-        public List<Definition.Equipment> GetEquippedEquipments()
+        public EquipmentSlot[] GetEquippedEquipments()
         {
             return  _inventoryService.GetEquippedEquipments();
         }

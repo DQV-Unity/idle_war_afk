@@ -9,6 +9,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
     {
         #region ----- Component Config -----
 
+        [SerializeField] private GameObject _goEquipment;
         [SerializeField] private EEquipmentType _equipmentType;
         [SerializeField] private Image _imgEquipmentRarity;
         [SerializeField] private Image _imgEquipmentIcon;
@@ -16,6 +17,10 @@ namespace _Scripts.UI.Popup.CharacterPopup
         [SerializeField] private TextMeshProUGUI _txtEquipmentName;
         [SerializeField] private TextMeshProUGUI _txtEquipmentLevel;
 
+        [Space]
+        [SerializeField] private GameObject _goEmpty;
+        [SerializeField] private GameObject _goLock;
+        
         #endregion
 
         #region ----- Properties -----
@@ -28,12 +33,23 @@ namespace _Scripts.UI.Popup.CharacterPopup
 
         public void ShowEquipment(Definition.Equipment  equippedEquipment)
         {
-            
+            _goEquipment.SetActive(true);
+            _goEmpty.SetActive(false);
+            _goLock.SetActive(false);
+        }
+
+        public void ShowEmpty()
+        {
+            _goEmpty.SetActive(true);
+            _goLock.SetActive(false);
+            _goEquipment.SetActive(false);
         }
         
         public void Lock()
         {
-            
+            _goLock.SetActive(true);
+            _goEmpty.SetActive(false);
+            _goEquipment.SetActive(false);
         }
         
         #endregion

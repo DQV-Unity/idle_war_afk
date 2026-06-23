@@ -12,9 +12,9 @@ namespace _Scripts.Board
         }
 
         //Character
-        public void SetUpEquipment(EquipmentCatalogue[] inventoryData, List<Definition.Equipment> equippedEquipments)
+        public void SetUpEquipment(EquipmentCatalogue[] inventoryData, EquipmentSlot[] equipmentSlots)
         {
-            _equipmentController.SetUp(inventoryData, equippedEquipments);
+            _equipmentController.SetUp(inventoryData, equipmentSlots);
         }
         
         public void SetUpCharacter(Character equippedCharacter)

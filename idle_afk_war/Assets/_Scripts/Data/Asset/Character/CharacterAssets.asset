@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Data.Asset.Character.CharacterAssets
   _characterAssets:
   - {fileID: 11400000, guid: 731c76b6affde5844b1c6de89d0e4dbc, type: 2}
+  - {fileID: 11400000, guid: 591985e83c0a8384a9db92659b804047, type: 2}

@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4a380434db74ea5950821607a59d6be, type: 3}
-  m_Name: a_c1
+  m_Name: a_c2
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Data.Asset.Character.CharacterAsset
-  _id: 1
-  _sprAvatar: {fileID: 7257567913506708742, guid: 2a0fcb2f11a4d496d9d10417bc8e1ab1, type: 3}
-  _name: Character_1
-  _prefab: {fileID: 8992588743402419455, guid: 76210a619d5a5674c884602e25381f90, type: 3}
+  _id: 2
+  _sprAvatar: {fileID: 4723107735738678597, guid: 2018574d4308f4786a63ea08083f13cc, type: 3}
+  _name: Character_2
+  _prefab: {fileID: 8992588743402419455, guid: 361813d88a788084c8b91859307c85dc, type: 3}
   _bullet:
     _underlyingValue: {fileID: 1287263527311175905, guid: bf93cec9acb1fa8429db88d6d0777c95, type: 3}

@@ -48,7 +48,7 @@ MonoBehaviour:
   _characterConfigs: {fileID: 11400000, guid: e91462878b04b0c48ba72438b496f6cb, type: 2}
   _enemyConfigs: {fileID: 11400000, guid: 1b1282de0c2d8e84098307f16848bd58, type: 2}
   _skillConfigs: {fileID: 11400000, guid: 4e330829337840a499e70b4b0096854f, type: 2}
-  _equipmentConfigs: {fileID: 0}
+  _equipmentConfigs: {fileID: 11400000, guid: 89e86185c3ecdd34c9a4043ba8ba0018, type: 2}
 --- !u!1 &1503472743752436555
 GameObject:
   m_ObjectHideFlags: 0
