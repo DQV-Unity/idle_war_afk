@@ -13,6 +13,19 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 	
 	public class CharacterCollectionPopupLogic : qtLogic<CharacterCollectionPopupParamInput>
 	{
+		private int _selectedCharacterID;
+		public int SelectedCharacterID => _selectedCharacterID;
+		
+		public void SelectCharacter(int characterID)
+		{
+			_selectedCharacterID = characterID;	
+		}
+
+		public bool EquippedCharacter()
+		{
+			return false;
+		}
+		
 		public bool IsEquipped(int characterID)
 		{
 			return Args.equippedCharacter.ID == characterID;
@@ -46,14 +59,23 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 		    _ui.BtnEnhance.onClick.RemoveAllListeners();
 		    _ui.BtnEquip.onClick.RemoveAllListeners();
 	    }
+	    
+	    #region ----- Private Functions -----
 
+	    private void OnSelectCharacter(int characterID)
+	    {
+		    _logic.SelectCharacter(characterID);
+	    }
+
+	    #endregion
+	    
 	    #region ----- Button Event -----
 
 	    private void OnClickCloseButton()
 	    {
 		    _ui.ControllerHide();
 	    }
-
+	    
 	    private void OnClickEnhanceButton()
 	    {
 		    

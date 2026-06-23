@@ -18,5 +18,10 @@ namespace _Scripts.API
         {
             return _characterService.GetStatLevel();
         }
+
+        public bool EquippedCharacter(int characterID)
+        {
+            return false;
+        }
     }
 }
