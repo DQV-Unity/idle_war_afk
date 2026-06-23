@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using _Scripts.Definition;
 using EnhancedUI.EnhancedScroller;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
         
         #region ----- Public Functions -----
 
-        public void ShowCharacter(ref List<Character> characters, int dataIndex)
+        public void ShowCharacter(ref List<Character> characters, int dataIndex, int selectedCharacter, Action<int> selectCharacter)
         {
             for (var i = 0; i < _characterCells.Length; i++)
             {
@@ -26,8 +27,8 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
                     _characterCells[i].ShowEmpty();
                     continue;
                 }
-                
-                _characterCells[i].ShowCharacter(characters[i + dataIndex * CellPerRow]);
+
+                _characterCells[i].ShowCharacter(characters[i + dataIndex * CellPerRow], selectedCharacter, selectCharacter);
             }
         }
 

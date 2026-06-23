@@ -7,3 +7,4 @@ idle_afk_war/UserSettings
 *.csproj
 *.sln
 idle_afk_war/Temp
+idle_afk_war/Assets/qtLib

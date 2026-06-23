@@ -1,25 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using _Scripts.Definition;
 using EnhancedUI.EnhancedScroller;
 using UnityEngine;
 
-namespace _Scripts.UI.Popup.CharacterCollectionPopup
+namespace _Scripts.UI.Popup.EquipmentPopup
 {
-    public class CharacterScrollView : MonoBehaviour, IEnhancedScrollerDelegate
+    public class EquipmentScrollView : MonoBehaviour, IEnhancedScrollerDelegate
     {
         #region ----- Component Config -----
 
         [SerializeField] private EnhancedScroller _scroller;
-        [SerializeField] private CharacterRow _characterRowPrefab;
+        [SerializeField] private EquipmentRow equipmentRowPrefab;
         
         #endregion
 
         #region ----- Variables -----
 
-        private List<Character> _characters;
-        private Action<int> _onSelectCharacter;
-        private int _selectedCharacter;
+        private List<Definition.Equipment> _equipments;
+        private Action<int> _onSelectEquipment;
+        private int _selectedEquipment;
         
         #endregion
         
@@ -28,11 +27,11 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
             _scroller.Delegate = this;
         }
 
-        public void ShowCollection(List<Character> characters, Action<int> onSelectCharacter, int selectedCharacter, bool firstTime)
+        public void ShowCollection(List<Definition.Equipment> equipments, Action<int> onSelectEquipment, int selectedEquipment, bool firstTime)
         {
-            _characters = characters;
-            _onSelectCharacter = onSelectCharacter;
-            _selectedCharacter = selectedCharacter;
+            _equipments = equipments;
+            _onSelectEquipment = onSelectEquipment;
+            _selectedEquipment = selectedEquipment;
             
             float currentPosition = 0;
             if (!firstTime)
@@ -44,7 +43,7 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 
         public int GetNumberOfCells(EnhancedScroller scroller)
         {
-            return Mathf.CeilToInt((float)_characters.Count/CharacterRow.CellPerRow);
+            return Mathf.CeilToInt((float)_equipments.Count/EquipmentRow.CellPerRow);
         }
 
         public float GetCellViewSize(EnhancedScroller scroller, int dataIndex)
@@ -54,9 +53,9 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 
         public EnhancedScrollerCellView GetCellView(EnhancedScroller scroller, int dataIndex, int cellIndex)
         {
-            CharacterRow characterRow = _scroller.GetCellView(_characterRowPrefab) as CharacterRow;
-            characterRow.ShowCharacter(ref _characters, dataIndex, _selectedCharacter, _onSelectCharacter);
-            return characterRow;
+            EquipmentRow equipmentRow = _scroller.GetCellView(equipmentRowPrefab) as EquipmentRow;
+            equipmentRow.ShowEquipment(ref _equipments, dataIndex, _selectedEquipment, _onSelectEquipment);
+            return equipmentRow;
         }
     }
 }

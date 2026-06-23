@@ -14,7 +14,12 @@ namespace _Scripts.API.Services
         
         public StatLevel StatLevel => _statLevel;
         public CharacterCollection CharacterCollection => _characterCollection;
-        public Character EquippedCharacter => _equippedCharacter;
+
+        public Character EquippedCharacter
+        {
+            get => _equippedCharacter;
+            set => _equippedCharacter = value;
+        }
         
         public CharacterData()
         {

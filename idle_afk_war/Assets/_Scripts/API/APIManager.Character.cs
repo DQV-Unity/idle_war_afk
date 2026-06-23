@@ -21,7 +21,7 @@ namespace _Scripts.API
 
         public bool EquippedCharacter(int characterID)
         {
-            return false;
+            return _characterService.EquippedCharacter(characterID);
         }
     }
 }

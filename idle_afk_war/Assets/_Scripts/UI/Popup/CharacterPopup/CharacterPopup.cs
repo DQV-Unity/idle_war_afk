@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using _Scripts.Definition;
 using qtLib.UI.Base;
 using UnityEngine;
@@ -23,9 +23,9 @@ namespace _Scripts.UI.Popup.CharacterPopup
             _pnlCharacter.ShowCharacterDetail(equippedCharacter);
         }
 
-        public void ShowEquipment(EquipmentSlot[] equipmentSlots)
+        public void ShowEquipment(EquipmentSlot[] equipmentSlots, Action<EEquipmentType> selectEquipmentSlot)
         {
-            _pnlCharacter.ShowEquipment(equipmentSlots);
+            _pnlCharacter.ShowEquipment(equipmentSlots, selectEquipmentSlot);
         }
 
         #endregion

@@ -103,6 +103,11 @@ namespace _Scripts.API.Services
             
             throw new KeyNotFoundException($"Equipment type {equipmentType} not found");
         }
+        
+        public Definition.Equipment GetEquippedEquipment(EEquipmentType equipmentType)
+        {
+            return GetEquipmentSlot(equipmentType).equippedEquipment;
+        }
 
         public EquipmentCatalogue[] GetEquipmentCatalogues()
         {

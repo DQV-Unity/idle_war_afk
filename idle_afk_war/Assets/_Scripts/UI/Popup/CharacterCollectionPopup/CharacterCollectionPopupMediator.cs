@@ -21,14 +21,24 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 			_selectedCharacterID = characterID;	
 		}
 
-		public bool EquippedCharacter()
+		public bool EquipCharacter()
 		{
+			if (APIManager.Instance.EquippedCharacter(_selectedCharacterID))
+			{
+				RefreshData();				
+				return true;
+			}
 			return false;
 		}
 		
 		public bool IsEquipped(int characterID)
 		{
 			return Args.equippedCharacter.ID == characterID;
+		}
+
+		private void RefreshData()
+		{
+			Args.equippedCharacter = APIManager.Instance.GetEquippedCharacter();
 		}
 	}
 	
@@ -46,7 +56,7 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 
 		    _beforeUIShow = (ui, logic, mediator) =>
 		    {
-			    ui.ShowCollection(Args.characterCollection);
+			    ui.ShowCollection(Args.characterCollection, Args.equippedCharacter.ID, OnSelectCharacter,true);
 			    ui.ShowCharacter(Args.equippedCharacter, true);
 			    return UniTask.CompletedTask;
 		    };
@@ -65,8 +75,9 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 	    private void OnSelectCharacter(int characterID)
 	    {
 		    _logic.SelectCharacter(characterID);
+		    //Todo: update scroll view
 	    }
-
+	    
 	    #endregion
 	    
 	    #region ----- Button Event -----
@@ -83,7 +94,12 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 
 	    private void OnClickEquipButton()
 	    {
+		    if (!_logic.EquipCharacter())
+		    {
+			    return;
+		    }
 		    
+		    _ui.ShowCharacter(Args.equippedCharacter, true);
 	    }
 
 	    #endregion

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using _Scripts.Data.Asset;
 using _Scripts.Data.Config;
 using _Scripts.Definition;
@@ -24,7 +24,7 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
         [SerializeField] private GameObject _goEquipped;
         
         [Space]
-        [SerializeField] private CharacterScrollview _characterScrollview;
+        [SerializeField] private CharacterScrollView characterScrollView;
         
         [Space]
         [SerializeField] private Button _btnEquip;
@@ -45,9 +45,10 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 
         #region ----- Public Functions -----
 
-        public void ShowCollection(CharacterCollection characterCollection)
+        public void ShowCollection(CharacterCollection characterCollection, int selectedCharacter,
+            Action<int> onSelectCharacter, bool firstTime = false)
         {
-            _characterScrollview.ShowCollection(characterCollection.characters);
+            characterScrollView.ShowCollection(characterCollection.characters, onSelectCharacter, selectedCharacter, firstTime);
         }
 
         public void ShowCharacter(Character character, bool isEquipped)

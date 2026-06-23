@@ -31,7 +31,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
 		    _beforeUIShow = (ui, logic, mediator) =>
 		    {
 			    ui.ShowCharacterDetails(Args.equippedCharacter);
-			    ui.ShowEquipment(Args.equipmentSlots);
+			    ui.ShowEquipment(Args.equipmentSlots, OnSelectEquipmentSlot);
 			    return UniTask.CompletedTask;
 		    };
 	    }
@@ -45,6 +45,11 @@ namespace _Scripts.UI.Popup.CharacterPopup
 	    private void OnClickChangeCharacterButton()
 	    {
 		    qtUiFlow.Request<CharacterCollectionPopupMediator>().Move();
+	    }
+
+	    private void OnSelectEquipmentSlot(EEquipmentType equipmentType)
+	    {
+		    //Todo: show popup equipment
 	    }
 
 	    public override UniTask<CharacterPopupParamInput> RequestData()

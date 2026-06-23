@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using _Scripts.Definition;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,7 +35,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
             _characterDetail.ShowCharacterDetail(equippedCharacter);
         }
 
-        public void ShowEquipment(EquipmentSlot[] equipmentSlots)
+        public void ShowEquipment(EquipmentSlot[] equipmentSlots, Action<EEquipmentType> selectEquipmentSlot)
         {
             for (var i = 0; i < _equipments.Length; i++)
             {
@@ -58,7 +58,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
                         break;
                     }
                    
-                    _equipments[i].ShowEquipment(equipmentSlots[i].equippedEquipment);
+                    _equipments[i].ShowEquipmentSlot(equipmentSlots[i].equippedEquipment, selectEquipmentSlot);
                     break;
                 }
             }

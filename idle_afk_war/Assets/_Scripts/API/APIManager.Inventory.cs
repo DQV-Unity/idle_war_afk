@@ -25,6 +25,11 @@ namespace _Scripts.API
             return _inventoryService.GetEquipmentCatalogue(equipmentType);
         }
 
+        public Definition.Equipment GetEquippedEquipment(EEquipmentType equipmentType)
+        {
+            return _inventoryService.GetEquippedEquipment(equipmentType);
+        }
+
         public EquipmentCatalogue[] GetEquipmentCatalogues()
         {
             return _inventoryService.GetEquipmentCatalogues();

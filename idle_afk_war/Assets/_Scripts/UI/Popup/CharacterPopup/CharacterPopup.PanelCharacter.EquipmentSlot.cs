@@ -1,3 +1,4 @@
+using System;
 using _Scripts.Data.Asset;
 using _Scripts.Data.Config;
 using _Scripts.Definition;
@@ -12,6 +13,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
         #region ----- Component Config -----
 
         [SerializeField] private GameObject _goEquipment;
+        [SerializeField] private Button _btnSelect;
         [SerializeField] private EEquipmentType _equipmentType;
         [SerializeField] private Image _imgEquipmentRarity;
         [SerializeField] private Image _imgEquipmentIcon;
@@ -22,7 +24,13 @@ namespace _Scripts.UI.Popup.CharacterPopup
         [Space]
         [SerializeField] private GameObject _goEmpty;
         [SerializeField] private GameObject _goLock;
-        
+
+        #endregion
+
+        #region ----- Variables -----
+
+        private Action<EEquipmentType> _onSelect;
+
         #endregion
 
         #region ----- Properties -----
@@ -33,8 +41,10 @@ namespace _Scripts.UI.Popup.CharacterPopup
         
         #region ----- Public Functioons -----
 
-        public void ShowEquipment(Definition.Equipment equippedEquipment)
-        {
+        public void ShowEquipmentSlot(Definition.Equipment equippedEquipment, Action<EEquipmentType> selectEquimentSlot)
+        { 
+            _onSelect = selectEquimentSlot;
+            
             _goEquipment.SetActive(true);
             _goEmpty.SetActive(false);
             _goLock.SetActive(false);
@@ -61,7 +71,15 @@ namespace _Scripts.UI.Popup.CharacterPopup
             _goEmpty.SetActive(false);
             _goEquipment.SetActive(false);
         }
-        
+        #endregion
+
+        #region ----- Private Functioons -----
+
+        private void OnSelectEquipmentSlot()
+        {
+            _onSelect?.Invoke(_equipmentType);
+        }
+
         #endregion
     }
 }

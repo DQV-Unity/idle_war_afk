@@ -4,9 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace _Scripts.UI.Popup.CharacterCollectionPopup
+namespace _Scripts.UI.Popup.EquipmentPopup
 {
-    public class CharacterCell : MonoBehaviour
+    public class EquipmentCell : MonoBehaviour
     {
         #region ----- Component Config -----
 
@@ -22,8 +22,8 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 
         #region ----- Variables -----
 
-        private int _characterID;
-        private Action<int> _onSelectCharacter;
+        private int _equipmentID;
+        private Action<int> _omSelectEquipment;
         
         #endregion
 
@@ -31,17 +31,18 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 
         private void Start()
         {
-            _btnSelect.onClick.AddListener(OnSelectCharacter);
+            _btnSelect.onClick.AddListener(OnSelectEquipment);
         }
 
         #endregion
 
         #region ----- Public Functions -----
         
-        public void ShowCharacter(Character character, int selectedCharacter, Action<int> selectCharacter)
+        public void ShowEquipment(Definition.Equipment equipment, int selectedEquipment, Action<int> selectEquipment)
         {
-            _characterID = character.ID;
-            _goSelected.SetActive(selectedCharacter == character.ID);
+            _equipmentID = equipment.ID;
+            _omSelectEquipment = selectEquipment;
+            _goSelected.SetActive(selectedEquipment == equipment.ID);
             _goContent.SetActive(true);
         }
 
@@ -54,9 +55,9 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 
         #region ----- Private Functions -----
 
-        private void OnSelectCharacter()
+        private void OnSelectEquipment()
         {
-            _onSelectCharacter?.Invoke(_characterID);
+            _omSelectEquipment?.Invoke(_equipmentID);
         }
 
         #endregion
