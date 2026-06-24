@@ -33,6 +33,7 @@ namespace _Scripts.API.Services
                 if (characters[i].ID == characterID)
                 {
                     _data.EquippedCharacter = characters[i];
+                    SaveData();
                     return true;
                 }
             }
