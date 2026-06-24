@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using _Scripts.API;
 using _Scripts.Definition;
 using _Scripts.UI.Popup.CharacterCollectionPopup;
+using _Scripts.UI.Popup.EquipmentPopup;
 using Cysharp.Threading.Tasks;
 using qtLib.UI.Base;
 
@@ -9,13 +9,16 @@ namespace _Scripts.UI.Popup.CharacterPopup
 {
 	public class CharacterPopupParamInput : ParamInput
 	{
-		public Definition.Character equippedCharacter;
+		public Character equippedCharacter;
 		public EquipmentSlot[] equipmentSlots;
 	}
 	
 	public class CharacterPopupLogic : qtLogic
     {
-	    
+	    public Definition.Equipment GetEquipmentData(EEquipmentType equipmentType, int equipmentID)
+	    {
+		    return APIManager.Instance.GetEquipment(equipmentType,  equipmentID);
+	    }
     }
 	
     public class CharacterPopupMediator : qtRequestMediator<CharacterPopup, CharacterPopupLogic, CharacterPopupParamInput>
@@ -31,7 +34,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
 		    _beforeUIShow = (ui, logic, mediator) =>
 		    {
 			    ui.ShowCharacterDetails(Args.equippedCharacter);
-			    ui.ShowEquipment(Args.equipmentSlots, OnSelectEquipmentSlot);
+			    ui.ShowEquipment(Args.equipmentSlots, OnSelectEquipmentSlot, logic.GetEquipmentData);
 			    return UniTask.CompletedTask;
 		    };
 	    }
@@ -49,7 +52,12 @@ namespace _Scripts.UI.Popup.CharacterPopup
 
 	    private void OnSelectEquipmentSlot(EEquipmentType equipmentType)
 	    {
-		    //Todo: show popup equipment
+		    qtUiFlow.Request<EquipmentPopupMediator>()
+			    .SetParam(new EquipmentPopupParamInput()
+			    {
+				    equipmentType = equipmentType,
+			    })
+			    .Move();
 	    }
 
 	    public override UniTask<CharacterPopupParamInput> RequestData()
@@ -57,7 +65,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
 		    return UniTask.FromResult<CharacterPopupParamInput>(new CharacterPopupParamInput()
 		    {
 			    equippedCharacter = APIManager.Instance.GetEquippedCharacter(),
-			    equipmentSlots = APIManager.Instance.GetEquippedEquipments(),
+			    equipmentSlots = APIManager.Instance.GetEquipmentSlot(),
 		    });
 	    }
     }

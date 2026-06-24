@@ -38,16 +38,26 @@ namespace _Scripts.UI.Popup.CharacterPopup
         public EEquipmentType EquipmentType => _equipmentType;
 
         #endregion
+
+        #region ----- Unity Event -----
+
+        private void Start()
+        {
+            _btnSelect.onClick.AddListener(OnSelectEquipmentSlot);
+        }
+
+        #endregion
         
         #region ----- Public Functioons -----
 
-        public void ShowEquipmentSlot(Definition.Equipment equippedEquipment, Action<EEquipmentType> selectEquimentSlot)
+        public void ShowEquipmentSlot(Definition.Equipment equippedEquipment, Action<EEquipmentType> selectEquipmentSlot)
         { 
-            _onSelect = selectEquimentSlot;
+            _onSelect = selectEquipmentSlot;
             
             _goEquipment.SetActive(true);
             _goEmpty.SetActive(false);
             _goLock.SetActive(false);
+            _btnSelect.enabled = true;
 
             EquipmentConfig equipmentConfig = GameConfig.Instance.GetEquipmentConfig(equippedEquipment.equipmentType, equippedEquipment.ID);
             EquipmentAsset equipmentAsset = GameAsset.Instance.GetEquipmentAsset(equippedEquipment.equipmentType, equippedEquipment.ID);
@@ -55,14 +65,18 @@ namespace _Scripts.UI.Popup.CharacterPopup
             _txtEquipmentLevel.SetText($"Level {equippedEquipment.level}");
 
             _imgEquipmentClass.sprite = GameAsset.Instance.GetClassAsset(equipmentConfig.Class).SprIcon;
-            _imgEquipmentRarity.sprite = GameAsset.Instance.GetRarityAsset(equipmentConfig.Rarity).SprBackground;
+            _imgEquipmentRarity.sprite = GameAsset.Instance.GetRarityAsset(equipmentConfig.Rarity).SprItemBackground;
         }
 
-        public void ShowEmpty()
+        public void ShowEmpty(Action<EEquipmentType> selectEquipmentSlot)
         {
+            _onSelect = selectEquipmentSlot;
+           
             _goEmpty.SetActive(true);
             _goLock.SetActive(false);
             _goEquipment.SetActive(false);
+
+            _btnSelect.enabled = true;
         }
         
         public void Lock()
@@ -70,6 +84,8 @@ namespace _Scripts.UI.Popup.CharacterPopup
             _goLock.SetActive(true);
             _goEmpty.SetActive(false);
             _goEquipment.SetActive(false);
+            
+            _btnSelect.enabled = false;
         }
         #endregion
 

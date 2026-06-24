@@ -128,46 +128,46 @@ namespace _Scripts.UI.Scene.GameScene
                 return;
             }
 
-            switch (data.tab)
-            {
-                case ETab.Character:
-                {
-                    if (data.isShow)
-                    {
-                        qtUiFlow.Request<CharacterPopupMediator>().Move();
-                    }
-                    else
-                    {
-                        CharacterPopupMediator popup = qtUiFlow.GetNewest<CharacterPopupMediator>();
-                        popup.ManualHideFromOutSide();
-                    }
-                    break;
-                }
-                case ETab.Companion:
-                {
-                    break;
-                }
-                case ETab.Farm:
-                {
-                    break;
-                }
-                case ETab.Institute:
-                {
-                    break;
-                }
-                case ETab.Armory:
-                {
-                    break;
-                }
-                case ETab.Shop:
-                {
-                    break;
-                }
-                default:
-                {
-                    throw new ArgumentOutOfRangeException(nameof(data.tab), data.tab, null);
-                }
-            }
+            // switch (data.tab)
+            // {
+            //     case ETab.Character:
+            //     {
+            //         if (data.isShow)
+            //         {
+            //             qtUiFlow.Request<CharacterPopupMediator>().Move();
+            //         }
+            //         else
+            //         {
+            //             CharacterPopupMediator popup = qtUiFlow.GetNewest<CharacterPopupMediator>();
+            //             popup.Close();
+            //         }
+            //         break;
+            //     }
+            //     case ETab.Companion:
+            //     {
+            //         break;
+            //     }
+            //     case ETab.Farm:
+            //     {
+            //         break;
+            //     }
+            //     case ETab.Institute:
+            //     {
+            //         break;
+            //     }
+            //     case ETab.Armory:
+            //     {
+            //         break;
+            //     }
+            //     case ETab.Shop:
+            //     {
+            //         break;
+            //     }
+            //     default:
+            //     {
+            //         throw new ArgumentOutOfRangeException(nameof(data.tab), data.tab, null);
+            //     }
+            // }
         }
 
         #endregion

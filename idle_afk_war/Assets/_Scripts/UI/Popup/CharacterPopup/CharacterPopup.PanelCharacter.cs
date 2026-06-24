@@ -30,15 +30,17 @@ namespace _Scripts.UI.Popup.CharacterPopup
 
         #region ----- Public Functions -----
 
-        public void ShowCharacterDetail(Definition.Character equippedCharacter)
+        public void ShowCharacterDetail(Character equippedCharacter)
         {
             _characterDetail.ShowCharacterDetail(equippedCharacter);
         }
 
-        public void ShowEquipment(EquipmentSlot[] equipmentSlots, Action<EEquipmentType> selectEquipmentSlot)
+        public void ShowEquipment(EquipmentSlot[] equipmentSlots, Action<EEquipmentType> selectEquipmentSlot, Func<EEquipmentType, int, Definition.Equipment> getEquipmentData)
         {
             for (var i = 0; i < _equipments.Length; i++)
             {
+                _equipments[i].Lock();
+                
                 for (var j = 0; j < equipmentSlots.Length; j++)
                 {
                     if (equipmentSlots[j].equipmentType != _equipments[i].EquipmentType)
@@ -48,17 +50,16 @@ namespace _Scripts.UI.Popup.CharacterPopup
 
                     if (!equipmentSlots[j].isUnlock)
                     {
-                        _equipments[i].Lock();
                         break;
                     }
 
-                    if (equipmentSlots[j].equippedEquipment.ID <= 0)
+                    if (equipmentSlots[j].equippedEquipment <= 0)
                     {
-                        _equipments[i].ShowEmpty();
+                        _equipments[i].ShowEmpty(selectEquipmentSlot);
                         break;
                     }
                    
-                    _equipments[i].ShowEquipmentSlot(equipmentSlots[i].equippedEquipment, selectEquipmentSlot);
+                    _equipments[i].ShowEquipmentSlot(getEquipmentData?.Invoke(equipmentSlots[j].equipmentType, equipmentSlots[i].equippedEquipment), selectEquipmentSlot);
                     break;
                 }
             }

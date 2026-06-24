@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: a_e_boom
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Data.Asset.EquipmentCatalogue
   _equipmentType: 3
+  _sprIcon: {fileID: 21300000, guid: 15bfc70256f3dbe4abc84ce6ffacf11c, type: 3}
   _equipmentAssets: []

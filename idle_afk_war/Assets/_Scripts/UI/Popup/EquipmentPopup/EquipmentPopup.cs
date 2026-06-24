@@ -1,7 +1,6 @@
 ﻿using System;
 using _Scripts.Data.Asset;
 using _Scripts.Data.Config;
-using _Scripts.Definition;
 using qtLib.UI.Base;
 using TMPro;
 using UnityEngine;
@@ -14,25 +13,31 @@ namespace _Scripts.UI.Popup.EquipmentPopup
     {
         #region ----- Component Config -----
 
-        [SerializeField] private Image _imgClassBackground;
-        [SerializeField] private Image _imgCharacter;
-        [SerializeField] private TextMeshProUGUI _txtCharacterName;
-        [SerializeField] private Image _imgClass;
         [SerializeField] private Image _imgRarity;
-        [SerializeField] private TextMeshProUGUI _txtCharacterLevel;
-        [SerializeField] private TextMeshProUGUI _txtCharacterLevelProgress;
-        [SerializeField] private Slider _sldCharacterLevel;
-        [SerializeField] private GameObject _goEquipped;
+        [SerializeField] private Image _imgEquipment;
         
+        [SerializeField] private TextMeshProUGUI _txtEquipmentName;
+        [SerializeField] private Image _imgEquipmentType;
+        [SerializeField] private TextMeshProUGUI _txtRarity;
+
+        [SerializeField] private Slider _sldEquipmentLevel;
+        [SerializeField] private TextMeshProUGUI _txtEquipmentLevel;
+        [SerializeField] private TextMeshProUGUI _txtEquipmentLevelProgress;
+
+        [SerializeField] private TextMeshProUGUI _txtOwnedEffect;
+        [SerializeField] private TextMeshProUGUI _txtEquippedEffect;
+       
+        [Space]
+        [SerializeField] private Button _btnEquip;
+        [SerializeField] private Button _btnUnEquip;
+        [SerializeField] private Button _btnFuse;
 
         [Space]
         [SerializeField] private EquipmentScrollView equipmentScrollView;
         
-        [Space]
-        [SerializeField] private Button _btnEquip;
-        [SerializeField] private Button _btnEnhance;
-
-        [Space]
+        [Space] 
+        [SerializeField] private Button _btnSummonEquipment;
+        [SerializeField] private Button _btnFuseAll;
         [SerializeField] private Button _btnClose;
         
         #endregion
@@ -40,34 +45,39 @@ namespace _Scripts.UI.Popup.EquipmentPopup
         #region ----- Properties -----
 
         public Button BtnEquip => _btnEquip;
-        public Button BtnEnhance => _btnEnhance;
+        public Button BtnUnEquip => _btnUnEquip;
+        public Button BtnFuse => _btnFuse;
         public Button BtnClose => _btnClose;
 
         #endregion
 
         #region ----- Public Functions -----
 
-        public void ShowCollection(EquipmentCatalogue equipmentCatalogue, int selectedEquipment,
+        public void ShowCollection(EquipmentCatalogue equipmentCatalogue, int selectedEquipment, int equippedEquipment,
             Action<int> onSelectEquipment, bool firstTime = false)
         {
-            equipmentScrollView.ShowCollection(equipmentCatalogue.owned, onSelectEquipment, selectedEquipment, firstTime);
+            equipmentScrollView.ShowCollection(equipmentCatalogue.owned, onSelectEquipment, selectedEquipment, equippedEquipment, firstTime);
         }
 
         public void ShowEquipment(Definition.Equipment equipment, bool isEquipped)
         {
-            // CharacterConfig characterConfig = GameConfig.Instance.GetCharacterConfig(character.ID);
-            // CharacterAsset characterAsset = GameAsset.Instance.GetCharacterAsset(character.ID);
-            // ClassAsset classAsset = GameAsset.Instance.GetClassAsset(characterConfig.Class);
-            // RarityAsset rarityAsset = GameAsset.Instance.GetRarityAsset(characterConfig.Rarity);
-            // _imgClassBackground.sprite = classAsset.SprBackground;
-            // _imgCharacter.sprite = characterAsset.SprAvatar;
-            // _txtCharacterName.SetText(characterAsset.Name);
-            // _imgClass.sprite = classAsset.SprIcon;
-            // _imgRarity.sprite = rarityAsset.SprIcon;
-            // _txtCharacterLevel.SetText($"Level {character.level}");
-            // // _txtCharacterLevelProgress
-            //     // _sldCharacterLevel.
-            // _goEquipped.SetActive(isEquipped);
+            _btnEquip.gameObject.SetActive(!isEquipped);
+            _btnUnEquip.gameObject.SetActive(isEquipped);
+            
+            EquipmentConfig equipmentConfig = GameConfig.Instance.GetEquipmentConfig(equipment.equipmentType, equipment.ID);
+            EquipmentAsset equipmentAsset = GameAsset.Instance.GetEquipmentAsset(equipmentConfig.EquipmentType, equipment.ID);
+            EquipmentCatalogueAsset equipmentCatalogueAsset = GameAsset.Instance.GetEquipmentCatalogueAsset(equipmentConfig.EquipmentType);
+            RarityAsset rarityAsset = GameAsset.Instance.GetRarityAsset(equipmentConfig.Rarity);
+            _imgEquipment.sprite = equipmentAsset.SprIcon;
+            _txtEquipmentName.SetText(equipmentAsset.Name);
+            _imgEquipmentType.sprite = equipmentCatalogueAsset.SprIcon;
+            _imgRarity.sprite = rarityAsset.SprItemBackground;
+            _txtRarity.SetText(equipmentConfig.Rarity.ToString());
+            _txtEquipmentLevel.SetText($"Level {equipment.level}");
+            _txtOwnedEffect.SetText($"{equipmentConfig.OwnedBonus.bonusStat} {equipmentConfig.OwnedBonus.value}%");
+            _txtEquippedEffect.SetText($"{equipmentConfig.EquippedBonus.bonusStat} {equipmentConfig.EquippedBonus.value}%");
+            // _txtCharacterLevelProgress
+                // _sldCharacterLevel.
         }
 
         #endregion

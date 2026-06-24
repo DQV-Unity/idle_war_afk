@@ -15,3 +15,4 @@ MonoBehaviour:
   _equipmentType: 1
   _equipmentConfig:
   - {fileID: 11400000, guid: 5fc522ee81415224d91adcf3622b8514, type: 2}
+  - {fileID: 11400000, guid: 7e45bf5cbe36e9444b2c36ef527fe6dc, type: 2}

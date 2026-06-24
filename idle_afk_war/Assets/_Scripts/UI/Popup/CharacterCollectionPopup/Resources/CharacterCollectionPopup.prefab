@@ -67,9 +67,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -8111322212487550922, guid: 4edd415ab2cd6784ea5e7905122a703d, type: 3}
-  m_Type: 1
-  m_PreserveAspect: 1
+  m_Sprite: {fileID: 21300000, guid: 25ca2528409a30f4e827cb2d05c772bb, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -483,7 +483,6 @@ MonoBehaviour:
   snapTweenType: 0
   snapTweenTime: 0
   snapWhileDragging: 0
-  _scrollPosition: 0
 --- !u!114 &4779776504611898792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -692,7 +691,7 @@ MonoBehaviour:
   _txtCharacterLevelProgress: {fileID: 6645297236371029055}
   _sldCharacterLevel: {fileID: 2719921684401899214}
   _goEquipped: {fileID: 3314963820604355223}
-  _characterScrollview: {fileID: 4779776504611898792}
+  characterScrollView: {fileID: 4779776504611898792}
   _btnEquip: {fileID: 262220274815391315}
   _btnEnhance: {fileID: 6707908394927375934}
   _btnClose: {fileID: 977922582777543701}
@@ -2147,7 +2146,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -175, y: 275}
-  m_SizeDelta: {x: 212, y: 256}
+  m_SizeDelta: {x: 256, y: 256}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2863717504933529965
 CanvasRenderer:
@@ -2177,7 +2176,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -4007279082606720751, guid: b0f85d5a744f799449233745652b567a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b0f85d5a744f799449233745652b567a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2252,7 +2251,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 890421709184888939, guid: b94c2941b5eb1574fa303bc0b7568929, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b94c2941b5eb1574fa303bc0b7568929, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

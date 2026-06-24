@@ -12,9 +12,12 @@ namespace _Scripts.Data.Asset
         [SerializeField] private Sprite _sprIcon;
         [ShowAssetPreview]
         [SerializeField] private Sprite _sprBackground;
+        [ShowAssetPreview] 
+        [SerializeField] private Sprite _sprItemBackground;
         
         public ERarity Rarity => _rarity;
         public Sprite SprIcon => _sprIcon;
         public Sprite SprBackground => _sprBackground;
+        public Sprite SprItemBackground => _sprItemBackground;
     }
 }

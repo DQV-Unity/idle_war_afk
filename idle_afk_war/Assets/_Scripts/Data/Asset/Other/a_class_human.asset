@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: a_class_human
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Data.Asset.ClassAsset
   _class: 0
-  _sprIcon: {fileID: 890421709184888939, guid: b94c2941b5eb1574fa303bc0b7568929, type: 3}
+  _sprIcon: {fileID: 21300000, guid: b94c2941b5eb1574fa303bc0b7568929, type: 3}
+  _sprBackground: {fileID: 0}

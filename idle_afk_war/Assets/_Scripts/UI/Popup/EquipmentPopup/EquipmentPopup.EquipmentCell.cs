@@ -1,5 +1,6 @@
 ﻿using System;
-using _Scripts.Definition;
+using _Scripts.Data.Asset;
+using _Scripts.Data.Config;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,17 +14,18 @@ namespace _Scripts.UI.Popup.EquipmentPopup
         [SerializeField] private GameObject _goContent;
         [SerializeField] private GameObject _goSelected;
         [SerializeField] private Button _btnSelect;
-        [SerializeField] private Image _imgCharacter;
-        [SerializeField] private Image _imgClass;
+        [SerializeField] private Image _imgEquipment;
         [SerializeField] private Image _imgRarity;
         [SerializeField] private TextMeshProUGUI _txtLevel;
+        [SerializeField] private TextMeshProUGUI _txtLevelProgress;
+        [SerializeField] private GameObject _goEquipped;
 
         #endregion
 
         #region ----- Variables -----
 
         private int _equipmentID;
-        private Action<int> _omSelectEquipment;
+        private Action<int> _onSelectEquipment;
         
         #endregion
 
@@ -38,12 +40,20 @@ namespace _Scripts.UI.Popup.EquipmentPopup
 
         #region ----- Public Functions -----
         
-        public void ShowEquipment(Definition.Equipment equipment, int selectedEquipment, Action<int> selectEquipment)
+        public void ShowEquipment(Definition.Equipment equipment, int selectedEquipment, int equippedEquipment, Action<int> selectEquipment)
         {
             _equipmentID = equipment.ID;
-            _omSelectEquipment = selectEquipment;
+            _onSelectEquipment = selectEquipment;
             _goSelected.SetActive(selectedEquipment == equipment.ID);
             _goContent.SetActive(true);
+            _goEquipped.SetActive(_equipmentID == equippedEquipment);
+
+            EquipmentConfig equipmentConfig = GameConfig.Instance.GetEquipmentConfig(equipment.equipmentType, equipment.ID);
+            EquipmentAsset equipmentAsset = GameAsset.Instance.GetEquipmentAsset(equipment.equipmentType, equipment.ID);
+            RarityAsset rarityAsset = GameAsset.Instance.GetRarityAsset(equipmentConfig.Rarity);
+            _imgEquipment.sprite = equipmentAsset.SprIcon;
+            _imgRarity.sprite = rarityAsset.SprItemBackground;
+            _txtLevel.SetText(equipment.level.ToString());
         }
 
         public void ShowEmpty()
@@ -57,7 +67,7 @@ namespace _Scripts.UI.Popup.EquipmentPopup
 
         private void OnSelectEquipment()
         {
-            _omSelectEquipment?.Invoke(_equipmentID);
+            _onSelectEquipment?.Invoke(_equipmentID);
         }
 
         #endregion

@@ -79,7 +79,7 @@ public class GameSceneLogic : qtLogic
         public void SetUpCharacter()
         {
             Character equippedCharacter = APIManager.Instance.GetEquippedCharacter();
-            _gameController.SetUpEquipment(APIManager.Instance.GetEquipmentCatalogues(), APIManager.Instance.GetEquippedEquipments());
+            _gameController.SetUpEquipment(APIManager.Instance.GetEquipmentCatalogues(), APIManager.Instance.GetEquipmentSlot());
             _gameController.CalculateStat(equippedCharacter, APIManager.Instance.GetStatLevel());
             _gameController.SetUpSkill(new int[]{2});
             _gameController.SetUpCharacter(equippedCharacter);

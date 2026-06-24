@@ -44,7 +44,12 @@ namespace _Scripts.Data.Asset
 
         public EquipmentAsset GetEquipmentAsset(EEquipmentType equipmentType, int equipmentID)
         {
-            return _equipmentAssets.GetEquipmentAsset(equipmentType, equipmentID); 
+            return GetEquipmentCatalogueAsset(equipmentType).GetEquipmentAsset(equipmentID); 
+        }
+        
+        public EquipmentCatalogueAsset GetEquipmentCatalogueAsset(EEquipmentType equipmentType)
+        {
+            return _equipmentAssets.GetEquipmentCatalogueAsset(equipmentType); 
         }
     }
 }

@@ -40,6 +40,11 @@ namespace _Scripts.API.Services
                     {
                         ID = 1,
                         level = 1
+                    },
+                    new Character()
+                    {
+                        ID = 2,
+                        level = 1
                     }
                 }
             };

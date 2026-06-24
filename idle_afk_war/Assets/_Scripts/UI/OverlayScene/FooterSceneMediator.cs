@@ -1,4 +1,6 @@
+using System;
 using _Scripts.Definition;
+using _Scripts.UI.Popup.CharacterPopup;
 using Cysharp.Threading.Tasks;
 using qtLib.Helper;
 using qtLib.UI.Base;
@@ -8,6 +10,7 @@ namespace _Scripts.UI.OverlayScene
     public class FooterSceneLogic : qtLogic
     {
         public ETab currentTab;
+        public qtMediator lastPopup;
         public bool ChangeTab(ETab tab)
         {
             if (tab == currentTab)
@@ -15,6 +18,7 @@ namespace _Scripts.UI.OverlayScene
                 currentTab = ETab.None;
                 return false;
             }
+            
             currentTab = tab;
             return true;    
         }
@@ -86,11 +90,57 @@ namespace _Scripts.UI.OverlayScene
 
         private void ChangeTab(ETab tab)
         {
+            bool isShow = _logic.ChangeTab(tab);
             MessageDispatcher.SendMessage(MessageDispatcher.EEvent.SwitchTab, new MessageDispatcher.SwitchFooterTabMessage()
             {
                 tab = tab,
-                isShow = _logic.ChangeTab(tab)
+                isShow = isShow
             });
+
+            
+            if (_logic.lastPopup != null)
+            {
+                _logic.lastPopup.Close();
+                _logic.lastPopup = null;
+            }
+
+            if (!isShow)
+            {
+                return;
+            }
+            switch (tab)
+            {
+                case ETab.Character:
+                {
+                    _logic.lastPopup = qtUiFlow.Request<CharacterPopupMediator>();
+                    _logic.lastPopup.Move();
+                    break;
+                }
+                case ETab.Companion:
+                {
+                    break;
+                }
+                case ETab.Farm:
+                {
+                    break;
+                }
+                case ETab.Institute:
+                {
+                    break;
+                }
+                case ETab.Armory:
+                {
+                    break;
+                }
+                case ETab.Shop:
+                {
+                    break;
+                }
+                default:
+                {
+                    throw new ArgumentOutOfRangeException(nameof(tab), tab, null);
+                }
+            }
         }
 
         #endregion

@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: a_e_hammer
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Data.Asset.EquipmentCatalogue
   _equipmentType: 1
+  _sprIcon: {fileID: 5393448996881579246, guid: c83fa2ac472c64145a29bad9c05a9a50, type: 3}
   _equipmentAssets:
   - {fileID: 11400000, guid: 36effb1e53c47d84e9b6f3e2fe51f183, type: 2}
+  - {fileID: 11400000, guid: ca0302265cbfbb44fb985d3564b655fc, type: 2}

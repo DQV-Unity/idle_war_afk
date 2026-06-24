@@ -18,14 +18,14 @@ namespace _Scripts.UI.Popup.CharacterPopup
 
         #region ----- Public Functions -----
 
-        public void ShowCharacterDetails(Definition.Character equippedCharacter)
+        public void ShowCharacterDetails(Character equippedCharacter)
         {
             _pnlCharacter.ShowCharacterDetail(equippedCharacter);
         }
 
-        public void ShowEquipment(EquipmentSlot[] equipmentSlots, Action<EEquipmentType> selectEquipmentSlot)
+        public void ShowEquipment(EquipmentSlot[] equipmentSlots, Action<EEquipmentType> selectEquipmentSlot, Func<EEquipmentType, int, Definition.Equipment> getEquipmentData)
         {
-            _pnlCharacter.ShowEquipment(equipmentSlots, selectEquipmentSlot);
+            _pnlCharacter.ShowEquipment(equipmentSlots, selectEquipmentSlot, getEquipmentData);
         }
 
         #endregion

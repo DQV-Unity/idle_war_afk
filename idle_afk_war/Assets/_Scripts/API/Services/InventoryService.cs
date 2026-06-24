@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using _Scripts.Definition;
 
@@ -48,7 +49,7 @@ namespace _Scripts.API.Services
             SaveData();
         }
 
-        public bool ChangeEquipment(EEquipmentType equipmentType, int equipmentID)
+        public bool EquipEquipment(EEquipmentType equipmentType, int equipmentID)
         {
             EquipmentSlot equipmentSlot = GetEquipmentSlot(equipmentType);
             if (!equipmentSlot.isUnlock)
@@ -56,7 +57,6 @@ namespace _Scripts.API.Services
                 return false;
             }
 
-            equipmentSlot.equippedEquipment = default;
             EquipmentCatalogue equipmentCatalogue = GetEquipmentCatalogue(equipmentType);
 
             for (var i = 0; i < equipmentCatalogue.owned.Count; i++)
@@ -66,12 +66,30 @@ namespace _Scripts.API.Services
                     continue;
                 }
 
-                equipmentSlot.equippedEquipment = equipmentCatalogue.owned[i];
+                equipmentSlot.equippedEquipment = equipmentID;
                 SaveData();
                 return true;
             }
             
             return false;
+        }
+
+        public bool UnEquipEquipment(EEquipmentType equipmentType)
+        {
+            EquipmentSlot equipmentSlot = GetEquipmentSlot(equipmentType);
+            if (!equipmentSlot.isUnlock)
+            {
+                return false;
+            }
+
+            if (equipmentSlot.equippedEquipment <= 0)
+            {
+                return false;
+            }
+
+            equipmentSlot.equippedEquipment = -1;
+            SaveData();
+            return true;
         }
 
         public void UpgradeEquipment(EEquipmentType equipmentType, params int[] equipmentIDs)
@@ -106,22 +124,51 @@ namespace _Scripts.API.Services
         
         public Definition.Equipment GetEquippedEquipment(EEquipmentType equipmentType)
         {
-            return GetEquipmentSlot(equipmentType).equippedEquipment;
+            EquipmentCatalogue equipmentCatalogue = GetEquipmentCatalogue(equipmentType);
+            int equippedEquipment = GetEquipmentSlot(equipmentType).equippedEquipment;
+            if (equippedEquipment <= 0)
+            {
+                return null;
+            }
+            
+            for (var i = 0; i < equipmentCatalogue.owned.Count; i++)
+            {
+                if (equipmentCatalogue.owned[i].ID == equippedEquipment)
+                {
+                    return equipmentCatalogue.owned[i];
+                }
+            }
+            
+            throw new ArgumentOutOfRangeException($"Not owned equipment {equipmentType} {equippedEquipment}");
         }
 
+        public Definition.Equipment GetEquipment(EEquipmentType equipmentType, int equipmentID)
+        {
+            EquipmentCatalogue equipmentCatalogue = GetEquipmentCatalogue(equipmentType);
+            for (var i = 0; i < equipmentCatalogue.owned.Count; i++)
+            {
+                if (equipmentCatalogue.owned[i].ID == equipmentID)
+                {
+                    return equipmentCatalogue.owned[i];
+                }
+            }
+            
+            throw new ArgumentOutOfRangeException($"Not owned equipment {equipmentType} {equipmentID}");
+        }
+        
         public EquipmentCatalogue[] GetEquipmentCatalogues()
         {
             return _data.Equipments;
         }
 
-        public EquipmentSlot[] GetEquippedEquipments()
+        public EquipmentSlot[] GetEquipmentSlot()
         {
-            return  _data.EquippedEquipments;
+            return  _data.EquipmentSlots;
         }
 
         public EquipmentSlot GetEquipmentSlot(EEquipmentType equipmentType)
         {
-            EquipmentSlot[] equipmentSlots = GetEquippedEquipments();
+            EquipmentSlot[] equipmentSlots = GetEquipmentSlot();
             for (var i = 0; i < equipmentSlots.Length; i++)
             {
                 if (equipmentSlots[i].equipmentType == equipmentType)

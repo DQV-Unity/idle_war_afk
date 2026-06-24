@@ -106,14 +106,14 @@ namespace _Scripts.Definition
     }
     
     [Serializable]
-    public struct EquipmentCatalogue
+    public class EquipmentCatalogue
     {
         public EEquipmentType equipmentType;
         public List<Equipment> owned;
     }
 
     [Serializable]
-    public struct Equipment
+    public class Equipment
     {
         public EEquipmentType equipmentType;
         public int ID;
@@ -121,21 +121,21 @@ namespace _Scripts.Definition
     }
 
     [Serializable]
-    public struct EquipmentSlot
+    public class EquipmentSlot
     {
         public EEquipmentType equipmentType;
         public bool isUnlock;
-        public Equipment equippedEquipment;
+        public int equippedEquipment;
     }
 
     [Serializable]
-    public struct CharacterCollection
+    public class CharacterCollection
     {
         public List<Character> characters;
     }
     
     [Serializable]
-    public struct Character
+    public class Character
     {
         public int ID;
         public int level;
@@ -175,7 +175,7 @@ namespace _Scripts.Definition
     }
 
     [Serializable]
-    public struct CampaignData
+    public class CampaignData
     {
         public int mapID;
         public int stageID;

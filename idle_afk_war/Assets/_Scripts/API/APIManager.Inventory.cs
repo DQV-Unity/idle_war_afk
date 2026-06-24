@@ -10,9 +10,14 @@ namespace _Scripts.API
             _inventoryService.UnlockEquipment(equipmentType, equipmentID);
         }
 
-        public bool ChangeEquipment(EEquipmentType equipmentType, int equipmentID)
+        public bool EquipEquipment(EEquipmentType equipmentType, int equipmentID)
         {
-            return _inventoryService.ChangeEquipment(equipmentType, equipmentID);
+            return _inventoryService.EquipEquipment(equipmentType, equipmentID);
+        }
+        
+        public bool UnEquipEquipment(EEquipmentType equipmentType)
+        {
+            return _inventoryService.UnEquipEquipment(equipmentType);
         }
 
         public void UpgradeEquipment(EEquipmentType equipmentType, params int[] equipmentIDs)
@@ -30,14 +35,19 @@ namespace _Scripts.API
             return _inventoryService.GetEquippedEquipment(equipmentType);
         }
 
+        public Definition.Equipment GetEquipment(EEquipmentType equipmentType, int equipmentID)
+        {
+            return _inventoryService.GetEquipment(equipmentType, equipmentID);
+        }
+
         public EquipmentCatalogue[] GetEquipmentCatalogues()
         {
             return _inventoryService.GetEquipmentCatalogues();
         }
         
-        public EquipmentSlot[] GetEquippedEquipments()
+        public EquipmentSlot[] GetEquipmentSlot()
         {
-            return  _inventoryService.GetEquippedEquipments();
+            return  _inventoryService.GetEquipmentSlot();
         }
     }
 }

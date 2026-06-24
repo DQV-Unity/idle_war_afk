@@ -94,6 +94,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7432726586532681202}
+  - component: {fileID: 2017768586334397267}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -119,6 +120,18 @@ Transform:
   - {fileID: 8146081915229493854}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2017768586334397267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4489593315112061285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da547dbe9804408488532e15444b5b9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::qtLib.Helper.MessageDispatcher
 --- !u!1 &8145573491504955019
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +185,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8146081915229493854}
-  - component: {fileID: 7711271852404211194}
   m_Layer: 0
   m_Name: MessageDisapatcher
   m_TagString: Untagged
@@ -195,15 +207,3 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7432726586532681202}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7711271852404211194
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9210425187730051232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9f4cccf326c45a4b1b4490fff2e0639, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::qtLib.Helper.MessageDispatcher

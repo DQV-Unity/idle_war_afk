@@ -7,15 +7,15 @@ namespace _Scripts.Data.Asset
     [CreateAssetMenu(fileName = "EquipmentAssets", menuName = "Asset/Equipment/EquipmentAssets")]
     public class EquipmentAssets : ScriptableObject
     {
-        [SerializeField] private List<EquipmentCatalogue> _equipmentCatalogues;
+        [SerializeField] private List<EquipmentCatalogueAsset> _equipmentCatalogues;
         
-        public EquipmentAsset GetEquipmentAsset(EEquipmentType equipmentType, int equipmentID)
+        public EquipmentCatalogueAsset GetEquipmentCatalogueAsset(EEquipmentType equipmentType)
         {
             for (var i = 0; i < _equipmentCatalogues.Count; i++)
             {
                 if (_equipmentCatalogues[i].EquipmentType == equipmentType)
                 {
-                    return _equipmentCatalogues[i].GetEquipmentAsset(equipmentID);
+                    return _equipmentCatalogues[i];
                 }
             }
             

@@ -12,44 +12,83 @@ namespace _Scripts.UI.Popup.EquipmentPopup
 	
 	public class EquipmentPopupLogic : qtLogic<EquipmentPopupParamInput>
 	{
-		private int _selectedEquipmentID;
 		private EquipmentCatalogue _equipmentCatalogue;
+		private Definition.Equipment _selectedEquipment;
 		private Definition.Equipment _equippedEquipment;
 		
-		public int SelectedEquipmentID => _selectedEquipmentID;
+		public int SelectedEquipmentID => SelectedEquipment.ID;
+
+		public int EquippedEquipmentID
+		{
+			get
+			{
+				if (_equippedEquipment == null)
+				{
+					return -1;
+				}
+				return _equippedEquipment.ID;
+			}
+		}
 		public EquipmentCatalogue EquipmentCatalogue => _equipmentCatalogue;
+		public Definition.Equipment SelectedEquipment => _selectedEquipment;
 		public Definition.Equipment EquippedEquipment => _equippedEquipment;
 		
 		
 		public override UniTask Initialize()
 		{
+			RefreshData();
 			return base.Initialize();
 		}
 
 		public void SelectEquipment(int equipmentID)
 		{
-			_selectedEquipmentID = equipmentID;	
+			for (var i = 0; i < EquipmentCatalogue.owned.Count; i++)
+			{
+				if (EquipmentCatalogue.owned[i].ID == equipmentID)
+				{
+					_selectedEquipment = EquipmentCatalogue.owned[i];
+				}
+			}
 		}
 
 		public bool EquipEquipment()
 		{
-			if (APIManager.Instance.ChangeEquipment(Args.equipmentType, _selectedEquipmentID))
+			if (APIManager.Instance.EquipEquipment(Args.equipmentType, SelectedEquipmentID))
 			{
 				RefreshData();				
 				return true;
 			}
 			return false;
 		}
+
+		public bool UnEquipEquipment()
+		{
+			if (APIManager.Instance.UnEquipEquipment(Args.equipmentType))
+			{
+				RefreshData();
+				return true;
+			}
+
+			return false;
+		}
 		
 		public bool IsEquipped(int equipmentID)
 		{
+			if (_equippedEquipment == null)
+			{
+				return false;
+			}
 			return _equippedEquipment.ID == equipmentID;
 		}
 
 		private void RefreshData()
 		{
 			_equipmentCatalogue = APIManager.Instance.GetEquipmentCatalogue(Args.equipmentType);
-			_equippedEquipment = APIManager.Instance.GetEquippedEquipment(Args.equipmentType);
+			_selectedEquipment = _equippedEquipment = APIManager.Instance.GetEquippedEquipment(Args.equipmentType);
+			if (_selectedEquipment == null)
+			{
+				_selectedEquipment = _equipmentCatalogue.owned[0];
+			}
 		}
 	}
 	
@@ -60,15 +99,16 @@ namespace _Scripts.UI.Popup.EquipmentPopup
 		    _configUI = (ui, logic, mediator) =>
 		    {
 			    ui.BtnClose.onClick.AddListener(OnClickCloseButton);
-			    ui.BtnEnhance.onClick.AddListener(OnClickEnhanceButton);
+			    ui.BtnFuse.onClick.AddListener(OnClickEnhanceButton);
 			    ui.BtnEquip.onClick.AddListener(OnClickEquipButton);
+			    ui.BtnUnEquip.onClick.AddListener(OnClickUnEquipButton);
 			    return UniTask.CompletedTask;
 		    };
 
 		    _beforeUIShow = (ui, logic, mediator) =>
 		    {
-			    ui.ShowCollection(logic.EquipmentCatalogue, logic.EquippedEquipment.ID, OnSelectEquipment,true);
-			    ui.ShowEquipment(logic.EquippedEquipment, true);
+			    ui.ShowCollection(logic.EquipmentCatalogue, logic.SelectedEquipmentID, logic.EquippedEquipmentID, OnSelectEquipment,true);
+			    ui.ShowEquipment(logic.SelectedEquipment, logic.IsEquipped(logic.SelectedEquipmentID));
 			    return UniTask.CompletedTask;
 		    };
 	    }
@@ -77,7 +117,7 @@ namespace _Scripts.UI.Popup.EquipmentPopup
 	    {
 		    base.RemoveEvent();
 		    _ui.BtnClose.onClick.RemoveAllListeners();
-		    _ui.BtnEnhance.onClick.RemoveAllListeners();
+		    _ui.BtnFuse.onClick.RemoveAllListeners();
 		    _ui.BtnEquip.onClick.RemoveAllListeners();
 	    }
 	    
@@ -86,7 +126,7 @@ namespace _Scripts.UI.Popup.EquipmentPopup
 	    private void OnSelectEquipment(int characterID)
 	    {
 		    _logic.SelectEquipment(characterID);
-		    //Todo: update scroll view
+		    ShowCollection();
 	    }
 	    
 	    #endregion
@@ -109,8 +149,22 @@ namespace _Scripts.UI.Popup.EquipmentPopup
 		    {
 			    return;
 		    }
-		    
-		    _ui.ShowEquipment(_logic.EquippedEquipment, true);
+		    ShowCollection();
+	    }
+
+	    private void OnClickUnEquipButton()
+	    {
+		    if (!_logic.UnEquipEquipment())
+		    {
+			    return;
+		    }
+		    ShowCollection();
+	    }
+
+	    private void ShowCollection()
+	    {
+		    _ui.ShowCollection(_logic.EquipmentCatalogue, _logic.SelectedEquipmentID, _logic.EquippedEquipmentID, OnSelectEquipment);
+		    _ui.ShowEquipment(_logic.SelectedEquipment, _logic.IsEquipped(_logic.SelectedEquipmentID));
 	    }
 
 	    #endregion

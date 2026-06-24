@@ -207,12 +207,12 @@ namespace _Scripts.Board
                     continue;
                 }
 
-                if (equipmentSlots[i].equippedEquipment.ID <= 0)
+                if (equipmentSlots[i].equippedEquipment <= 0)
                 {
                     continue;
                 }
                 
-                equipmentConfig = GameConfig.Instance.GetEquipmentConfig(equipmentCatalogue[i].equipmentType, equipmentSlots[i].equippedEquipment.ID);
+                equipmentConfig = GameConfig.Instance.GetEquipmentConfig(equipmentCatalogue[i].equipmentType, equipmentSlots[i].equippedEquipment);
                 if (equipmentConfig.EquippedBonus.bonusStat != statType)
                 {
                     continue;
