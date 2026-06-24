@@ -142,7 +142,7 @@ namespace _Scripts.Definition
     }
 
     [Serializable]
-    public struct StatLevel
+    public class StatLevel
     {
         public int damageLevel;
         public int maxHitPointsLevel;
@@ -150,6 +150,7 @@ namespace _Scripts.Definition
         public int critRateLevel;
         public int critDamageLevel;
 
+        public StatLevel(){}
         public StatLevel(int damageLevel, int maxHitPointsLevel, int attackSpeedLevel, int critRateLevel, int critDamageLevel)
         {
             this.damageLevel = damageLevel;

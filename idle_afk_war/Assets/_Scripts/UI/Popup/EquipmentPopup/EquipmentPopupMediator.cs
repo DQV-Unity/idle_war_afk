@@ -1,6 +1,7 @@
 ﻿using _Scripts.API;
 using _Scripts.Definition;
 using Cysharp.Threading.Tasks;
+using qtLib.Helper;
 using qtLib.UI.Base;
 
 namespace _Scripts.UI.Popup.EquipmentPopup
@@ -156,6 +157,8 @@ namespace _Scripts.UI.Popup.EquipmentPopup
 		    {
 			    return;
 		    }
+
+		    MessageDispatcher.SendMessage(MessageDispatcher.EEvent.EquipmentChanged);
 		    ShowCollection();
 	    }
 

@@ -10,12 +10,12 @@ namespace _Scripts.API.Services
     {
         [SerializeField] private StatLevel _statLevel;
         [SerializeField] private CharacterCollection _characterCollection;
-        [SerializeField] private Character _equippedCharacter;
+        [SerializeField] private int _equippedCharacter;
         
         public StatLevel StatLevel => _statLevel;
         public CharacterCollection CharacterCollection => _characterCollection;
 
-        public Character EquippedCharacter
+        public int EquippedCharacter
         {
             get => _equippedCharacter;
             set => _equippedCharacter = value;
@@ -49,7 +49,7 @@ namespace _Scripts.API.Services
                 }
             };
             
-            _equippedCharacter = _characterCollection.characters[0];
+            _equippedCharacter = _characterCollection.characters[0].ID;
         }
     }
 }

@@ -28,6 +28,12 @@ namespace _Scripts.API.Services
                             equipmentType = EEquipmentType.Axe,
                             ID = 1,
                             level = 1
+                        },
+                        new Definition.Equipment()
+                        {
+                            equipmentType = EEquipmentType.Axe,
+                            ID = 2,
+                            level = 1
                         }
                     }
                 },
@@ -40,6 +46,12 @@ namespace _Scripts.API.Services
                         {
                             equipmentType = EEquipmentType.Hammer,
                             ID = 1,
+                            level = 1
+                        },
+                        new Definition.Equipment()
+                        {
+                            equipmentType = EEquipmentType.Hammer,
+                            ID = 2,
                             level = 1
                         }
                     }

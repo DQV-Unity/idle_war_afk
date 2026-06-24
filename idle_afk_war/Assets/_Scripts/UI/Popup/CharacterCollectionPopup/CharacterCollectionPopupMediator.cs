@@ -1,6 +1,7 @@
 ﻿using _Scripts.API;
 using _Scripts.Definition;
 using Cysharp.Threading.Tasks;
+using qtLib.Helper;
 using qtLib.UI.Base;
 
 namespace _Scripts.UI.Popup.CharacterCollectionPopup
@@ -39,7 +40,7 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 		{
 			if (APIManager.Instance.EquippedCharacter(_selectedCharacter.ID))
 			{
-				RefreshData();				
+				LoadData();				
 				return true;
 			}
 			return false;
@@ -50,7 +51,7 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 			return _equippedCharacter.ID == characterID;
 		}
 
-		private void RefreshData()
+		private void LoadData()
 		{
 			_equippedCharacter = APIManager.Instance.GetEquippedCharacter();
 		}
@@ -120,7 +121,9 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 			    return;
 		    }
 		    
+		    //Todo: send message
 		    _ui.ShowCharacter(_logic.SelectedCharacter, true);
+		    MessageDispatcher.SendMessage(MessageDispatcher.EEvent.CharacterChanged);
 	    }
 
 	    #endregion

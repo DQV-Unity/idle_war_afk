@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using _Scripts.Definition;
 
@@ -12,12 +13,26 @@ namespace _Scripts.API.Services
 
         public Character GetEquippedCharacter()
         {
-            return _data.EquippedCharacter;
+            return GetCharacter(_data.EquippedCharacter);
         }
         
         public CharacterCollection GetCharacterCollection()
         {
             return _data.CharacterCollection;
+        }
+
+        public Character GetCharacter(int characterID)
+        {
+            List<Character> characters = GetCharacterCollection().characters;
+            for (var i = 0; i < characters.Count; i++)
+            {
+                if (characters[i].ID == characterID)
+                {
+                    return characters[i];
+                }
+            }
+            
+            throw new ArgumentOutOfRangeException($"Not owned character {characterID}");
         }
 
         public StatLevel GetStatLevel()
@@ -32,7 +47,7 @@ namespace _Scripts.API.Services
             {
                 if (characters[i].ID == characterID)
                 {
-                    _data.EquippedCharacter = characters[i];
+                    _data.EquippedCharacter = characters[i].ID;
                     SaveData();
                     return true;
                 }

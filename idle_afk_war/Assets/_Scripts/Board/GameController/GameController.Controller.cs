@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 using _Scripts.Definition;
+using qtLib.Helper;
 
 namespace _Scripts.Board
 {
@@ -9,6 +9,8 @@ namespace _Scripts.Board
         public void SetUpBoard()
         {
             _characterController.onCharacterDie += OnCharacterDie;
+            MessageDispatcher.Register(MessageDispatcher.EEvent.CharacterChanged, OnCharacterChanged);
+            MessageDispatcher.Register(MessageDispatcher.EEvent.EquipmentChanged, OnEquipmentChanged);
         }
 
         //Character

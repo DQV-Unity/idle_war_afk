@@ -14,6 +14,11 @@ namespace _Scripts.API
             return _characterService.GetCharacterCollection();
         }
 
+        public Character GetCharacter(int characterID)
+        {
+            return _characterService.GetCharacter(characterID);
+        }
+
         public StatLevel GetStatLevel()
         {
             return _characterService.GetStatLevel();

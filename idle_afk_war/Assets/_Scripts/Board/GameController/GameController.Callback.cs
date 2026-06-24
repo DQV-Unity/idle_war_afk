@@ -57,5 +57,15 @@ namespace _Scripts.Board
         {
             _battleController.HitCalculate(dataSnapShot, target);
         }
+
+        private void OnCharacterChanged(object message)
+        {
+            //Todo: Reload scene
+        }
+
+        private void OnEquipmentChanged(object message)
+        {
+            //Todo: Stat calculate
+        }
     }
 }

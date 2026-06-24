@@ -53,7 +53,7 @@ namespace _Scripts.UI.Popup.EquipmentPopup
             RarityAsset rarityAsset = GameAsset.Instance.GetRarityAsset(equipmentConfig.Rarity);
             _imgEquipment.sprite = equipmentAsset.SprIcon;
             _imgRarity.sprite = rarityAsset.SprItemBackground;
-            _txtLevel.SetText(equipment.level.ToString());
+            _txtLevel.SetText($"Lv {equipment.level.ToString()}");
         }
 
         public void ShowEmpty()
