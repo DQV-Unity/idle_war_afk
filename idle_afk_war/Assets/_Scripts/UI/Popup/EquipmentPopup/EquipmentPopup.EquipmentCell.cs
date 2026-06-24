@@ -44,10 +44,10 @@ namespace _Scripts.UI.Popup.EquipmentPopup
         {
             _equipmentID = equipment.ID;
             _onSelectEquipment = selectEquipment;
-            _goSelected.SetActive(selectedEquipment == equipment.ID);
+            _goSelected.SetActive(selectedEquipment == _equipmentID);
             _goContent.SetActive(true);
             _goEquipped.SetActive(_equipmentID == equippedEquipment);
-
+            
             EquipmentConfig equipmentConfig = GameConfig.Instance.GetEquipmentConfig(equipment.equipmentType, equipment.ID);
             EquipmentAsset equipmentAsset = GameAsset.Instance.GetEquipmentAsset(equipment.equipmentType, equipment.ID);
             RarityAsset rarityAsset = GameAsset.Instance.GetRarityAsset(equipmentConfig.Rarity);

@@ -128,7 +128,14 @@ namespace _Scripts.UI.Popup.EquipmentPopup
 		    _logic.SelectEquipment(characterID);
 		    ShowCollection();
 	    }
-	    
+
+	    private void ShowCollection()
+	    {
+		    _ui.ShowCollection(_logic.EquipmentCatalogue, _logic.SelectedEquipmentID, _logic.EquippedEquipmentID,
+			    OnSelectEquipment);
+		    _ui.ShowEquipment(_logic.SelectedEquipment, _logic.IsEquipped(_logic.SelectedEquipmentID));
+	    }
+
 	    #endregion
 	    
 	    #region ----- Button Event -----
@@ -160,13 +167,7 @@ namespace _Scripts.UI.Popup.EquipmentPopup
 		    }
 		    ShowCollection();
 	    }
-
-	    private void ShowCollection()
-	    {
-		    _ui.ShowCollection(_logic.EquipmentCatalogue, _logic.SelectedEquipmentID, _logic.EquippedEquipmentID, OnSelectEquipment);
-		    _ui.ShowEquipment(_logic.SelectedEquipment, _logic.IsEquipped(_logic.SelectedEquipmentID));
-	    }
-
+	    
 	    #endregion
 
 	    public override UniTask<EquipmentPopupParamInput> RequestData()

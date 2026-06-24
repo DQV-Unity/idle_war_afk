@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: m1_s2
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Data.Config.Level.LevelConfig
   _id: 2
-  _subStageConfigs: []
+  _subStageConfigs:
+  - {fileID: 11400000, guid: 661e17685044b1143993d35841343938, type: 2}
+  - {fileID: 11400000, guid: 0d239f9d6a422ba4ca4057a3acb20e53, type: 2}
+  - {fileID: 11400000, guid: 3d1c27bfc9ca29142ba5ed4dca8dd833, type: 2}

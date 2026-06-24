@@ -5,25 +5,39 @@ using qtLib.UI.Base;
 
 namespace _Scripts.UI.Popup.CharacterCollectionPopup
 {
-	public class CharacterCollectionPopupParamInput : ParamInput
-	{
-		public CharacterCollection characterCollection;
-		public Character equippedCharacter;
-	}
 	
-	public class CharacterCollectionPopupLogic : qtLogic<CharacterCollectionPopupParamInput>
+	public class CharacterCollectionPopupLogic : qtLogic
 	{
-		private int _selectedCharacterID;
-		public int SelectedCharacterID => _selectedCharacterID;
+		private CharacterCollection _characterCollection;
+		private Character _equippedCharacter;
+		private Character _selectedCharacter;
 		
+		public int SelectedCharacterID => _selectedCharacter.ID;
+		public CharacterCollection CharacterCollection => _characterCollection;
+		public Character SelectedCharacter => _selectedCharacter;
+
+
+		public override UniTask Initialize()
+		{
+			_characterCollection = APIManager.Instance.GetCharacterCollection();
+			_selectedCharacter = _equippedCharacter = APIManager.Instance.GetEquippedCharacter();
+			return base.Initialize();
+		}
+
 		public void SelectCharacter(int characterID)
 		{
-			_selectedCharacterID = characterID;	
+			for (var i = 0; i < _characterCollection.characters.Count; i++)
+			{
+				if (_characterCollection.characters[i].ID == characterID)
+				{
+					_selectedCharacter = _characterCollection.characters[i];
+				}
+			}
 		}
 
 		public bool EquipCharacter()
 		{
-			if (APIManager.Instance.EquippedCharacter(_selectedCharacterID))
+			if (APIManager.Instance.EquippedCharacter(_selectedCharacter.ID))
 			{
 				RefreshData();				
 				return true;
@@ -33,16 +47,16 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 		
 		public bool IsEquipped(int characterID)
 		{
-			return Args.equippedCharacter.ID == characterID;
+			return _equippedCharacter.ID == characterID;
 		}
 
 		private void RefreshData()
 		{
-			Args.equippedCharacter = APIManager.Instance.GetEquippedCharacter();
+			_equippedCharacter = APIManager.Instance.GetEquippedCharacter();
 		}
 	}
 	
-    public class CharacterCollectionPopupMediator : qtRequestMediator<CharacterCollectionPopup, CharacterCollectionPopupLogic, CharacterCollectionPopupParamInput>
+    public class CharacterCollectionPopupMediator : qtMediator<CharacterCollectionPopup, CharacterCollectionPopupLogic>
     {
 	    public CharacterCollectionPopupMediator() : base()
 	    {
@@ -56,8 +70,8 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 
 		    _beforeUIShow = (ui, logic, mediator) =>
 		    {
-			    ui.ShowCollection(Args.characterCollection, Args.equippedCharacter.ID, OnSelectCharacter,true);
-			    ui.ShowCharacter(Args.equippedCharacter, true);
+			    ui.ShowCollection(logic.CharacterCollection, logic.SelectedCharacterID, OnSelectCharacter,true);
+			    ui.ShowCharacter(logic.SelectedCharacter, true);
 			    return UniTask.CompletedTask;
 		    };
 	    }
@@ -76,6 +90,13 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 	    {
 		    _logic.SelectCharacter(characterID);
 		    //Todo: update scroll view
+		    ShowCollection();
+	    }
+
+	    private void ShowCollection()
+	    {
+		    _ui.ShowCollection(_logic.CharacterCollection, _logic.SelectedCharacterID, OnSelectCharacter);
+		    _ui.ShowCharacter(_logic.SelectedCharacter, _logic.IsEquipped(_logic.SelectedCharacterID));
 	    }
 	    
 	    #endregion
@@ -99,18 +120,9 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 			    return;
 		    }
 		    
-		    _ui.ShowCharacter(Args.equippedCharacter, true);
+		    _ui.ShowCharacter(_logic.SelectedCharacter, true);
 	    }
 
 	    #endregion
-
-	    public override UniTask<CharacterCollectionPopupParamInput> RequestData()
-	    {
-		    return  UniTask.FromResult(new CharacterCollectionPopupParamInput()
-		    {
-			    characterCollection = APIManager.Instance.GetCharacterCollection(),
-			    equippedCharacter = APIManager.Instance.GetEquippedCharacter()
-		    });
-	    }
     }
 }

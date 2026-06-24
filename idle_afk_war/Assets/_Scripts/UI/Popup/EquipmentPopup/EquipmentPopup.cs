@@ -19,19 +19,19 @@ namespace _Scripts.UI.Popup.EquipmentPopup
         [SerializeField] private TextMeshProUGUI _txtEquipmentName;
         [SerializeField] private Image _imgEquipmentType;
         [SerializeField] private TextMeshProUGUI _txtRarity;
-
+        
         [SerializeField] private Slider _sldEquipmentLevel;
         [SerializeField] private TextMeshProUGUI _txtEquipmentLevel;
         [SerializeField] private TextMeshProUGUI _txtEquipmentLevelProgress;
-
+        
         [SerializeField] private TextMeshProUGUI _txtOwnedEffect;
         [SerializeField] private TextMeshProUGUI _txtEquippedEffect;
-       
+        
         [Space]
         [SerializeField] private Button _btnEquip;
         [SerializeField] private Button _btnUnEquip;
         [SerializeField] private Button _btnFuse;
-
+        
         [Space]
         [SerializeField] private EquipmentScrollView equipmentScrollView;
         

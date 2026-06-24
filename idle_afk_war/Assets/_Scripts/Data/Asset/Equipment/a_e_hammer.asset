@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e8cb33cad2842508763cf843bd03382, type: 3}
+  m_Script: {fileID: 11500000, guid: b8bf3166cde47dd4587c7e66784e43a0, type: 3}
   m_Name: a_e_hammer
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Data.Asset.EquipmentCatalogue
   _equipmentType: 1
-  _sprIcon: {fileID: 5393448996881579246, guid: c83fa2ac472c64145a29bad9c05a9a50, type: 3}
+  _sprIcon: {fileID: 21300000, guid: c83fa2ac472c64145a29bad9c05a9a50, type: 3}
   _equipmentAssets:
   - {fileID: 11400000, guid: 36effb1e53c47d84e9b6f3e2fe51f183, type: 2}
   - {fileID: 11400000, guid: ca0302265cbfbb44fb985d3564b655fc, type: 2}
