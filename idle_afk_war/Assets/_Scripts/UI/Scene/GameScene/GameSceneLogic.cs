@@ -60,7 +60,6 @@ public class GameSceneLogic : qtLogic
         
         public CampaignData CampaignData => _campaignData;
         
-        
         public override UniTask Initialize()
         {
             if (_gameController == null)
@@ -75,13 +74,13 @@ public class GameSceneLogic : qtLogic
             _campaignData = APIManager.Instance.GetCampaignData();
             return base.Initialize();
         }
-
+        
         public void SetUpCharacter()
         {
             Character equippedCharacter = APIManager.Instance.GetEquippedCharacter();
             _gameController.SetUpEquipment(APIManager.Instance.GetEquipmentCatalogues(), APIManager.Instance.GetEquipmentSlot());
-            _gameController.CalculateStat(equippedCharacter, APIManager.Instance.GetStatLevel());
-            _gameController.SetUpSkill(new int[]{2});
+            _gameController.SetUpStat(equippedCharacter, APIManager.Instance.GetStatLevel());
+            _gameController.SetUpSkill(APIManager.Instance.GetEquippedSkills());
             _gameController.SetUpCharacter(equippedCharacter);
         }
 
@@ -89,6 +88,11 @@ public class GameSceneLogic : qtLogic
         {
             _gameController.SetUpLevel(APIManager.Instance.GetCurrentGameMode());
             _gameController.SetUpLevel(CampaignData);
+        }
+
+        public void UpdateEquipment()
+        {
+            _gameController.SetUpEquipment(APIManager.Instance.GetEquipmentCatalogues(), APIManager.Instance.GetEquipmentSlot(), true);
         }
 
         public void StartGame()
@@ -100,12 +104,13 @@ public class GameSceneLogic : qtLogic
         {
             return _gameController.GetDamage();
         }
-        
-        public ((int level, int value) stat, int cost) GetStat(EUnitStatType statType)
-        {
-            return (_gameController.GetStat(statType), 0);
-        }
 
+        public void ClearBoard()
+        {
+            _gameController.ClearBoard();   
+        }
+        
+        //Skill
         public int[] GetSkillIDs()
         {
             return _gameController.GetSkillIDs();
@@ -120,17 +125,24 @@ public class GameSceneLogic : qtLogic
         {
             _gameController.ChangeAutoSkill();
         }
-        
-        public void LevelUpStat(EUnitStatType statType)
-        {
-            _gameController.LevelUpStat(statType);
-        }
 
         public void ActiveSkill(int skillID)
         {
             _gameController.ActiveSkill(skillID);
         }
 
+        //Stat
+        public ((int level, int value) stat, int cost) GetStat(EUnitStatType statType)
+                {
+                    return (_gameController.GetStat(statType), 0);
+                }
+        
+        public void LevelUpStat(EUnitStatType statType)
+        {
+            _gameController.LevelUpStat(statType);
+        }
+
+        //Mode
         public void SwitchToCampaignMode()
         {
             _gameController.SwitchToCampaignMode();

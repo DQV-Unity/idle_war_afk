@@ -16,5 +16,10 @@ namespace _Scripts.Extension
         {
             TimeController.UnregisterUpdatable(this);
         }
+
+        private void OnDestroy()
+        {
+            TimeController.UnregisterUpdatable(this);
+        }
     }
 }

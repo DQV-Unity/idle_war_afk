@@ -18,4 +18,4 @@ MonoBehaviour:
   _damage: 10
   _maxHitPoints: 100
   _attackSpeed: 1
-  _attackRange: 3
+  _attackRange: 2

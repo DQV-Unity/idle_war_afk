@@ -6,10 +6,7 @@ namespace _Scripts.API.Services
 {
     public class CharacterService : APIService<CharacterData>
     {
-        protected override string DataPath()
-        {
-            return "Character";
-        }
+        protected override string DataPath => "Character";
 
         public Character GetEquippedCharacter()
         {

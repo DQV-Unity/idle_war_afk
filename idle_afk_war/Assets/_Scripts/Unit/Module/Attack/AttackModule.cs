@@ -70,13 +70,16 @@ namespace _Scripts.Unit.Module.Attack
                 }
             }
             
-            if (_unitStatProvider.State is EUnitState.Moving)
+            // if (_unitStatProvider.State is EUnitState.Moving)
             {
                 if (Vector3.Distance(transform.position, _target.Transform.position) < _unitStatProvider.AttackRange)
                 {
                     transform.DOKill();
                 }
-                return;
+                else
+                {
+                    return;
+                }
             }
             
             if (_unitStatProvider.State is not EUnitState.Battling)

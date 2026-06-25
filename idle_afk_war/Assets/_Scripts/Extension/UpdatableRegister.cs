@@ -1,3 +1,4 @@
+using System;
 using _Scripts.GameSystem;
 using AYellowpaper;
 using UnityEngine;
@@ -18,6 +19,11 @@ namespace _Scripts.Extension
         }
 
         private void OnDisable()
+        {
+            TimeController.UnregisterUpdatable(_updatableObject.Value);
+        }
+
+        private void OnDestroy()
         {
             TimeController.UnregisterUpdatable(_updatableObject.Value);
         }

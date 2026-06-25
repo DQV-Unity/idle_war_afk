@@ -84,7 +84,7 @@ namespace _Scripts.Board
         public void ClearScene()
         {
             _character.onDie -= OnCharacterDie;
-            Destroy(_character.GameObject);
+            DestroyImmediate(_character.GameObject);
         }
 
         public void OnSpawnedEnemy()

@@ -6,10 +6,7 @@ namespace _Scripts.API.Services
 {
     public class InventoryService : APIService<InventoryData>
     {
-        protected override string DataPath()
-        {
-            return "Inventory";
-        }
+        protected override string DataPath => "Inventory";
 
         public void UnlockEquipmentSlot(EEquipmentType equipmentType)
         {
@@ -128,7 +125,7 @@ namespace _Scripts.API.Services
             int equippedEquipment = GetEquipmentSlot(equipmentType).equippedEquipment;
             if (equippedEquipment <= 0)
             {
-                return null;
+                return default;
             }
             
             for (var i = 0; i < equipmentCatalogue.owned.Count; i++)

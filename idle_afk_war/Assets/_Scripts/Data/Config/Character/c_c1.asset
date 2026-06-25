@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: c_c1
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Data.Config.Character.CharacterConfig
   _id: 1
+  _rarity: 0
+  _class: 0
   _damage: 10
   _maxHitPoints: 100
   _attackSpeed: 1
-  _attackRange: 3
+  _attackRange: 2

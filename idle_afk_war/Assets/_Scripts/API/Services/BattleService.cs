@@ -5,11 +5,8 @@ namespace _Scripts.API.Services
 {
     public class BattleService : APIService<BattleData>, IAPIService
     {
-        protected override string DataPath()
-        {
-            return "Battle";
-        }
-        
+        protected override string DataPath => "Battle";
+
         public CampaignData GetCampaignData()
         {
             return _data.CampaignData;

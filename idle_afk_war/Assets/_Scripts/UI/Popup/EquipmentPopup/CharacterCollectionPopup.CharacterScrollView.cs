@@ -56,7 +56,7 @@ namespace _Scripts.UI.Popup.EquipmentPopup
         public EnhancedScrollerCellView GetCellView(EnhancedScroller scroller, int dataIndex, int cellIndex)
         {
             EquipmentRow equipmentRow = _scroller.GetCellView(equipmentRowPrefab) as EquipmentRow;
-            equipmentRow.ShowEquipment(ref _equipments, dataIndex, _selectedEquipment, _equippedEquipment, _onSelectEquipment);
+            equipmentRow.ShowEquipments(ref _equipments, dataIndex, _selectedEquipment, _equippedEquipment, _onSelectEquipment);
             return equipmentRow;
         }
     }

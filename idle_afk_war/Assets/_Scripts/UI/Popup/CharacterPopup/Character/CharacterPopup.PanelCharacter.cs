@@ -59,7 +59,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
                         break;
                     }
                    
-                    _equipments[i].ShowEquipmentSlot(getEquipmentData?.Invoke(equipmentSlots[j].equipmentType, equipmentSlots[i].equippedEquipment), selectEquipmentSlot);
+                    _equipments[i].ShowEquipmentSlot(getEquipmentData.Invoke(equipmentSlots[j].equipmentType, equipmentSlots[i].equippedEquipment), selectEquipmentSlot);
                     break;
                 }
             }

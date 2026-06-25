@@ -66,6 +66,7 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
             // _txtCharacterLevelProgress
                 // _sldCharacterLevel.
             _goEquipped.SetActive(isEquipped);
+            _btnEquip.gameObject.SetActive(!isEquipped);
         }
 
         #endregion

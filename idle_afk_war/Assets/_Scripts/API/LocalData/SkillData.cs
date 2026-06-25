@@ -8,16 +8,36 @@ namespace _Scripts.API.Services
     public class SkillData : DataModel
     {
         [SerializeField] private SkillCollection _skillCollection;
-        [SerializeField] private Definition.Skill[] _equippedSkills;
+        [SerializeField] private int[] _equippedSkills;
+        
+        public SkillCollection SkillCollection => _skillCollection;
+        public int[] EquippedSkills => _equippedSkills;
         
         public SkillCollection GetSkills()
         {
             return _skillCollection;
         }
         
-        public Definition.Skill[] GetEquippedSkills()
+        public int[] GetEquippedSkills()
         {
             return _equippedSkills;
+        }
+
+        public SkillData()
+        {
+            _skillCollection = new SkillCollection()
+            {
+                skills = new()
+            };
+            _equippedSkills = new int[]
+            {
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1
+            };
         }
     }
 }

@@ -82,7 +82,7 @@ namespace _Scripts.Board
             //Todo: handle inventory
             CalculateStat();
         }
-
+        
         public void LevelUpStat(EUnitStatType unitStatType)
         {
             switch (unitStatType)

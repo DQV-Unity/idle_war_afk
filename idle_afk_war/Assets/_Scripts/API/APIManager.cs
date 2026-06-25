@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using _Scripts.API.Services;
+﻿using _Scripts.API.Services;
 using qtLib.Helper;
 
 namespace _Scripts.API
@@ -12,6 +10,7 @@ namespace _Scripts.API
         private InventoryService _inventoryService;
         private CharacterService _characterService;
         private BattleService _battleService;
+        private SkillServices _skillServices;
         
         protected override void _Init()
         {
@@ -19,6 +18,7 @@ namespace _Scripts.API
             _inventoryService = new InventoryService();
             _characterService = new CharacterService();
             _battleService = new BattleService();
+            _skillServices = new SkillServices();
         }
 
         // private void _CollectReward(RewardModel reward)

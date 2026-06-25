@@ -9,14 +9,34 @@ namespace _Scripts.Board
         public void SetUpBoard()
         {
             _characterController.onCharacterDie += OnCharacterDie;
-            MessageDispatcher.Register(MessageDispatcher.EEvent.CharacterChanged, OnCharacterChanged);
-            MessageDispatcher.Register(MessageDispatcher.EEvent.EquipmentChanged, OnEquipmentChanged);
+        }
+        
+        public void ClearBoard()
+        {
+            if (_levelController != null)
+            {
+                //Clear character
+                _characterController.ClearScene();
+                //Clear enemy
+                _levelController.ClearScene();
+                
+                _levelController.onSpawnedEnemy -= OnSpawnedEnemy;
+                _levelController.onEnemyAttack -= OnEnemyAttack;
+
+                if (_levelController is CampaignMode campaignMode)
+                {
+                    campaignMode.onWaveComplete -= OnWaveComplete;
+                    campaignMode.onSubStageComplete -= OnSubStageComplete;
+                    campaignMode.onStageComplete -= OnStageComplete;
+                    campaignMode.onMapComplete -= OnMapComplete;
+                }
+            }
         }
 
         //Character
-        public void SetUpEquipment(EquipmentCatalogue[] inventoryData, EquipmentSlot[] equipmentSlots)
+        public void SetUpEquipment(EquipmentCatalogue[] inventoryData, EquipmentSlot[] equipmentSlots, bool needUpdate = false)
         {
-            _equipmentController.SetUp(inventoryData, equipmentSlots);
+            _equipmentController.SetUp(inventoryData, equipmentSlots, needUpdate);
         }
         
         public void SetUpCharacter(Character equippedCharacter)
@@ -75,7 +95,7 @@ namespace _Scripts.Board
         }
         
         //Stat
-        public void CalculateStat(Character equippedCharacter, StatLevel statLevel)
+        public void SetUpStat(Character equippedCharacter, StatLevel statLevel)
         {
             _statController.SetUp(equippedCharacter, _equipmentController, statLevel);
         }
@@ -84,7 +104,6 @@ namespace _Scripts.Board
         {
             _statController.LevelUpStat(unitStatType);
         }
-
         
         //Skill
         public void ChangeAutoSkill()
@@ -95,6 +114,31 @@ namespace _Scripts.Board
         public void ActiveSkill(int skillID)
         {
             _skillController.ActiveSkill(skillID);
+        }
+        
+        //Mode
+        public void SwitchToCampaignMode()
+        {
+            ClearBoard();
+            onChangeGameMode?.Invoke(EGameMode.Campaign);
+            _levelController = new CampaignMode(_enemySpawnPosition, _enemyInBattlePosition);
+            _levelController.onSpawnedEnemy += OnSpawnedEnemy;
+            _levelController.onEnemyAttack += OnEnemyAttack;
+
+            CampaignMode campaignMode = _levelController as CampaignMode;
+            campaignMode.onWaveComplete += OnWaveComplete;
+            campaignMode.onSubStageComplete += OnSubStageComplete;
+            campaignMode.onStageComplete += OnStageComplete;
+            campaignMode.onMapComplete += OnMapComplete;
+        }
+        
+        public void SwitchToIdleMode()
+        {
+            ClearBoard();
+            onChangeGameMode?.Invoke(EGameMode.Idle);
+            _levelController = new IdleMode(_enemySpawnPosition, _enemyInBattlePosition);
+            _levelController.onSpawnedEnemy += OnSpawnedEnemy;
+            _levelController.onEnemyAttack += OnEnemyAttack;
         }
     }
 }

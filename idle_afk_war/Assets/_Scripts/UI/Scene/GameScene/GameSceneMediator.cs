@@ -1,6 +1,4 @@
-using System;
 using _Scripts.Definition;
-using _Scripts.UI.Popup.CharacterPopup;
 using Cysharp.Threading.Tasks;
 using qtLib.Helper;
 using qtLib.UI.Base;
@@ -14,7 +12,10 @@ namespace _Scripts.UI.Scene.GameScene
             _configUI = (ui, logic, mediator) =>
             {
                 MessageDispatcher.Register(MessageDispatcher.EEvent.SwitchTab, OnSwitchTab);
-                
+               
+                MessageDispatcher.Register(MessageDispatcher.EEvent.CharacterChanged, OnCharacterChanged);
+                MessageDispatcher.Register(MessageDispatcher.EEvent.EquipmentChanged, OnEquipmentChanged);
+
                 logic.onSkillReload += ui.OnSkillReload;
                 logic.onSkillActive += ui.OnSkillActive;
 
@@ -56,7 +57,9 @@ namespace _Scripts.UI.Scene.GameScene
         {
             base.RemoveEvent();
             MessageDispatcher.UnRegister(MessageDispatcher.EEvent.SwitchTab, OnSwitchTab);
-            
+            MessageDispatcher.UnRegister(MessageDispatcher.EEvent.CharacterChanged, OnCharacterChanged);
+            MessageDispatcher.UnRegister(MessageDispatcher.EEvent.EquipmentChanged, OnEquipmentChanged);
+
             _logic.onSkillReload -= _ui.OnSkillReload;
             _logic.onSkillActive -= _ui.OnSkillActive;
 
@@ -168,6 +171,21 @@ namespace _Scripts.UI.Scene.GameScene
             //         throw new ArgumentOutOfRangeException(nameof(data.tab), data.tab, null);
             //     }
             // }
+        }
+
+        private void OnCharacterChanged(object message)
+        {
+            //Todo: Reload scene
+            _logic.ClearBoard();
+            _logic.SetUpCharacter();
+            _logic.StartGame();
+        }
+
+        private void OnEquipmentChanged(object message)
+        {
+            //Todo: Stat calculate
+            _logic.UpdateEquipment();
+            _ui.ShowDamage(_logic.GetDamage());
         }
 
         #endregion

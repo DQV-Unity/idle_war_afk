@@ -17,7 +17,7 @@ namespace _Scripts.UI.Popup.EquipmentPopup
         
         #region ----- Public Functions -----
 
-        public void ShowEquipment(ref List<Definition.Equipment> equipments, int dataIndex, int selectedEquipment, int equippedEquipment, Action<int> selectEquipment)
+        public void ShowEquipments(ref List<Definition.Equipment> equipments, int dataIndex, int selectedEquipment, int equippedEquipment, Action<int> selectEquipment)
         {
             for (var i = 0; i < _equipmentCells.Length; i++)
             {

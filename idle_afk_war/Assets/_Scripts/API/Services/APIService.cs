@@ -16,7 +16,7 @@ namespace _Scripts.API.Services
         
         protected T _data; 
 
-        protected abstract string DataPath();
+        protected abstract string DataPath { get; }
 
         protected APIService()
         {
@@ -28,7 +28,7 @@ namespace _Scripts.API.Services
 
         private void LoadData()
         {
-            _dataPath = Application.persistentDataPath.PathCombine(DataPath());
+            _dataPath = Application.persistentDataPath.PathCombine(DataPath);
             if (!File.Exists(_dataPath))
             {
                 CreateDefaultData();

@@ -1,10 +1,12 @@
 using _Scripts.Definition;
 using _Scripts.Unit;
+using qtLib.Helper;
 
 namespace _Scripts.Board
 {
     public partial class GameController
     {
+        //Character
         private void OnCharacterDie(long characterID)
         {
             onGameOver?.Invoke(_levelController.GameMode, _levelController.isFinalWave);
@@ -23,14 +25,21 @@ namespace _Scripts.Board
             StartGame();
         }
         
-        private void OnEnemyDie(int enemyID){}
-
+        //Enemy
         private void OnSpawnedEnemy()
         {
             _characterController.OnSpawnedEnemy();
             _skillController.OnSpawnedEnemy();
         }
 
+        private void OnEnemyAttack(AttackSnapshot dataSnapShot, IUnit target)
+        {
+            _battleController.HitCalculate(dataSnapShot, target);
+        }
+        
+        private void OnEnemyDie(int enemyID){}
+
+        //Stage
         private void OnWaveComplete(int completedWaveCount)
         {
             _characterController.OnCompleteWave();
@@ -53,19 +62,10 @@ namespace _Scripts.Board
             onMapComplete?.Invoke();
         }
 
-        private void OnEnemyAttack(AttackSnapshot dataSnapShot, IUnit target)
+        //Event
+        private void OnEquipmentChanged(MessageDispatcher.MessageObject message)
         {
-            _battleController.HitCalculate(dataSnapShot, target);
-        }
-
-        private void OnCharacterChanged(object message)
-        {
-            //Todo: Reload scene
-        }
-
-        private void OnEquipmentChanged(object message)
-        {
-            //Todo: Stat calculate
+            
         }
     }
 }
