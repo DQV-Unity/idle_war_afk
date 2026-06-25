@@ -14,40 +14,18 @@ namespace _Scripts.Board
     {
         #region ----- Variables -----
 
-        private StatController _statController;
+        private IStatProvider _statProvider;
+        private int[] _equippedSkills;
         private ISkill[] _skills = new ISkill[6];
 
         private bool _isAuto = false;
 
         #endregion
 
-        #region ----- Event -----
-
-        public event Action<int, float> onReload; 
-        public event Action<int> onActive;
-
-        #endregion
-
-        #region ----- Public Functions -----
-
-        public void Setup(int[] equippedSkills, IStatProvider statProvider)
-        {
-            for (var i = 0; i < equippedSkills.Length; i++)
-            {
-                if (equippedSkills[i] <= 0)
-                {
-                    continue;
-                }
-
-                SkillConfig skillConfig = GameConfig.Instance.GetSkillConfig(equippedSkills[i]);
-                ISkill newSkill = Instantiate(GameAsset.Instance.GetSkillAsset(equippedSkills[i]).Prefab).GetComponent<ISkill>();
-                newSkill.SetUp(skillConfig.ToStat(), statProvider);
-                newSkill.onReload += OnSkillReload;
-                newSkill.onActive += OnSkillActive;
-                _skills[i] = newSkill;
-            }
-        }
-
+        #region ----- Properties -----
+        
+        public bool IsAutoSkill => _isAuto;
+        
         public int[] GetSkillIDs()
         {
             return _skills.Select(x =>
@@ -59,9 +37,43 @@ namespace _Scripts.Board
                 return x.ID;
             }).ToArray();
         }
-        
-        public bool IsAutoSkill() => _isAuto;
 
+        #endregion
+        
+        #region ----- Event -----
+
+        public event Action<int, float> onReload; 
+        public event Action<int> onActive;
+        public event Action OnSkillHasChanged;
+        
+        #endregion
+
+        #region ----- Public Functions -----
+
+        public void LoadData(int[] equippedSkills, IStatProvider statProvider)
+        {
+            _equippedSkills = equippedSkills;
+            _statProvider = statProvider;
+        }
+
+        public void MapData()
+        {
+            for (var i = 0; i < _equippedSkills.Length; i++)
+            {
+                if (_equippedSkills[i] <= 0)
+                {
+                    continue;
+                }
+
+                SkillConfig skillConfig = GameConfig.Instance.GetSkillConfig(_equippedSkills[i]);
+                ISkill newSkill = Instantiate(GameAsset.Instance.GetSkillAsset(_equippedSkills[i]).Prefab).GetComponent<ISkill>();
+                newSkill.SetUp(skillConfig.ToStat(), _statProvider);
+                newSkill.onReload += OnSkillReload;
+                newSkill.onActive += OnSkillActive;
+                _skills[i] = newSkill;
+            }
+        }
+        
         public void OnSpawnedEnemy()
         {
             for (var i = 0; i < _skills.Length; i++)
@@ -134,7 +146,6 @@ namespace _Scripts.Board
         #endregion
 
         #region ----- Private Functions -----
-
 
         private void OnSkillReload(int skillID, float value)
         {

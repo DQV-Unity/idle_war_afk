@@ -41,7 +41,7 @@ namespace _Scripts.Board
 
         public bool IsAutoSkill()
         {
-            return _skillController.IsAutoSkill();
+            return _skillController.IsAutoSkill;
         }
     }
 }

@@ -111,4 +111,11 @@ namespace _Scripts.Definition
         public int CritRate;
         public int CritDamage;
     }
+    
+    [Serializable]
+    public struct BonusStat
+    {
+        public EUnitStatType bonusStat;
+        public int value;
+    }
 }

@@ -11,21 +11,14 @@ namespace _Scripts.Data.Config
         [SerializeField] private int _id;
         [SerializeField] private ERarity _rarity;
         [SerializeField] private EClass _class;
-        [SerializeField] private EquipmentBonusStat _ownedBonus;
-        [SerializeField] private EquipmentBonusStat _equippedBonus;
+        [SerializeField] private BonusStat _ownedBonus;
+        [SerializeField] private BonusStat _equippedBonus;
         
         public EEquipmentType EquipmentType => _equipmentType;
         public int ID => _id;
         public ERarity Rarity => _rarity;
         public EClass Class => _class;
-        public EquipmentBonusStat OwnedBonus => _ownedBonus;
-        public EquipmentBonusStat EquippedBonus => _equippedBonus;
-        
-        [Serializable]
-        public struct EquipmentBonusStat
-        {
-            public EUnitStatType bonusStat;
-            public int value;
-        }
+        public BonusStat OwnedBonus => _ownedBonus;
+        public BonusStat EquippedBonus => _equippedBonus;
     }
 }

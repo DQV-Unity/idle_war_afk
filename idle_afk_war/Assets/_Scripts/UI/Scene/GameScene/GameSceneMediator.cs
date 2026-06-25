@@ -15,6 +15,7 @@ namespace _Scripts.UI.Scene.GameScene
                
                 MessageDispatcher.Register(MessageDispatcher.EEvent.CharacterChanged, OnCharacterChanged);
                 MessageDispatcher.Register(MessageDispatcher.EEvent.EquipmentChanged, OnEquipmentChanged);
+                MessageDispatcher.Register(MessageDispatcher.EEvent.SkillChanged, OnSkillChanged);
 
                 logic.onSkillReload += ui.OnSkillReload;
                 logic.onSkillActive += ui.OnSkillActive;
@@ -34,8 +35,10 @@ namespace _Scripts.UI.Scene.GameScene
 
             _beforeUIShow = (ui, logic, mediator) =>
             {
-                logic.SetUpLevel();
-                logic.SetUpCharacter();
+                logic.LoadData();
+                
+                logic.MapData();
+                
                 ui.ShowSubStage(logic.CampaignData);
                 
                 ShowStats();
@@ -59,6 +62,7 @@ namespace _Scripts.UI.Scene.GameScene
             MessageDispatcher.UnRegister(MessageDispatcher.EEvent.SwitchTab, OnSwitchTab);
             MessageDispatcher.UnRegister(MessageDispatcher.EEvent.CharacterChanged, OnCharacterChanged);
             MessageDispatcher.UnRegister(MessageDispatcher.EEvent.EquipmentChanged, OnEquipmentChanged);
+            MessageDispatcher.UnRegister(MessageDispatcher.EEvent.SkillChanged, OnSkillChanged);
 
             _logic.onSkillReload -= _ui.OnSkillReload;
             _logic.onSkillActive -= _ui.OnSkillActive;
@@ -175,16 +179,20 @@ namespace _Scripts.UI.Scene.GameScene
 
         private void OnCharacterChanged(object message)
         {
-            //Todo: Reload scene
             _logic.ClearBoard();
-            _logic.SetUpCharacter();
+            _logic.LoadData();
             _logic.StartGame();
         }
 
         private void OnEquipmentChanged(object message)
         {
-            //Todo: Stat calculate
             _logic.UpdateEquipment();
+            _ui.ShowDamage(_logic.GetDamage());
+        }
+
+        private void OnSkillChanged(object message)
+        {
+            _logic.UpdateSkill();
             _ui.ShowDamage(_logic.GetDamage());
         }
 

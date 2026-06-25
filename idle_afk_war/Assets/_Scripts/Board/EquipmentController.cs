@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using _Scripts.Definition;
 using UnityEngine;
 
@@ -27,15 +26,18 @@ namespace _Scripts.Board
 
         #endregion
 
-        public void SetUp(EquipmentCatalogue[] inventoryData,  EquipmentSlot[] equipmentSlots, bool needUpdate = false)
+        public void LoadData(EquipmentCatalogue[] inventoryData,  EquipmentSlot[] equipmentSlots)
+        {
+            _inventoryData = inventoryData;
+            _equipmentSlots = equipmentSlots;
+        }
+        
+        public void UpdateData(EquipmentCatalogue[] inventoryData,  EquipmentSlot[] equipmentSlots)
         {
             _inventoryData = inventoryData;
             _equipmentSlots = equipmentSlots;
             
-            if (needUpdate)
-            {
-                onEquipmentHasChanged?.Invoke();
-            }
+            onEquipmentHasChanged?.Invoke();
         }
 
         // public void EquipEquipment(EEquipmentType equipmentType, int equipmentID)

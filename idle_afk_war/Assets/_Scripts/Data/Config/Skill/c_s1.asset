@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: c_s1
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Data.Config.Skill.SkillConfig
   _id: 1
+  _rarity: 0
   _reloadTime: 5
+  _ownedStat:
+    bonusStat: 0
+    value: 100

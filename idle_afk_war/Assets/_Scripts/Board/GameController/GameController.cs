@@ -18,6 +18,7 @@ namespace _Scripts.Board
         [SerializeField] private Transform _enemyInBattlePosition;
         
         private ILevelController _levelController;
+        
         private CampaignData _campaignData;
         private Definition.Character _equippedCharacter;
         
@@ -28,6 +29,7 @@ namespace _Scripts.Board
         private void Start()
         {
             _equipmentController.onEquipmentHasChanged += _statController.OnEquipmentHasChanged;
+            _skillController.OnSkillHasChanged += _statController.OnSkillHasChanged;
             _statController.onStatHasChanged += _characterController.OnStatHasChanged;
         }
 

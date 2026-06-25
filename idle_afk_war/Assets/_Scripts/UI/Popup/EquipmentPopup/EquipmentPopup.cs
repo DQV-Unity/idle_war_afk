@@ -34,6 +34,9 @@ namespace _Scripts.UI.Popup.EquipmentPopup
         
         [Space]
         [SerializeField] private EquipmentScrollView equipmentScrollView;
+
+        [Space]
+        [SerializeField] private TextMeshProUGUI _txtTotalEffect;
         
         [Space] 
         [SerializeField] private Button _btnSummonEquipment;

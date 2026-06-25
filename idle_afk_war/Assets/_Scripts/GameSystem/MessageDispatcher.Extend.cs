@@ -11,6 +11,7 @@ namespace qtLib.Helper
             SwitchTab,
             CharacterChanged,
             EquipmentChanged,
+            SkillChanged,
         }
         
         public class SwitchFooterTabMessage : MessageObject

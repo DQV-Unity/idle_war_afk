@@ -75,24 +75,30 @@ public class GameSceneLogic : qtLogic
             return base.Initialize();
         }
         
-        public void SetUpCharacter()
+        public void LoadData()
         {
+            _gameController.LoadData(APIManager.Instance.GetCurrentGameMode(), CampaignData);
+            
             Character equippedCharacter = APIManager.Instance.GetEquippedCharacter();
-            _gameController.SetUpEquipment(APIManager.Instance.GetEquipmentCatalogues(), APIManager.Instance.GetEquipmentSlot());
-            _gameController.SetUpStat(equippedCharacter, APIManager.Instance.GetStatLevel());
-            _gameController.SetUpSkill(APIManager.Instance.GetEquippedSkills());
-            _gameController.SetUpCharacter(equippedCharacter);
+            _gameController.LoadData(APIManager.Instance.GetEquipmentCatalogues(), APIManager.Instance.GetEquipmentSlot());
+            _gameController.LoadData(equippedCharacter);
+            _gameController.LoadData(APIManager.Instance.GetEquippedSkills());
+            _gameController.LoadData(APIManager.Instance.GetStatLevel());
         }
-
-        public void SetUpLevel()
+        
+        public void MapData()
         {
-            _gameController.SetUpLevel(APIManager.Instance.GetCurrentGameMode());
-            _gameController.SetUpLevel(CampaignData);
+            _gameController.MapData();
         }
 
         public void UpdateEquipment()
         {
-            _gameController.SetUpEquipment(APIManager.Instance.GetEquipmentCatalogues(), APIManager.Instance.GetEquipmentSlot(), true);
+            _gameController.UpdateData(APIManager.Instance.GetEquipmentCatalogues(), APIManager.Instance.GetEquipmentSlot());
+        }
+
+        public void UpdateSkill()
+        {
+            _gameController.UpdateData(APIManager.Instance.GetEquippedSkills());
         }
 
         public void StartGame()
@@ -152,7 +158,7 @@ public class GameSceneLogic : qtLogic
         {
             //update campaignData
             _campaignData =  APIManager.Instance.CompleteSubStage();
-            _gameController.UpdateLevel(_campaignData);
+            _gameController.UpdateData(_campaignData);
             
             onSubStageComplete?.Invoke();
         }

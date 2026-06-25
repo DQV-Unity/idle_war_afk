@@ -58,7 +58,7 @@ namespace _Scripts.Board
         
         #region ----- Public Functions -----
         
-        public void SetUp(Character equippedCharacter, IInventoryProvider inventoryProvider, StatLevel statLevel)
+        public void LoadData(Character equippedCharacter, IInventoryProvider inventoryProvider, StatLevel statLevel)
         {
             _inventoryProvider = inventoryProvider;
             
@@ -78,10 +78,24 @@ namespace _Scripts.Board
             _attackSpeedLevel = statLevel.attackSpeedLevel;
             _critRateLevel = statLevel.critRateLevel;
             _critDamageLevel = statLevel.critDamageLevel;
-
-            //Todo: handle inventory
-            CalculateStat();
         }
+        
+        public void MapData()
+                {
+                    _damage = _baseStat.Damage * (1 + DamageLevel - 1);
+                    _maxHitPoints = _baseStat.MaxHitPoints *  (1 + MaxHitPointsLevel - 1);
+                    _attackSpeed = _baseStat.AttackSpeed * (1 + AttackSpeedLevel - 1);
+                    _critRate = _baseStat.CritRate *  (1 + CritRateLevel - 1);
+                    _critDamage = _baseStat.CritDamage *  (1 + CritDamageLevel - 1);
+                    
+                    //Todo: bonus from equipment
+        
+                    _damage = (int)(_damage * (1 + GetBonusStatFromEquipment(EUnitStatType.Damage)));
+                    _maxHitPoints = (int)(_maxHitPoints * (1 + GetBonusStatFromEquipment(EUnitStatType.MaxHitPoints)));
+                    _attackSpeed = _attackSpeed * (1 + GetBonusStatFromEquipment(EUnitStatType.AttackSpeed));
+                    _critRate = (int)(_critRate * (1 + GetBonusStatFromEquipment(EUnitStatType.CritRate)));
+                    _critDamage = (int)(_critDamage * (1 + GetBonusStatFromEquipment(EUnitStatType.CritDamage)));
+                }
         
         public void LevelUpStat(EUnitStatType unitStatType)
         {
@@ -117,7 +131,7 @@ namespace _Scripts.Board
                     throw new ArgumentOutOfRangeException(nameof(unitStatType), unitStatType, null);
                 }
             }
-            CalculateStat();
+            MapData();
             onStatHasChanged?.Invoke();
         }
 
@@ -154,7 +168,13 @@ namespace _Scripts.Board
 
         public void OnEquipmentHasChanged()
         {
-            CalculateStat();
+            MapData();
+            onStatHasChanged?.Invoke();
+        }
+        
+        public void OnSkillHasChanged()
+        {
+            MapData();
             onStatHasChanged?.Invoke();
         }
 
@@ -162,22 +182,6 @@ namespace _Scripts.Board
 
         #region ----- Private Functions -----
 
-        private void CalculateStat()
-        {
-            _damage = _baseStat.Damage * (1 + DamageLevel - 1);
-            _maxHitPoints = _baseStat.MaxHitPoints *  (1 + MaxHitPointsLevel - 1);
-            _attackSpeed = _baseStat.AttackSpeed * (1 + AttackSpeedLevel - 1);
-            _critRate = _baseStat.CritRate *  (1 + CritRateLevel - 1);
-            _critDamage = _baseStat.CritDamage *  (1 + CritDamageLevel - 1);
-            
-            //Todo: bonus from equipment
-
-            _damage = (int)(_damage * (1 + GetBonusStatFromEquipment(EUnitStatType.Damage)));
-            _maxHitPoints = (int)(_maxHitPoints * (1 + GetBonusStatFromEquipment(EUnitStatType.MaxHitPoints)));
-            _attackSpeed = _attackSpeed * (1 + GetBonusStatFromEquipment(EUnitStatType.AttackSpeed));
-            _critRate = (int)(_critRate * (1 + GetBonusStatFromEquipment(EUnitStatType.CritRate)));
-            _critDamage = (int)(_critDamage * (1 + GetBonusStatFromEquipment(EUnitStatType.CritDamage)));
-        }
 
         private float GetBonusStatFromEquipment(EUnitStatType statType)
         {

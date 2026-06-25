@@ -43,9 +43,9 @@ namespace _Scripts.Board
 
         #region ----- Public Functions -----
 
-        public override void SetUpLevel(CampaignData campaignData, IEnemyProvider enemyProvider)
+        public override void LoadData(CampaignData campaignData, IEnemyProvider enemyProvider)
         {
-            base.SetUpLevel(campaignData, enemyProvider);
+            base.LoadData(campaignData, enemyProvider);
             UpdateLevel(campaignData);
         }
 

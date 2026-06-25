@@ -6,7 +6,6 @@ using _Scripts.Enemy;
 using _Scripts.Unit;
 using _Scripts.Unit.Character;
 using UnityEngine;
-using Character = _Scripts.Definition.Character;
 
 namespace _Scripts.Board
 {
@@ -20,7 +19,8 @@ namespace _Scripts.Board
         #endregion
         
         #region ----- Variables -----
-        
+
+        private Definition.Character _characterData;
         private IStatProvider _statController;
         private IEnemyProvider _enemyProvider;
         private ICharacter _character;
@@ -35,7 +35,7 @@ namespace _Scripts.Board
         
         #region ----- Properties -----
 
-        public int CharacterID() => _character.ID;
+        public Definition.Character CharacterData => _characterData;
         
         public bool HasAliveEnemy()
         {
@@ -56,16 +56,21 @@ namespace _Scripts.Board
         
         #region ----- Public Functions -----
 
-        public void SetUp(Definition.Character equippedCharacter, IEnemyProvider enemyProvider, IStatProvider statProvider)
+        public void LoadData(Definition.Character equippedCharacter, IEnemyProvider enemyProvider, IStatProvider statProvider)
         {
             _statController = statProvider;
             _enemyProvider = enemyProvider;
             
-            CharacterAsset characterAsset = GameAsset.Instance.GetCharacterAsset(equippedCharacter.ID);
+            _characterData = equippedCharacter;
+        }
+
+        public void MapData()
+        {
+            CharacterAsset characterAsset = GameAsset.Instance.GetCharacterAsset(_characterData.ID);
             _character = Instantiate(characterAsset.Prefab, _spawnPosition.position, Quaternion.identity).GetComponent<ICharacter>();
             _character.onDie += OnCharacterDie;
             
-            _character.InitStat(equippedCharacter.ID, _statController.Damage, _statController.MaxHitPoints, _statController.AttackSpeed, _statController.AttackRange, _statController.CritRate, _statController.CritDamage);
+            _character.InitStat(_characterData.ID, _statController.Damage, _statController.MaxHitPoints, _statController.AttackSpeed, _statController.AttackRange, _statController.CritRate, _statController.CritDamage);
             _character.SetUp(_enemyProvider.GetEnemy);
             _character.GameObject.SetActive(false);
         }

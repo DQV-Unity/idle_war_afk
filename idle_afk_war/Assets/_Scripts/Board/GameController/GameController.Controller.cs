@@ -33,33 +33,21 @@ namespace _Scripts.Board
             }
         }
 
-        //Character
-        public void SetUpEquipment(EquipmentCatalogue[] inventoryData, EquipmentSlot[] equipmentSlots, bool needUpdate = false)
+        //Map data
+        public void LoadData(EquipmentCatalogue[] inventoryData, EquipmentSlot[] equipmentSlots)
         {
-            _equipmentController.SetUp(inventoryData, equipmentSlots, needUpdate);
+            _equipmentController.LoadData(inventoryData, equipmentSlots);
         }
         
-        public void SetUpCharacter(Character equippedCharacter)
+        public void LoadData(Character equippedCharacter)
         {
             _equippedCharacter = equippedCharacter;
-            _characterController.SetUp(_equippedCharacter, _levelController, _statController);
+            _characterController.LoadData(equippedCharacter, _levelController, _statController);
         }
         
-        public void SetUpSkill(int[] skillIDs)
-        {
-            _skillController.Setup(skillIDs, _statController);
-        }
-        
-        //Level
-        public void SetUpLevel(CampaignData campaignData)
+        public void LoadData(EGameMode gameMode, CampaignData campaignData)
         {
             _campaignData = campaignData;
-               
-            _levelController.SetUpLevel(_campaignData, _characterController);
-        }
-
-        public void SetUpLevel(EGameMode gameMode)
-        {
             switch (gameMode)
             {
                 case EGameMode.Campaign:
@@ -77,32 +65,50 @@ namespace _Scripts.Board
                     throw new ArgumentOutOfRangeException(nameof(gameMode), gameMode, null);
                 }
             }
+            
+            _levelController.LoadData(campaignData, _characterController);
         }
 
-        public void UpdateLevel(CampaignData campaignData)
+        public void LoadData(int[] equippedIDs)
         {
-            _campaignData = campaignData;
-            if (_levelController is CampaignMode campaignMode)
-            {
-                campaignMode.UpdateLevel(_campaignData);
-            }
-        }
-
-        public void StartGame()
-        {
-            _characterController.StartGame();
-            _levelController.StartGame();
+            _skillController.LoadData(equippedIDs, _statController);
         }
         
-        //Stat
-        public void SetUpStat(Character equippedCharacter, StatLevel statLevel)
+        public void LoadData(StatLevel statLevel)
         {
-            _statController.SetUp(equippedCharacter, _equipmentController, statLevel);
+            _statController.LoadData(_characterController.CharacterData, _equipmentController, statLevel);
         }
 
+        public void MapData()
+        {
+            _statController.MapData();
+            _characterController.MapData();
+            _skillController.MapData();
+        }
+
+        //Level
+        public void UpdateData(CampaignData campaignData)
+        {
+            if (_levelController is CampaignMode campaignMode)
+            {
+                campaignMode.UpdateLevel(campaignData);
+            }
+        }
+        
         public void LevelUpStat(EUnitStatType unitStatType)
         {
             _statController.LevelUpStat(unitStatType);
+        }
+        
+        //Equipment
+        public void UpdateData(EquipmentCatalogue[] inventoryData, EquipmentSlot[] equipmentSlots)
+        {
+            _equipmentController.UpdateData(inventoryData, equipmentSlots);
+        }
+
+        public void UpdateData(int[] equippedIDs)
+        {
+            
         }
         
         //Skill
@@ -140,5 +146,11 @@ namespace _Scripts.Board
             _levelController.onSpawnedEnemy += OnSpawnedEnemy;
             _levelController.onEnemyAttack += OnEnemyAttack;
         }
+        
+        public void StartGame()
+                {
+                    _characterController.StartGame();
+                    _levelController.StartGame();
+                }
     }
 }

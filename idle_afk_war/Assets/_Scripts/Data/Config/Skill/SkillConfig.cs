@@ -7,11 +7,15 @@ namespace _Scripts.Data.Config
     public class SkillConfig : ScriptableObject
     {
         [SerializeField] private int _id;
+        [SerializeField] private ERarity _rarity;
         [SerializeField] private float _reloadTime;
+        [SerializeField] private BonusStat _ownedBonus;
         
         public int ID => _id;
+        public ERarity Rarity => _rarity;
         public float ReloadTime => _reloadTime;
-
+        public BonusStat OwnedBonus => _ownedBonus;
+        
         public SkillStat ToStat()
         {
             return new SkillStat()

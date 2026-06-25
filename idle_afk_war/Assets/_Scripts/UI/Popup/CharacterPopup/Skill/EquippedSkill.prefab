@@ -351,7 +351,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.UI.Popup.CharacterPopup.Skill
   _btnSelect: {fileID: 6392879100787323084}
   _goSkill: {fileID: 5758694931196647140}
-  _imgRarity: {fileID: 0}
+  _imgRarity: {fileID: 8722523444670368189}
   _imgSkillIcon: {fileID: 4046322445438818172}
   _txtSkillLevel: {fileID: 7302379266924041091}
   _goLock: {fileID: 3787218585103907117}

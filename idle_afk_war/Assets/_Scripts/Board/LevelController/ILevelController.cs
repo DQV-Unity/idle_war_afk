@@ -12,7 +12,7 @@ namespace _Scripts.Board
         public EGameMode GameMode { get; }
         public bool isFinalWave { get; }
         
-        public void SetUpLevel(CampaignData campaignData, IEnemyProvider enemyProvider);
+        public void LoadData(CampaignData campaignData, IEnemyProvider enemyProvider);
         public void StartGame();
         public void ClearScene();
     }

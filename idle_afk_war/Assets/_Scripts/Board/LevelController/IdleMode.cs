@@ -19,17 +19,16 @@ namespace _Scripts.Board
 
         #endregion
 
-        public override void SetUpLevel(CampaignData campaignData, IEnemyProvider enemyProvider)
+        public override void LoadData(CampaignData campaignData, IEnemyProvider enemyProvider)
         {
-            base.SetUpLevel(campaignData, enemyProvider);
+            base.LoadData(campaignData, enemyProvider);
             MapConfig currentMapConfig = GameConfig.Instance.GetMapConfig(campaignData.mapID);
             StageConfig currentStageConfig = currentMapConfig.GetStageConfig(campaignData.stageID);
             SubStageConfig currentSubStageConfig = currentStageConfig.GetSubStageConfig(campaignData.subStageID);
             
             _currentWaveConfig = currentSubStageConfig.WaveConfigs[0];
-            SpawnEnemyWave();
         }
-        
+
         protected override async void CompleteWave()
         {
             await UniTask.Delay(2000);

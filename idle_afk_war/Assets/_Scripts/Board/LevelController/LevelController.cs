@@ -66,7 +66,7 @@ namespace _Scripts.Board
         
         #region ----- Public Functions -----
 
-        public virtual void SetUpLevel(CampaignData campaignData, IEnemyProvider enemyProvider)
+        public virtual void LoadData(CampaignData campaignData, IEnemyProvider enemyProvider)
         {
             _enemyProvider = enemyProvider;
         }

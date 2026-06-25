@@ -1,4 +1,6 @@
 ﻿using System;
+using _Scripts.Data.Asset;
+using _Scripts.Data.Config;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,6 +45,15 @@ namespace _Scripts.UI.Popup.CharacterPopup
             _goContent.SetActive(true);
             _skillID = skill.ID;
             _onSelectSkill = selectSkill;
+            
+            SkillConfig skillConfig = GameConfig.Instance.GetSkillConfig(skill.ID);
+            SkillAsset skillAsset = GameAsset.Instance.GetSkillAsset(skill.ID);
+            RarityAsset rarityAsset = GameAsset.Instance.GetRarityAsset(skillConfig.Rarity);
+            
+            _imgRarity.sprite = rarityAsset.SprItemBackground;
+            _imgSkillIcon.sprite = skillAsset.SprIcon;
+            _txtLevel.SetText($"Lv{skill.level}");
+
             _goEquipped.SetActive(isEquip.Invoke(skill.ID));
         }
 

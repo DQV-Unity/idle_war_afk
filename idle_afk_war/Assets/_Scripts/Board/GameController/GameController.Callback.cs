@@ -1,6 +1,5 @@
 using _Scripts.Definition;
 using _Scripts.Unit;
-using qtLib.Helper;
 
 namespace _Scripts.Board
 {
@@ -19,8 +18,8 @@ namespace _Scripts.Board
                 SwitchToCampaignMode();
             }
                         
-            _levelController.SetUpLevel(_campaignData, _characterController);
-            SetUpCharacter(_equippedCharacter);
+            _levelController.LoadData(_campaignData, _characterController);
+            LoadData((Character)_equippedCharacter);
             
             StartGame();
         }
@@ -60,12 +59,6 @@ namespace _Scripts.Board
         private void OnMapComplete()
         {
             onMapComplete?.Invoke();
-        }
-
-        //Event
-        private void OnEquipmentChanged(MessageDispatcher.MessageObject message)
-        {
-            
         }
     }
 }

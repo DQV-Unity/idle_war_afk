@@ -2793,26 +2793,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: pnlCritDamage
       objectReference: {fileID: 0}
-    - target: {fileID: 7661555446074112517, guid: f9add39523f7e4b9c9a9a5d5fc9c9dee, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 222
-      objectReference: {fileID: 0}
-    - target: {fileID: 7661555446074112517, guid: f9add39523f7e4b9c9a9a5d5fc9c9dee, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 256
-      objectReference: {fileID: 0}
-    - target: {fileID: 7661555446074112517, guid: f9add39523f7e4b9c9a9a5d5fc9c9dee, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7661555446074112517, guid: f9add39523f7e4b9c9a9a5d5fc9c9dee, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7661555446074112517, guid: f9add39523f7e4b9c9a9a5d5fc9c9dee, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.3
-      objectReference: {fileID: 0}
     - target: {fileID: 7993528508068865788, guid: f9add39523f7e4b9c9a9a5d5fc9c9dee, type: 3}
       propertyPath: m_text
       value: Critcal damage

@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: a_s1
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.Data.Asset.Skill.SkillAsset
   _id: 1
+  _name: skill_1
+  _description: skill_description_1
+  _sprIcon: {fileID: 21300000, guid: fb249afeb0ff95a438e6aec12fdf762c, type: 3}
   _prefab: {fileID: 6474997498226969315, guid: 321772ee62fa8274cb9e925bb2a4ce94, type: 3}
