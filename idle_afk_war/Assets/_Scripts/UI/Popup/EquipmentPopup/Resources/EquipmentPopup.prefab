@@ -982,7 +982,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Scripts.UI.Popup.EquipmentPopup.EquipmentScrollView
   _scroller: {fileID: 3948142361361270388}
-  equipmentRowPrefab: {fileID: 9021384530048346099, guid: 98cc02757d2c8b143bcb5ba512e1f601, type: 3}
+  equipmentRowPrefab: {fileID: 9021384530048346099, guid: 9e57423424fbf0f49af142b5ddf3d463, type: 3}
 --- !u!1 &2278118834858446652
 GameObject:
   m_ObjectHideFlags: 0
