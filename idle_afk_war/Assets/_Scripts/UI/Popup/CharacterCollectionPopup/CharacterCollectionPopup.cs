@@ -48,7 +48,7 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
         public void ShowCollection(CharacterCollection characterCollection, int selectedCharacter,
             Action<int> onSelectCharacter, bool firstTime = false)
         {
-            characterScrollView.ShowCollection(characterCollection.characters, onSelectCharacter, selectedCharacter, firstTime);
+            characterScrollView.ShowCollection(characterCollection.owned, onSelectCharacter, selectedCharacter, firstTime);
         }
 
         public void ShowCharacter(Character character, bool isEquipped)

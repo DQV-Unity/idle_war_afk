@@ -70,9 +70,9 @@ namespace _Scripts.Board
             _levelController.LoadData(campaignData, _characterController);
         }
 
-        public void LoadData(int[] equippedIDs)
+        public void LoadData(SkillSlot[] skillSlots)
         {
-            _skillController.LoadData(equippedIDs, _statController);
+            _skillController.LoadData(skillSlots, _statController);
         }
         
         public void LoadData(StatLevel statLevel)
@@ -119,9 +119,9 @@ namespace _Scripts.Board
             _skillController.ActiveSkill(skillID);
         }
         
-        public void UpdateData(int[] equippedSkillIDs)
+        public void UpdateData(SkillSlot[] skillSlots)
         {
-            _skillController.UpdateData(equippedSkillIDs);
+            _skillController.UpdateData(skillSlots);
         }
 
         //Mode

@@ -16,7 +16,7 @@ namespace _Scripts.Board
         #region ----- Variables -----
 
         private IStatProvider _statProvider;
-        private int[] _equippedSkills;
+        private SkillSlot[] _skillSlots;
         private ISkill[] _skills = new ISkill[6];
 
         private bool _isAuto = false;
@@ -51,28 +51,32 @@ namespace _Scripts.Board
 
         #region ----- Public Functions -----
 
-        public void LoadData(int[] equippedSkills, IStatProvider statProvider)
+        public void LoadData(SkillSlot[] skillSlots, IStatProvider statProvider)
         {
-            _equippedSkills = equippedSkills;
+            _skillSlots = skillSlots;
             _statProvider = statProvider;
         }
         
         public void MapData()
         {
-            for (var i = 0; i < _equippedSkills.Length; i++)
+            for (var i = 0; i < _skillSlots.Length; i++)
             {
-                if (_equippedSkills[i] <= 0)
+                if (!_skillSlots[i].isUnlock)
+                {
+                    continue;
+                }
+                if (_skillSlots[i].equippedSkill <= 0)
                 {
                     continue;
                 }
 
-                _skills[i] = CreateSkill(_equippedSkills[i]);
+                _skills[i] = CreateSkill(_skillSlots[i].equippedSkill);
             }
         }
 
-        public void UpdateData(int[] equippedSkills)
+        public void UpdateData(SkillSlot[] skillSlots)
         {
-            _equippedSkills = equippedSkills;
+            _skillSlots = skillSlots;
             
             Dictionary<int, ISkill> currentSkills = new Dictionary<int, ISkill>();
             for (var i = 0; i < _skills.Length; i++)
@@ -86,21 +90,25 @@ namespace _Scripts.Board
                 _skills[i] = null;
             }
             
-            for (var i = 0; i < _equippedSkills.Length; i++)
+            for (var i = 0; i < _skillSlots.Length; i++)
             {
-                if (_equippedSkills[i] <= 0)
+                if (!_skillSlots[i].isUnlock)
+                {
+                    continue;
+                }
+                if (_skillSlots[i].equippedSkill <= 0)
                 {
                     continue;
                 }
 
-                if (currentSkills.TryGetValue(_equippedSkills[i], out ISkill skill))
+                if (currentSkills.TryGetValue(_skillSlots[i].equippedSkill, out ISkill skill))
                 {
                     _skills[i] = skill;
-                    currentSkills.Remove(_equippedSkills[i]);
+                    currentSkills.Remove(_skillSlots[i].equippedSkill);
                     continue;
                 }
                 
-                _skills[i] = CreateSkill(_equippedSkills[i]);
+                _skills[i] = CreateSkill(_skillSlots[i].equippedSkill);
             }
             
             foreach (ISkill currentSkillsValue in currentSkills.Values)

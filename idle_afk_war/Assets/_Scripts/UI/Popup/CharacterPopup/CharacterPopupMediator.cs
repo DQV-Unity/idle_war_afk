@@ -1,4 +1,5 @@
 using _Scripts.API;
+using _Scripts.Data.Config;
 using _Scripts.Definition;
 using _Scripts.UI.Popup.CharacterCollectionPopup;
 using _Scripts.UI.Popup.EquipmentPopup;
@@ -7,6 +8,7 @@ using Cysharp.Threading.Tasks;
 using qtLib.Helper;
 using qtLib.UI.Base;
 using UnityEngine;
+using static _Scripts.Data.Config.GameConfig;
 
 namespace _Scripts.UI.Popup.CharacterPopup
 {
@@ -22,13 +24,13 @@ namespace _Scripts.UI.Popup.CharacterPopup
 	    private EquipmentSlot[] _equipmentSlots;
 	    
 	    private SkillCollection _skillCollection;
-	    private int[] _equippedSkills;
+	    private SkillSlot[] _skillSlots;
 
 	    public Character EquippedCharacter => _equippedCharacter;
 	    public EquipmentSlot[] EquipmentSlots => _equipmentSlots;
 
 	    public SkillCollection SkillCollection => _skillCollection;
-	    public int[] EquippedSkills => _equippedSkills;
+	    public SkillSlot[] SkillSlots => _skillSlots;
 
 	    public ETab CurrentTab;
 	    
@@ -49,11 +51,28 @@ namespace _Scripts.UI.Popup.CharacterPopup
 		    return APIManager.Instance.GetSkill(skillID);
 	    }
 
+	    public int GetOwnedAttackEffect()
+	    {
+		    int ownedAttackEffect = 0;
+		    for (var i = 0; i < SkillCollection.owned.Count; i++)
+		    {
+			    SkillConfig skillConfig = qtSingleton<GameConfig>.Instance.GetSkillConfig(SkillCollection.owned[i].ID);
+			    if (skillConfig.OwnedBonus.bonusStat != EUnitStatType.Damage)
+			    {
+				    continue;
+			    }
+
+			    ownedAttackEffect += skillConfig.OwnedBonus.value;
+		    }
+
+		    return ownedAttackEffect;
+	    }
+
 	    public bool IsSkillEquip(int skillID)
 	    {
-		    for (var i = 0; i < _equippedSkills.Length; i++)
+		    for (var i = 0; i < _skillSlots.Length; i++)
 		    {
-			    if (_equippedSkills[i] == skillID)
+			    if (_skillSlots[i].equippedSkill == skillID)
 			    {
 				    return true;
 			    }
@@ -71,7 +90,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
 	    public void LoadSkillData()
 	    {
 		    _skillCollection = APIManager.Instance.GetSkillCollection();
-		    _equippedSkills = APIManager.Instance.GetEquippedSkills();
+		    _skillSlots = APIManager.Instance.GetSkillSlots();
 	    }
     }
 	
@@ -88,6 +107,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
 
 			    MessageDispatcher.Register(MessageDispatcher.EEvent.CharacterChanged, OnCharacterChanged);
 			    MessageDispatcher.Register(MessageDispatcher.EEvent.EquipmentChanged, OnEquipmentChanged);
+			    MessageDispatcher.Register(MessageDispatcher.EEvent.SkillChanged, OnEquipmentChanged);
 			   
 			    return UniTask.CompletedTask;
 		    };
@@ -107,11 +127,12 @@ namespace _Scripts.UI.Popup.CharacterPopup
 		    base.RemoveEvent();
 		    _ui.BtnCharacterTab.onClick.RemoveAllListeners();
 		    _ui.BtnSkillTab.onClick.RemoveAllListeners();
-		    
+
 		    _ui.BtnChangeCharacter.onClick.RemoveAllListeners();
 
 		    MessageDispatcher.UnRegister(MessageDispatcher.EEvent.CharacterChanged, OnCharacterChanged);
 		    MessageDispatcher.UnRegister(MessageDispatcher.EEvent.EquipmentChanged, OnEquipmentChanged);
+		    MessageDispatcher.UnRegister(MessageDispatcher.EEvent.SkillChanged, OnEquipmentChanged);
 	    }
 
 	    #region ----- Tab -----
@@ -184,12 +205,13 @@ namespace _Scripts.UI.Popup.CharacterPopup
 	    //Skill
 	    private void ShowEquippedSkills()
 	    {
-		    _ui.ShowEquippedSkills(_logic.EquippedSkills, _logic.GetSkillData, OnSelectSkill);
+		    _ui.ShowEquippedSkills(_logic.SkillSlots, _logic.GetSkillData, OnSelectSkill);
 	    }
 
 	    private void ShowSkillCollection()
 	    {
-		    _ui.ShowSkillCollection(_logic.SkillCollection.skills, _logic.IsSkillEquip, OnSelectSkill);
+		    _ui.ShowSkillCollection(_logic.SkillCollection.owned, _logic.IsSkillEquip, OnSelectSkill);
+		    _ui.ShowOwnedAttackEffect(_logic.GetOwnedAttackEffect());
 	    }
 
 	    private void OnSelectSkill(int skillID)
@@ -198,6 +220,12 @@ namespace _Scripts.UI.Popup.CharacterPopup
 		    {
 			    skillID = skillID
 		    }).Move();
+	    }
+
+	    private void OnSkillChanged(object message)
+	    {
+		    _logic.LoadSkillData();
+		    ShowEquippedSkills();
 	    }
 
 	    #endregion

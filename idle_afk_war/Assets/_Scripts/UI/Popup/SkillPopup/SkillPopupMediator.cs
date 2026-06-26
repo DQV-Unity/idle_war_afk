@@ -1,4 +1,5 @@
 ﻿using _Scripts.API;
+using _Scripts.Definition;
 using Cysharp.Threading.Tasks;
 using qtLib.Helper;
 using qtLib.UI.Base;
@@ -28,10 +29,10 @@ namespace _Scripts.UI.Popup.SkillPopup
             _isEquipped = false;
             _skill = APIManager.Instance.GetSkill(Args.skillID);
             
-            int[] equippedSkills = APIManager.Instance.GetEquippedSkills();
-            for (var i = 0; i < equippedSkills.Length; i++)
+            SkillSlot[] skillSlots = APIManager.Instance.GetSkillSlots();
+            for (var i = 0; i < skillSlots.Length; i++)
             {
-                if (equippedSkills[i] == _skill.ID)
+                if (skillSlots[i].equippedSkill == _skill.ID)
                 {
                     _isEquipped = true;
                 }
@@ -56,10 +57,10 @@ namespace _Scripts.UI.Popup.SkillPopup
 
         public int GetEmptySkillSlot()
         {
-            int[] equippedSkills = APIManager.Instance.GetEquippedSkills();
-            for (var i = 0; i < equippedSkills.Length; i++)
+            SkillSlot[] skillSlots = APIManager.Instance.GetSkillSlots();
+            for (var i = 0; i < skillSlots.Length; i++)
             {
-                if (equippedSkills[i] == -1)
+                if (skillSlots[i].isUnlock && skillSlots[i].equippedSkill <= 0)
                 {
                     return i;
                 }

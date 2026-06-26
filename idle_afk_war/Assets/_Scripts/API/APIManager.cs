@@ -7,7 +7,7 @@ namespace _Scripts.API
     {
         public static int API_TimeBetween2TimeSaveData = 500;
         
-        private InventoryService _inventoryService;
+        private EquipmentService _equipmentService;
         private CharacterService _characterService;
         private BattleService _battleService;
         private SkillServices _skillServices;
@@ -15,7 +15,7 @@ namespace _Scripts.API
         protected override void _Init()
         {
             base._Init();
-            _inventoryService = new InventoryService();
+            _equipmentService = new EquipmentService();
             _characterService = new CharacterService();
             _battleService = new BattleService();
             _skillServices = new SkillServices();

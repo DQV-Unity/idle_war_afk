@@ -82,7 +82,12 @@ namespace _Scripts.UI.Popup.EquipmentPopup
             // _txtCharacterLevelProgress
                 // _sldCharacterLevel.
         }
-
+        
+        public void ShowOwnedAttackEffect(int value)
+        {
+            _txtOwnedEffect.SetText($"Owned Effect: <color=yellow>ATK +{value}%</color>");   
+        }
+        
         #endregion
     }
 }

@@ -1,8 +1,10 @@
 ﻿using _Scripts.API;
+using _Scripts.Data.Config;
 using _Scripts.Definition;
 using Cysharp.Threading.Tasks;
 using qtLib.Helper;
 using qtLib.UI.Base;
+using EquipmentCatalogue = _Scripts.Definition.EquipmentCatalogue;
 
 namespace _Scripts.UI.Popup.EquipmentPopup
 {
@@ -82,6 +84,23 @@ namespace _Scripts.UI.Popup.EquipmentPopup
 			return _equippedEquipment.ID == equipmentID;
 		}
 
+		public int GetOwnedAttackEffect()
+		{
+			int ownedAttackEffect = 0;
+			for (var i = 0; i < _equipmentCatalogue.owned.Count; i++)
+			{
+				EquipmentConfig equipmentConfig = GameConfig.Instance.GetEquipmentConfig(Args.equipmentType, _equipmentCatalogue.owned[i].ID);
+				if (equipmentConfig.OwnedBonus.bonusStat != EUnitStatType.Damage)
+				{
+					continue;
+				}
+
+				ownedAttackEffect += equipmentConfig.OwnedBonus.value;
+			}
+
+			return ownedAttackEffect;
+		}
+
 		private void RefreshData()
 		{
 			_equipmentCatalogue = APIManager.Instance.GetEquipmentCatalogue(Args.equipmentType);
@@ -110,6 +129,7 @@ namespace _Scripts.UI.Popup.EquipmentPopup
 		    {
 			    ui.ShowCollection(logic.EquipmentCatalogue, logic.SelectedEquipmentID, logic.EquippedEquipmentID, OnSelectEquipment,true);
 			    ui.ShowEquipment(logic.SelectedEquipment, logic.IsEquipped(logic.SelectedEquipmentID));
+			    ui.ShowOwnedAttackEffect(logic.GetOwnedAttackEffect());
 			    return UniTask.CompletedTask;
 		    };
 	    }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using qtLib.Extension;
 using qtLib.Helper;
-using Unity.VisualScripting;
 
 namespace _Scripts.Definition
 {
@@ -61,13 +60,13 @@ namespace _Scripts.Definition
     [Serializable]
     public class CharacterCollection : ICloneable<CharacterCollection>
     {
-        public List<Character> characters;
+        public List<Character> owned;
         
         public CharacterCollection Clone()
         {
             return new CharacterCollection()
             {
-                characters = characters.Clone()
+                owned = owned.Clone()
             };
         }
     }
@@ -123,13 +122,29 @@ namespace _Scripts.Definition
     [Serializable]
     public class SkillCollection : ICloneable<SkillCollection>
     {
-        public List<Skill> skills;
+        public List<Skill> owned;
         
         public SkillCollection Clone()
         {
             return new SkillCollection()
             {
-                skills = skills.Clone(),
+                owned = owned.Clone(),
+            };
+        }
+    }
+    
+    [Serializable]
+    public class SkillSlot : ICloneable<SkillSlot>
+    {
+        public bool isUnlock;
+        public int equippedSkill;
+        
+        public SkillSlot Clone()
+        {
+            return new SkillSlot()
+            {
+                isUnlock = isUnlock,
+                equippedSkill = equippedSkill
             };
         }
     }

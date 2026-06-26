@@ -1,4 +1,5 @@
 ﻿using System;
+using _Scripts.Definition;
 using UnityEngine;
 
 namespace _Scripts.UI.Popup.CharacterPopup
@@ -14,23 +15,23 @@ namespace _Scripts.UI.Popup.CharacterPopup
 
         #region ----- Public Functions -----
 
-        public void ShowEquippedSkills(int[] equippedSkills, Func<int, Definition.Skill> getSkill, Action<int> selectSkill)
+        public void ShowSkillSlots(SkillSlot[] skillSlots, Func<int, Definition.Skill> getSkill, Action<int> selectSkill)
         {
-            for (var i = 0; i < equippedSkills.Length; i++)
+            for (var i = 0; i < skillSlots.Length; i++)
             {
-                if (equippedSkills[i] == -1)
+                if (!skillSlots[i].isUnlock)
                 {
                     _equippedSkills[i].Lock();
                     continue;
                 }
 
-                if (equippedSkills[i] == 0)
+                if (skillSlots[i].equippedSkill <= 0)
                 {
                     _equippedSkills[i].ShowEmpty(selectSkill);
                     continue;
                 }
 
-                _equippedSkills[i].ShowSkill(getSkill.Invoke(equippedSkills[i]), selectSkill);
+                _equippedSkills[i].ShowSkillSlot(getSkill.Invoke(skillSlots[i].equippedSkill), selectSkill);
             }
         }
 

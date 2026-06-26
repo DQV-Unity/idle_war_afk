@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using _Scripts.Definition;
+using qtLib.Extension;
 
 namespace _Scripts.API.Services
 {
@@ -10,22 +11,22 @@ namespace _Scripts.API.Services
 
         public SkillCollection GetSkillCollection()
         {
-            return _data.SkillCollection.Clone();
+            return _data.SkillCollection;
         }
         
-        public int[] GetEquippedSkills()
+        public SkillSlot[] GetSkillSlots()
         {
-            return _data.EquippedSkills;
+            return _data.SkillSlots;
         }
 
         public Definition.Skill GetSkill(int skillID)
         {
-            List<Definition.Skill> skills = GetSkillCollection().skills;
+            List<Definition.Skill> skills = _data.SkillCollection.owned;
             for (var i = 0; i < skills.Count; i++)
             {
                 if (skills[i].ID == skillID)
                 {
-                    return skills[i].Clone();            
+                    return skills[i];            
                 }
             }
             
@@ -34,12 +35,17 @@ namespace _Scripts.API.Services
 
         public bool EquipSkill(int slotPosition, int skillID)
         {
-            List<Definition.Skill> skills = GetSkillCollection().skills;
+            List<Definition.Skill> skills = _data.SkillCollection.owned;
+            SkillSlot[] skillSlots = _data.SkillSlots;
+            if (!skillSlots[slotPosition].isUnlock)
+            {
+                return false;
+            }
             for (var i = 0; i < skills.Count; i++)
             {
                 if (skills[i].ID == skillID)
                 {
-                    _data.EquippedSkills[slotPosition] = skillID;
+                    _data.SkillSlots[slotPosition].equippedSkill = skillID;
                     SaveData();
                     return true;            
                 }
@@ -50,11 +56,13 @@ namespace _Scripts.API.Services
 
         public bool UnEquipSkill(int skillID)
         {
-            for (var i = 0; i < _data.EquippedSkills.Length; i++)
+            SkillSlot[] skillSlots = _data.SkillSlots;
+            for (var i = 0; i < skillSlots.Length; i++)
             {
-                if (_data.EquippedSkills[i] == skillID)
+                if (skillSlots[i].equippedSkill == skillID)
                 {
-                    _data.EquippedSkills[i] = -1;
+                    skillSlots[i].equippedSkill = -1;
+                    SaveData();
                     return true;
                 }
             }

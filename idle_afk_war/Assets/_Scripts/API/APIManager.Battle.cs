@@ -6,7 +6,7 @@ namespace _Scripts.API
     {
         public CampaignData GetCampaignData()
         {
-            return _battleService.GetCampaignData();
+            return _battleService.GetCampaignData().Clone();
         }
 
         public EGameMode GetCurrentGameMode()
@@ -16,7 +16,7 @@ namespace _Scripts.API
 
         public CampaignData CompleteSubStage()
         {
-            return _battleService.CompleteSubStage();
+            return _battleService.CompleteSubStage().Clone();
         }
     }
 }

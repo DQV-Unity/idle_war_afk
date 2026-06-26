@@ -42,7 +42,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
         
         #region ----- Public Functions -----
 
-        public void ShowSkill(Definition.Skill skill, Action<int> selectSkill)
+        public void ShowSkillSlot(Definition.Skill skill, Action<int> selectSkill)
         {
             _btnSelect.enabled = true;
             _goSkill.SetActive(true);

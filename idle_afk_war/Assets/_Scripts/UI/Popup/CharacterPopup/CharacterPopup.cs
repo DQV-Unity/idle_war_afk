@@ -68,14 +68,19 @@ namespace _Scripts.UI.Popup.CharacterPopup
         }
         
         //Skill
-        public void ShowEquippedSkills(int[] equippedSkills, Func<int, Definition.Skill> getSkill, Action<int> selectSkill)
+        public void ShowEquippedSkills(SkillSlot[] skillSlots, Func<int, Definition.Skill> getSkill, Action<int> selectSkill)
         {
-            _pnlSkill.ShowEquippedSkills(equippedSkills, getSkill, selectSkill);
+            _pnlSkill.ShowSkillSlots(skillSlots, getSkill, selectSkill);
         }
 
         public void ShowSkillCollection(List<Definition.Skill> skills, Func<int, bool> isEquip, Action<int> selectSkill)
         {
             _pnlSkill.ShowSkillCollection(skills, isEquip, selectSkill);
+        }
+
+        public void ShowOwnedAttackEffect(int value)
+        {
+            _pnlSkill.ShowOwnedAttackEffect(value);   
         }
 
         #endregion

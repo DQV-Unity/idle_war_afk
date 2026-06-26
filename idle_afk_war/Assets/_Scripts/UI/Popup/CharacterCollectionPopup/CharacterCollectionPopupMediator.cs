@@ -27,11 +27,11 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 
 		public void SelectCharacter(int characterID)
 		{
-			for (var i = 0; i < _characterCollection.characters.Count; i++)
+			for (var i = 0; i < _characterCollection.owned.Count; i++)
 			{
-				if (_characterCollection.characters[i].ID == characterID)
+				if (_characterCollection.owned[i].ID == characterID)
 				{
-					_selectedCharacter = _characterCollection.characters[i];
+					_selectedCharacter = _characterCollection.owned[i];
 				}
 			}
 		}

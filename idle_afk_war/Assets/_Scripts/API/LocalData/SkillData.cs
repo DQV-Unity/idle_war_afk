@@ -8,26 +8,26 @@ namespace _Scripts.API.Services
     public class SkillData : DataModel
     {
         [SerializeField] private SkillCollection _skillCollection;
-        [SerializeField] private int[] _equippedSkills;
+        [SerializeField] private SkillSlot[] _skillSlots;
         
         public SkillCollection SkillCollection => _skillCollection;
-        public int[] EquippedSkills => _equippedSkills;
+        public SkillSlot[] SkillSlots => _skillSlots;
         
         public SkillCollection GetSkills()
         {
             return _skillCollection;
         }
         
-        public int[] GetEquippedSkills()
+        public SkillSlot[] GetEquippedSkills()
         {
-            return _equippedSkills;
+            return _skillSlots;
         }
 
         public SkillData()
         {
             _skillCollection = new SkillCollection()
             {
-                skills = new()
+                owned = new()
                 {
                     new Definition.Skill()
                     {
@@ -41,14 +41,38 @@ namespace _Scripts.API.Services
                     }
                 }
             };
-            _equippedSkills = new int[]
+            _skillSlots = new SkillSlot[]
             {
-                -1,
-                -1,
-                -1,
-                -1,
-                -1,
-                -1
+                new SkillSlot()
+                {
+                    isUnlock = true,
+                    equippedSkill = -1,
+                },
+                new SkillSlot()
+                {
+                    isUnlock = true,
+                    equippedSkill = -1,
+                },
+                new SkillSlot()
+                {
+                    isUnlock = false,
+                    equippedSkill = -1,
+                },
+                new SkillSlot()
+                {
+                    isUnlock = false,
+                    equippedSkill = -1,
+                },
+                new SkillSlot()
+                {
+                    isUnlock = false,
+                    equippedSkill = -1,
+                },
+                new SkillSlot()
+                {
+                    isUnlock = false,
+                    equippedSkill = -1,
+                }
             };
         }
     }

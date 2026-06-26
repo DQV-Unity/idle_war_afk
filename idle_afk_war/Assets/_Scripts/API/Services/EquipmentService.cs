@@ -5,9 +5,81 @@ using qtLib.Extension;
 
 namespace _Scripts.API.Services
 {
-    public class InventoryService : APIService<InventoryData>
+    public class EquipmentService : APIService<EquipmentData>
     {
         protected override string DataPath => "Inventory";
+        
+        public EquipmentCatalogue GetEquipmentCatalogue(EEquipmentType equipmentType)
+        {
+            EquipmentCatalogue[] equipments = _data.Equipments;
+            for (var i = 0; i < equipments.Length; i++)
+            {
+                if (equipments[i].equipmentType == equipmentType)
+                {
+                    return equipments[i];
+                }
+            }
+            
+            throw new KeyNotFoundException($"Equipment type {equipmentType} not found");
+        }
+        
+        public Definition.Equipment GetEquippedEquipment(EEquipmentType equipmentType)
+        {
+            EquipmentCatalogue equipmentCatalogue = GetEquipmentCatalogue(equipmentType);
+            int equippedEquipment = GetEquipmentSlot(equipmentType).equippedEquipment;
+            if (equippedEquipment <= 0)
+            {
+                return null;
+            }
+            
+            for (var i = 0; i < equipmentCatalogue.owned.Count; i++)
+            {
+                if (equipmentCatalogue.owned[i].ID == equippedEquipment)
+                {
+                    return equipmentCatalogue.owned[i];
+                }
+            }
+            
+            throw new ArgumentOutOfRangeException($"Not owned equipment {equipmentType} {equippedEquipment}");
+        }
+
+        public Definition.Equipment GetEquipment(EEquipmentType equipmentType, int equipmentID)
+        {
+            EquipmentCatalogue equipmentCatalogue = GetEquipmentCatalogue(equipmentType);
+            for (var i = 0; i < equipmentCatalogue.owned.Count; i++)
+            {
+                if (equipmentCatalogue.owned[i].ID == equipmentID)
+                {
+                    return equipmentCatalogue.owned[i];
+                }
+            }
+            
+            throw new ArgumentOutOfRangeException($"Not owned equipment {equipmentType} {equipmentID}");
+        }
+        
+        public EquipmentCatalogue[] GetEquipmentCatalogues()
+        {
+            return _data.Equipments;
+        }
+
+        public EquipmentSlot[] GetEquipmentSlot()
+        {
+            return _data.EquipmentSlots;
+        }
+
+        public EquipmentSlot GetEquipmentSlot(EEquipmentType equipmentType)
+        {
+            EquipmentSlot[] equipmentSlots = GetEquipmentSlot();
+            for (var i = 0; i < equipmentSlots.Length; i++)
+            {
+                if (equipmentSlots[i].equipmentType == equipmentType)
+                {
+                    return equipmentSlots[i];
+                }
+            }
+            
+            throw new KeyNotFoundException($"Equipment type {equipmentType} not found");
+        }
 
         public void UnlockEquipmentSlot(EEquipmentType equipmentType)
         {
@@ -106,76 +178,5 @@ namespace _Scripts.API.Services
             }
         }
 
-        public EquipmentCatalogue GetEquipmentCatalogue(EEquipmentType equipmentType)
-        {
-            EquipmentCatalogue[] equipments = _data.Equipments;
-            for (var i = 0; i < equipments.Length; i++)
-            {
-                if (equipments[i].equipmentType == equipmentType)
-                {
-                    return equipments[i].Clone();
-                }
-            }
-            
-            throw new KeyNotFoundException($"Equipment type {equipmentType} not found");
-        }
-        
-        public Definition.Equipment GetEquippedEquipment(EEquipmentType equipmentType)
-        {
-            EquipmentCatalogue equipmentCatalogue = GetEquipmentCatalogue(equipmentType);
-            int equippedEquipment = GetEquipmentSlot(equipmentType).equippedEquipment;
-            if (equippedEquipment <= 0)
-            {
-                return null;
-            }
-            
-            for (var i = 0; i < equipmentCatalogue.owned.Count; i++)
-            {
-                if (equipmentCatalogue.owned[i].ID == equippedEquipment)
-                {
-                    return equipmentCatalogue.owned[i].Clone();
-                }
-            }
-            
-            throw new ArgumentOutOfRangeException($"Not owned equipment {equipmentType} {equippedEquipment}");
-        }
-
-        public Definition.Equipment GetEquipment(EEquipmentType equipmentType, int equipmentID)
-        {
-            EquipmentCatalogue equipmentCatalogue = GetEquipmentCatalogue(equipmentType);
-            for (var i = 0; i < equipmentCatalogue.owned.Count; i++)
-            {
-                if (equipmentCatalogue.owned[i].ID == equipmentID)
-                {
-                    return equipmentCatalogue.owned[i].Clone();
-                }
-            }
-            
-            throw new ArgumentOutOfRangeException($"Not owned equipment {equipmentType} {equipmentID}");
-        }
-        
-        public EquipmentCatalogue[] GetEquipmentCatalogues()
-        {
-            return qtGameExtension.Clone(_data.Equipments);
-        }
-
-        public EquipmentSlot[] GetEquipmentSlot()
-        {
-            return  qtGameExtension.Clone(_data.EquipmentSlots);
-        }
-
-        public EquipmentSlot GetEquipmentSlot(EEquipmentType equipmentType)
-        {
-            EquipmentSlot[] equipmentSlots = GetEquipmentSlot();
-            for (var i = 0; i < equipmentSlots.Length; i++)
-            {
-                if (equipmentSlots[i].equipmentType == equipmentType)
-                {
-                    return equipmentSlots[i].Clone();
-                }
-            }
-            
-            throw new KeyNotFoundException($"Equipment type {equipmentType} not found");
-        }
     }
 }

@@ -82,7 +82,7 @@ public class GameSceneLogic : qtLogic
             Character equippedCharacter = APIManager.Instance.GetEquippedCharacter();
             _gameController.LoadData(APIManager.Instance.GetEquipmentCatalogues(), APIManager.Instance.GetEquipmentSlot());
             _gameController.LoadData(equippedCharacter);
-            _gameController.LoadData(APIManager.Instance.GetEquippedSkills());
+            _gameController.LoadData(APIManager.Instance.GetSkillSlots());
             _gameController.LoadData(APIManager.Instance.GetStatLevel());
         }
         
@@ -98,7 +98,7 @@ public class GameSceneLogic : qtLogic
 
         public void UpdateSkill()
         {
-            _gameController.UpdateData(APIManager.Instance.GetEquippedSkills());
+            _gameController.UpdateData(APIManager.Instance.GetSkillSlots());
         }
 
         public void StartGame()

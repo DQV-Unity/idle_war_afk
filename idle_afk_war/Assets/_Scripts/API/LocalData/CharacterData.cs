@@ -34,7 +34,7 @@ namespace _Scripts.API.Services
 
             _characterCollection = new CharacterCollection()
             {
-                characters = new List<Character>()
+                owned = new List<Character>()
                 {
                     new Character()
                     {
@@ -49,7 +49,7 @@ namespace _Scripts.API.Services
                 }
             };
             
-            _equippedCharacter = _characterCollection.characters[0].ID;
+            _equippedCharacter = _characterCollection.owned[0].ID;
         }
     }
 }

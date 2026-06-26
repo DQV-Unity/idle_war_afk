@@ -9,7 +9,7 @@ namespace _Scripts.API.Services
 
         public CampaignData GetCampaignData()
         {
-            return _data.CampaignData.Clone();
+            return _data.CampaignData;
         }
 
         public EGameMode GetCurrentGameMode()
@@ -19,7 +19,7 @@ namespace _Scripts.API.Services
         
         public CampaignData CompleteSubStage()
         {
-            CampaignData campaignData = GetCampaignData();
+            CampaignData campaignData = _data.CampaignData;
             StageConfig stageConfig = GameConfig.Instance.GetStageConfig(campaignData.mapID, campaignData.stageID);
             SubStageConfig subStageConfig = stageConfig.GetSubStageConfig(campaignData.subStageID);
             int index = stageConfig.SubStageConfigs.IndexOf(subStageConfig);
@@ -34,12 +34,12 @@ namespace _Scripts.API.Services
                 campaignData.subStageID = nextSubStageConfig.ID;
                 SaveData();
             }
-            return campaignData.Clone();
+            return campaignData;
         }
 
         private CampaignData CompleteStage()
         {
-            CampaignData campaignData = GetCampaignData();
+            CampaignData campaignData = _data.CampaignData;
             MapConfig mapConfig = GameConfig.Instance.GetMapConfig(campaignData.mapID);
             StageConfig stageConfig = mapConfig.GetStageConfig(campaignData.stageID);
             int index = mapConfig.StageConfigs.IndexOf(stageConfig);
@@ -56,17 +56,17 @@ namespace _Scripts.API.Services
                 SaveData();
             }
             
-            return campaignData.Clone();
+            return campaignData;
         }
 
         private CampaignData CompleteMapData()
         {
-            CampaignData campaignData = GetCampaignData();
+            CampaignData campaignData = _data.CampaignData;
             campaignData.mapID = 1;
             campaignData.stageID = 1;
             campaignData.subStageID = 1;
             SaveData();
-            return campaignData.Clone();
+            return campaignData;
         }
     }
 }

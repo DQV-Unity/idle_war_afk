@@ -6,7 +6,7 @@ using UnityEngine;
 namespace _Scripts.API.Services
 {
     [Serializable]
-    public class InventoryData : DataModel
+    public class EquipmentData : DataModel
     {
         [SerializeField] private EquipmentCatalogue[] _equipments;
         [SerializeField] private EquipmentSlot[] _equipmentSlots;
@@ -14,7 +14,7 @@ namespace _Scripts.API.Services
         public EquipmentCatalogue[] Equipments => _equipments;
         public EquipmentSlot[] EquipmentSlots => _equipmentSlots;
 
-        public InventoryData()
+        public EquipmentData()
         {
             _equipments = new EquipmentCatalogue[]
             {
