@@ -13,6 +13,7 @@ namespace _Scripts.Data.Config
         [SerializeField] private EnemyConfigs _enemyConfigs;
         [SerializeField] private SkillConfigs _skillConfigs;
         [SerializeField] private EquipmentConfigs _equipmentConfigs;
+        [SerializeField] private BossConfigs _bossConfigs;
         
         #endregion
         
@@ -64,6 +65,11 @@ namespace _Scripts.Data.Config
         public LevelConfig GetEquipmentLevelConfig(int level)
         {
             return _equipmentConfigs.GetLevelConfig(level);
+        }
+
+        public BossConfig GetBossConfig(int bossID)
+        {
+            return _bossConfigs.GetBossConfig(bossID);
         }
     }
 }

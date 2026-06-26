@@ -14,6 +14,8 @@ namespace _Scripts.Board
         private StageConfig _currentStageConfig;
         private SubStageConfig _currentSubStageConfig;
         
+        private bool _isFinalWave;
+        
         #endregion
 
         #region ----- Events -----
@@ -76,6 +78,28 @@ namespace _Scripts.Board
             
             await UniTask.Delay(2000);
             SpawnEnemyWave();
+            
+            // if (_isFinalWave)
+            // {
+            //     CompleteSubStage();
+            //     _isFinalWave = false;
+            // }
+            // else
+            // {
+            //     int nextWave = _currentSubStageConfig.WaveConfigs.IndexOf(_currentWaveConfig) + 1;
+            //     if (nextWave >= _currentSubStageConfig.WaveConfigs.Count)
+            //     {
+            //         _isFinalWave = true;
+            //         _currentWaveConfig = new WaveConfig(_currentSubStageConfig.BossID, 1);
+            //     }
+            //     else
+            //     {
+            //         _currentWaveConfig = _currentSubStageConfig.WaveConfigs[nextWave];
+            //     }
+            // }
+            //
+            // await UniTask.Delay(2000);
+            // SpawnEnemyWave();
         }
 
         private void CompleteSubStage()

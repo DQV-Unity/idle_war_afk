@@ -134,7 +134,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
 
 			    MessageDispatcher.Register(MessageDispatcher.EEvent.CharacterChanged, OnCharacterChanged);
 			    MessageDispatcher.Register(MessageDispatcher.EEvent.EquipmentChanged, OnEquipmentChanged);
-			    MessageDispatcher.Register(MessageDispatcher.EEvent.SkillChanged, OnEquipmentChanged);
+			    MessageDispatcher.Register(MessageDispatcher.EEvent.SkillChanged, OnSkillChanged);
 			   
 			    return UniTask.CompletedTask;
 		    };
@@ -188,7 +188,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
 		    _ui.OpenTab(CharacterPopupLogic.ETab.Skill);
 		    
 		    ShowSkillCollection();
-		    ShowEquippedSkills();
+		    ShowSkillSlots();
 	    }
 
 	    #endregion
@@ -230,9 +230,9 @@ namespace _Scripts.UI.Popup.CharacterPopup
 	    }
 	    
 	    //Skill
-	    private void ShowEquippedSkills()
+	    private void ShowSkillSlots()
 	    {
-		    _ui.ShowEquippedSkills(_logic.SkillSlots, _logic.GetSkillData, OnSelectSkill, _logic.GetItemData, _logic.GetLevelConfig);
+		    _ui.ShowSkillSlots(_logic.SkillSlots, _logic.GetSkillData, OnSelectSkill, _logic.GetItemData, _logic.GetLevelConfig);
 	    }
 
 	    private void ShowSkillCollection()
@@ -252,7 +252,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
 	    private void OnSkillChanged(object message)
 	    {
 		    _logic.LoadSkillData();
-		    ShowEquippedSkills();
+		    ShowSkillSlots();
 	    }
 
 	    #endregion

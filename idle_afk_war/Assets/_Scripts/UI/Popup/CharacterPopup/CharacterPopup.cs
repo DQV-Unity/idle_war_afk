@@ -71,7 +71,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
         }
         
         //Skill
-        public void ShowEquippedSkills(SkillSlot[] skillSlots, Func<int, Definition.Skill> getSkill, Action<int> selectSkill, Func<EItemType, int, ItemData> getItemData, Func<EItemType, int, LevelConfig> getLevelConfig)
+        public void ShowSkillSlots(SkillSlot[] skillSlots, Func<int, Definition.Skill> getSkill, Action<int> selectSkill, Func<EItemType, int, ItemData> getItemData, Func<EItemType, int, LevelConfig> getLevelConfig)
         {
             _pnlSkill.ShowSkillSlots(skillSlots, getSkill, selectSkill, getItemData, getLevelConfig);
         }
