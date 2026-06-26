@@ -193,6 +193,7 @@ namespace _Scripts.UI.Scene.GameScene
         private void OnSkillChanged(object message)
         {
             _logic.UpdateSkill();
+            _ui.ShowSkills(_logic.GetSkillIDs(), ActiveSkill);
             _ui.ShowDamage(_logic.GetDamage());
         }
 

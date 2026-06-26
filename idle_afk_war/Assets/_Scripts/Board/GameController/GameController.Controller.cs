@@ -20,6 +20,7 @@ namespace _Scripts.Board
                 //Clear enemy
                 _levelController.ClearScene();
                 
+                _levelController.onSpawnEnemy -= OnSpawnEnemy;
                 _levelController.onSpawnedEnemy -= OnSpawnedEnemy;
                 _levelController.onEnemyAttack -= OnEnemyAttack;
 
@@ -106,10 +107,6 @@ namespace _Scripts.Board
             _equipmentController.UpdateData(inventoryData, equipmentSlots);
         }
 
-        public void UpdateData(int[] equippedIDs)
-        {
-            
-        }
         
         //Skill
         public void ChangeAutoSkill()
@@ -122,29 +119,39 @@ namespace _Scripts.Board
             _skillController.ActiveSkill(skillID);
         }
         
+        public void UpdateData(int[] equippedSkillIDs)
+        {
+            _skillController.UpdateData(equippedSkillIDs);
+        }
+
         //Mode
         public void SwitchToCampaignMode()
         {
             ClearBoard();
             onChangeGameMode?.Invoke(EGameMode.Campaign);
-            _levelController = new CampaignMode(_enemySpawnPosition, _enemyInBattlePosition);
-            _levelController.onSpawnedEnemy += OnSpawnedEnemy;
-            _levelController.onEnemyAttack += OnEnemyAttack;
+            CampaignMode campaignMode = new CampaignMode(_enemySpawnPosition, _enemyInBattlePosition);
+            campaignMode.onSpawnEnemy += OnSpawnEnemy;
+            campaignMode.onSpawnedEnemy += OnSpawnedEnemy;
+            campaignMode.onEnemyAttack += OnEnemyAttack;
 
-            CampaignMode campaignMode = _levelController as CampaignMode;
             campaignMode.onWaveComplete += OnWaveComplete;
             campaignMode.onSubStageComplete += OnSubStageComplete;
             campaignMode.onStageComplete += OnStageComplete;
             campaignMode.onMapComplete += OnMapComplete;
+
+            _levelController = campaignMode;
         }
         
         public void SwitchToIdleMode()
         {
             ClearBoard();
             onChangeGameMode?.Invoke(EGameMode.Idle);
-            _levelController = new IdleMode(_enemySpawnPosition, _enemyInBattlePosition);
-            _levelController.onSpawnedEnemy += OnSpawnedEnemy;
-            _levelController.onEnemyAttack += OnEnemyAttack;
+            IdleMode idleMode = new IdleMode(_enemySpawnPosition, _enemyInBattlePosition);
+            idleMode.onSpawnEnemy += OnSpawnEnemy;
+            idleMode.onSpawnedEnemy += OnSpawnedEnemy;
+            idleMode.onEnemyAttack += OnEnemyAttack;
+            
+            _levelController = idleMode;
         }
         
         public void StartGame()

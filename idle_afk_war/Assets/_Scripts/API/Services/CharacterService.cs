@@ -10,12 +10,12 @@ namespace _Scripts.API.Services
 
         public Character GetEquippedCharacter()
         {
-            return GetCharacter(_data.EquippedCharacter);
+            return GetCharacter(_data.EquippedCharacter).Clone();
         }
         
         public CharacterCollection GetCharacterCollection()
         {
-            return _data.CharacterCollection;
+            return _data.CharacterCollection.Clone();
         }
 
         public Character GetCharacter(int characterID)
@@ -25,7 +25,7 @@ namespace _Scripts.API.Services
             {
                 if (characters[i].ID == characterID)
                 {
-                    return characters[i];
+                    return characters[i].Clone();
                 }
             }
             
@@ -34,7 +34,7 @@ namespace _Scripts.API.Services
 
         public StatLevel GetStatLevel()
         {
-            return _data.StatLevel;
+            return _data.StatLevel.Clone();
         }
 
         public bool EquippedCharacter(int characterID)

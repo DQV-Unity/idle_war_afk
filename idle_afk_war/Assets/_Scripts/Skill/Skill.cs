@@ -30,6 +30,7 @@ namespace _Scripts.Skill
 
         public bool IsReady => _reloadTimer <= 0;
         public int ID => _id;
+        public GameObject GameObject => gameObject;
         public ESkillState State => _state;
 
         #endregion

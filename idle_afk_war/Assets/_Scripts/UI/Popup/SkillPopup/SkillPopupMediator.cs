@@ -19,11 +19,11 @@ namespace _Scripts.UI.Popup.SkillPopup
         
         public override UniTask Initialize()
         {
-            LoadData();
+            RefreshData();
             return base.Initialize();
         }
 
-        public void LoadData()
+        public void RefreshData()
         {
             _isEquipped = false;
             _skill = APIManager.Instance.GetSkill(Args.skillID);
@@ -38,9 +38,33 @@ namespace _Scripts.UI.Popup.SkillPopup
             }
         }
 
+        public bool EquipSkill(int slotPosition, int skillID)
+        {
+            if (APIManager.Instance.EquipSkill(slotPosition, skillID))
+            {
+                RefreshData();
+                return true;
+            }
+
+            return false;
+        }
+
         public bool UnEquipSkill()
         {
             return APIManager.Instance.UnEquipSkill(_skill.ID);
+        }
+
+        public int GetEmptySkillSlot()
+        {
+            int[] equippedSkills = APIManager.Instance.GetEquippedSkills();
+            for (var i = 0; i < equippedSkills.Length; i++)
+            {
+                if (equippedSkills[i] == -1)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
     }
     
@@ -77,7 +101,13 @@ namespace _Scripts.UI.Popup.SkillPopup
 
         private void OnClickEquipButton()
         {
-            
+            if (!_logic.EquipSkill(_logic.GetEmptySkillSlot(), Args.skillID))
+            {
+                return;
+            }
+
+            _ui.ShowSkill(_logic.Skill, true);
+            MessageDispatcher.SendMessage(MessageDispatcher.EEvent.SkillChanged);
         }
 
         private void OnClickUnEquipButton()

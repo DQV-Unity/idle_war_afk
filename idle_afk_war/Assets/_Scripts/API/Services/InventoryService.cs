@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using _Scripts.Definition;
+using qtLib.Extension;
 
 namespace _Scripts.API.Services
 {
@@ -112,7 +113,7 @@ namespace _Scripts.API.Services
             {
                 if (equipments[i].equipmentType == equipmentType)
                 {
-                    return equipments[i];
+                    return equipments[i].Clone();
                 }
             }
             
@@ -125,14 +126,14 @@ namespace _Scripts.API.Services
             int equippedEquipment = GetEquipmentSlot(equipmentType).equippedEquipment;
             if (equippedEquipment <= 0)
             {
-                return default;
+                return null;
             }
             
             for (var i = 0; i < equipmentCatalogue.owned.Count; i++)
             {
                 if (equipmentCatalogue.owned[i].ID == equippedEquipment)
                 {
-                    return equipmentCatalogue.owned[i];
+                    return equipmentCatalogue.owned[i].Clone();
                 }
             }
             
@@ -146,7 +147,7 @@ namespace _Scripts.API.Services
             {
                 if (equipmentCatalogue.owned[i].ID == equipmentID)
                 {
-                    return equipmentCatalogue.owned[i];
+                    return equipmentCatalogue.owned[i].Clone();
                 }
             }
             
@@ -155,12 +156,12 @@ namespace _Scripts.API.Services
         
         public EquipmentCatalogue[] GetEquipmentCatalogues()
         {
-            return _data.Equipments;
+            return qtGameExtension.Clone(_data.Equipments);
         }
 
         public EquipmentSlot[] GetEquipmentSlot()
         {
-            return  _data.EquipmentSlots;
+            return  qtGameExtension.Clone(_data.EquipmentSlots);
         }
 
         public EquipmentSlot GetEquipmentSlot(EEquipmentType equipmentType)
@@ -170,7 +171,7 @@ namespace _Scripts.API.Services
             {
                 if (equipmentSlots[i].equipmentType == equipmentType)
                 {
-                    return equipmentSlots[i];
+                    return equipmentSlots[i].Clone();
                 }
             }
             

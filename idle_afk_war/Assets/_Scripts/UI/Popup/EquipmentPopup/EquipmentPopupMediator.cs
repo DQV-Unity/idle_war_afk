@@ -23,7 +23,7 @@ namespace _Scripts.UI.Popup.EquipmentPopup
 		{
 			get
 			{
-				if (_equippedEquipment.ID <= 0)
+				if (_equippedEquipment == null)
 				{
 					return -1;
 				}
@@ -75,7 +75,7 @@ namespace _Scripts.UI.Popup.EquipmentPopup
 		
 		public bool IsEquipped(int equipmentID)
 		{
-			if (_equippedEquipment.ID <= 0)
+			if (_equippedEquipment == null)
 			{
 				return false;
 			}
@@ -86,7 +86,7 @@ namespace _Scripts.UI.Popup.EquipmentPopup
 		{
 			_equipmentCatalogue = APIManager.Instance.GetEquipmentCatalogue(Args.equipmentType);
 			_selectedEquipment = _equippedEquipment = APIManager.Instance.GetEquippedEquipment(Args.equipmentType);
-			if (_selectedEquipment.ID <= 0)
+			if (_selectedEquipment == null)
 			{
 				_selectedEquipment = _equipmentCatalogue.owned[0];
 			}

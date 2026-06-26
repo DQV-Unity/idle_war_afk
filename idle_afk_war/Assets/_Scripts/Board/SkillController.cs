@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using _Scripts.Data.Asset;
 using _Scripts.Data.Config;
@@ -55,7 +56,7 @@ namespace _Scripts.Board
             _equippedSkills = equippedSkills;
             _statProvider = statProvider;
         }
-
+        
         public void MapData()
         {
             for (var i = 0; i < _equippedSkills.Length; i++)
@@ -65,16 +66,50 @@ namespace _Scripts.Board
                     continue;
                 }
 
-                SkillConfig skillConfig = GameConfig.Instance.GetSkillConfig(_equippedSkills[i]);
-                ISkill newSkill = Instantiate(GameAsset.Instance.GetSkillAsset(_equippedSkills[i]).Prefab).GetComponent<ISkill>();
-                newSkill.SetUp(skillConfig.ToStat(), _statProvider);
-                newSkill.onReload += OnSkillReload;
-                newSkill.onActive += OnSkillActive;
-                _skills[i] = newSkill;
+                _skills[i] = CreateSkill(_equippedSkills[i]);
+            }
+        }
+
+        public void UpdateData(int[] equippedSkills)
+        {
+            _equippedSkills = equippedSkills;
+            
+            Dictionary<int, ISkill> currentSkills = new Dictionary<int, ISkill>();
+            for (var i = 0; i < _skills.Length; i++)
+            {
+                if (_skills[i] == null)
+                {
+                    continue;
+                }
+                
+                currentSkills.Add(_skills[i].ID, _skills[i]);
+                _skills[i] = null;
+            }
+            
+            for (var i = 0; i < _equippedSkills.Length; i++)
+            {
+                if (_equippedSkills[i] <= 0)
+                {
+                    continue;
+                }
+
+                if (currentSkills.TryGetValue(_equippedSkills[i], out ISkill skill))
+                {
+                    _skills[i] = skill;
+                    currentSkills.Remove(_equippedSkills[i]);
+                    continue;
+                }
+                
+                _skills[i] = CreateSkill(_equippedSkills[i]);
+            }
+            
+            foreach (ISkill currentSkillsValue in currentSkills.Values)
+            {
+                RemoveSkill(currentSkillsValue);
             }
         }
         
-        public void OnSpawnedEnemy()
+        public void OnSpawnEnemy()
         {
             for (var i = 0; i < _skills.Length; i++)
             {
@@ -146,7 +181,30 @@ namespace _Scripts.Board
         #endregion
 
         #region ----- Private Functions -----
+        
+        private ISkill CreateSkill(int skillId)
+        {
+            SkillConfig skillConfig =
+                GameConfig.Instance.GetSkillConfig(skillId);
 
+            ISkill newSkill = Instantiate(
+                    GameAsset.Instance.GetSkillAsset(skillId).Prefab)
+                .GetComponent<ISkill>();
+
+            newSkill.SetUp(skillConfig.ToStat(), _statProvider);
+            newSkill.onReload += OnSkillReload;
+            newSkill.onActive += OnSkillActive;
+
+            return newSkill;
+        }
+
+        private void RemoveSkill(ISkill skill)
+        {
+            skill.onReload -= OnSkillReload;
+            skill.onActive -= OnSkillActive;
+            
+            DestroyImmediate(skill.GameObject);
+        }
         private void OnSkillReload(int skillID, float value)
         {
             onReload?.Invoke(skillID, value);

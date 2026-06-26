@@ -7,6 +7,7 @@ namespace _Scripts.Board
     public interface ILevelController : IEnemyProvider
     {
         public event Action onSpawnedEnemy;
+        public event Action onSpawnEnemy;
         public event Action<AttackSnapshot, IUnit> onEnemyAttack; 
 
         public EGameMode GameMode { get; }

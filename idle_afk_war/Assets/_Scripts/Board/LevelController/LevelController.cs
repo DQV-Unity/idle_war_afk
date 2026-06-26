@@ -34,6 +34,7 @@ namespace _Scripts.Board
         #region ----- Events -----
 
         public event Action onSpawnedEnemy;
+        public event Action onSpawnEnemy;
         public event Action<AttackSnapshot, IUnit> onEnemyAttack; 
 
         #endregion
@@ -138,6 +139,9 @@ namespace _Scripts.Board
                 _enemies.Add(enemy);
                 moveTask.Add(enemy.Appear(_inBattlePosition.position - _spawnPosition.position));
             }
+            
+            onSpawnEnemy?.Invoke();
+            
             await UniTask.WhenAll(moveTask);
             
             onSpawnedEnemy?.Invoke();

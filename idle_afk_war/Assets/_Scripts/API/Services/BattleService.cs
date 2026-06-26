@@ -9,7 +9,7 @@ namespace _Scripts.API.Services
 
         public CampaignData GetCampaignData()
         {
-            return _data.CampaignData;
+            return _data.CampaignData.Clone();
         }
 
         public EGameMode GetCurrentGameMode()
@@ -34,7 +34,7 @@ namespace _Scripts.API.Services
                 campaignData.subStageID = nextSubStageConfig.ID;
                 SaveData();
             }
-            return campaignData;
+            return campaignData.Clone();
         }
 
         private CampaignData CompleteStage()
@@ -56,7 +56,7 @@ namespace _Scripts.API.Services
                 SaveData();
             }
             
-            return campaignData;
+            return campaignData.Clone();
         }
 
         private CampaignData CompleteMapData()
@@ -66,7 +66,7 @@ namespace _Scripts.API.Services
             campaignData.stageID = 1;
             campaignData.subStageID = 1;
             SaveData();
-            return campaignData;
+            return campaignData.Clone();
         }
     }
 }

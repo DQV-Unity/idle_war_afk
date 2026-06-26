@@ -36,7 +36,6 @@ namespace _Scripts.Unit.Module.Attack
 
         protected override void OnTriggerAttack()
         {
-            //todo: trigger ngay sau khi all enemy chết...
             if (_target == null)
             {
                 return;

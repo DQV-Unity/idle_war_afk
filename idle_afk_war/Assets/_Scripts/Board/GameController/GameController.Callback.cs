@@ -25,10 +25,14 @@ namespace _Scripts.Board
         }
         
         //Enemy
+        private void OnSpawnEnemy()
+        {
+            _skillController.OnSpawnEnemy();
+        } 
+            
         private void OnSpawnedEnemy()
         {
             _characterController.OnSpawnedEnemy();
-            _skillController.OnSpawnedEnemy();
         }
 
         private void OnEnemyAttack(AttackSnapshot dataSnapShot, IUnit target)

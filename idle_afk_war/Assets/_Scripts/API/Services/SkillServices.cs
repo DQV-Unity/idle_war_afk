@@ -10,7 +10,7 @@ namespace _Scripts.API.Services
 
         public SkillCollection GetSkillCollection()
         {
-            return _data.SkillCollection;
+            return _data.SkillCollection.Clone();
         }
         
         public int[] GetEquippedSkills()
@@ -25,7 +25,7 @@ namespace _Scripts.API.Services
             {
                 if (skills[i].ID == skillID)
                 {
-                    return skills[i];            
+                    return skills[i].Clone();            
                 }
             }
             
@@ -40,6 +40,7 @@ namespace _Scripts.API.Services
                 if (skills[i].ID == skillID)
                 {
                     _data.EquippedSkills[slotPosition] = skillID;
+                    SaveData();
                     return true;            
                 }
             }

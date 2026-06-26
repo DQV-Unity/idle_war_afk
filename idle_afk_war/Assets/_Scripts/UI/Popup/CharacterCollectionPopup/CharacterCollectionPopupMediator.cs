@@ -90,7 +90,6 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 	    private void OnSelectCharacter(int characterID)
 	    {
 		    _logic.SelectCharacter(characterID);
-		    //Todo: update scroll view
 		    ShowCollection();
 	    }
 
@@ -121,7 +120,6 @@ namespace _Scripts.UI.Popup.CharacterCollectionPopup
 			    return;
 		    }
 		    
-		    //Todo: send message
 		    _ui.ShowCharacter(_logic.SelectedCharacter, true);
 		    MessageDispatcher.SendMessage(MessageDispatcher.EEvent.CharacterChanged);
 	    }

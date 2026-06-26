@@ -28,6 +28,18 @@ namespace _Scripts.API.Services
             _skillCollection = new SkillCollection()
             {
                 skills = new()
+                {
+                    new Definition.Skill()
+                    {
+                        ID = 1,
+                        level = 1,
+                    },
+                    new Definition.Skill()
+                    {
+                        ID = 2,
+                        level = 1,
+                    }
+                }
             };
             _equippedSkills = new int[]
             {

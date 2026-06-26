@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using qtLib.Extension;
 using qtLib.Helper;
 using Unity.VisualScripting;
 
@@ -128,7 +129,7 @@ namespace _Scripts.Definition
         {
             return new SkillCollection()
             {
-                skills = skills.Clone()
+                skills = skills.Clone(),
             };
         }
     }
