@@ -1,54 +1,28 @@
-using System.Collections.Generic;
-using _Scripts.Definition;
+﻿using _Scripts.Definition;
 using qtLib.Extension;
 
 namespace _Scripts.API
 {
     public partial class APIManager
     {
-        public EquipmentCatalogue GetEquipmentCatalogue(EEquipmentType equipmentType)
+        public ItemData GetItemData(EItemType itemType, int itemID)
         {
-            return _equipmentService.GetEquipmentCatalogue(equipmentType).Clone();
-        }
-
-        public Definition.Equipment GetEquippedEquipment(EEquipmentType equipmentType)
-        {
-            return _equipmentService.GetEquippedEquipment(equipmentType).Clone();
-        }
-
-        public Definition.Equipment GetEquipment(EEquipmentType equipmentType, int equipmentID)
-        {
-            return _equipmentService.GetEquipment(equipmentType, equipmentID).Clone();
-        }
-
-        public EquipmentCatalogue[] GetEquipmentCatalogues()
-        {
-            return qtGameExtension.Clone(_equipmentService.GetEquipmentCatalogues());
+            return qtGameExtension.Clone(_inventoryService.GetItemData(itemType, itemID));
         }
         
-        public EquipmentSlot[] GetEquipmentSlot()
+        public ItemInventory GetItemInventory(EItemType itemType)
         {
-            return qtGameExtension.Clone(_equipmentService.GetEquipmentSlot());
-        }
-        
-        public void UnlockEquipment(EEquipmentType equipmentType, int equipmentID)
-        {
-            _equipmentService.UnlockEquipment(equipmentType, equipmentID);
+            return qtGameExtension.Clone(_inventoryService.GetItemInventory(itemType));
         }
 
-        public bool EquipEquipment(EEquipmentType equipmentType, int equipmentID)
+        public void ClaimItem(EItemType itemType, int itemID, int amount)
         {
-            return _equipmentService.EquipEquipment(equipmentType, equipmentID);
-        }
-        
-        public bool UnEquipEquipment(EEquipmentType equipmentType)
-        {
-            return _equipmentService.UnEquipEquipment(equipmentType);
+            _inventoryService.ClaimItem(itemType, itemID, amount);
         }
 
-        public void UpgradeEquipment(EEquipmentType equipmentType, params int[] equipmentIDs)
+        public bool ConsumeItem(EItemType itemType, int itemID, int amount)
         {
-            _equipmentService.UpgradeEquipment(equipmentType, equipmentIDs);
+            return _inventoryService.ConsumeItem(itemType, itemID, amount);
         }
     }
 }

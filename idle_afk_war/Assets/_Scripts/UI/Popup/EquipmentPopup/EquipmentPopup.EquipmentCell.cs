@@ -1,6 +1,7 @@
 ﻿using System;
 using _Scripts.Data.Asset;
 using _Scripts.Data.Config;
+using _Scripts.Definition;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,6 +18,7 @@ namespace _Scripts.UI.Popup.EquipmentPopup
         [SerializeField] private Image _imgEquipment;
         [SerializeField] private Image _imgRarity;
         [SerializeField] private TextMeshProUGUI _txtLevel;
+        [SerializeField] private Slider _sldLevelProgress;
         [SerializeField] private TextMeshProUGUI _txtLevelProgress;
         [SerializeField] private GameObject _goEquipped;
 
@@ -40,7 +42,13 @@ namespace _Scripts.UI.Popup.EquipmentPopup
 
         #region ----- Public Functions -----
         
-        public void ShowEquipment(Definition.Equipment equipment, int selectedEquipment, int equippedEquipment, Action<int> selectEquipment)
+        public void ShowEquipment(
+            Definition.Equipment equipment, 
+            int selectedEquipment,
+            int equippedEquipment, 
+            Action<int> selectEquipment,
+            Func<int, ItemData> getItemData, 
+            Func<int, LevelConfig> getLevelConfig)
         {
             _equipmentID = equipment.ID;
             _onSelectEquipment = selectEquipment;
@@ -51,9 +59,15 @@ namespace _Scripts.UI.Popup.EquipmentPopup
             EquipmentConfig equipmentConfig = GameConfig.Instance.GetEquipmentConfig(equipment.equipmentType, equipment.ID);
             EquipmentAsset equipmentAsset = GameAsset.Instance.GetEquipmentAsset(equipment.equipmentType, equipment.ID);
             RarityAsset rarityAsset = GameAsset.Instance.GetRarityAsset(equipmentConfig.Rarity);
+            ItemData itemData = getItemData(equipment.ID);
+            LevelConfig levelConfig = getLevelConfig(equipment.level);
+            
             _imgEquipment.sprite = equipmentAsset.SprIcon;
             _imgRarity.sprite = rarityAsset.SprItemBackground;
             _txtLevel.SetText($"Lv {equipment.level.ToString()}");
+            _txtLevelProgress.SetText($"{itemData.amount}/{levelConfig.CardRequire}");
+            _sldLevelProgress.maxValue = levelConfig.CardRequire;
+            _sldLevelProgress.value = itemData.amount;
         }
 
         public void ShowEmpty()

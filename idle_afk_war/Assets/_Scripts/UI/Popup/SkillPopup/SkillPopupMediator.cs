@@ -1,4 +1,5 @@
 ﻿using _Scripts.API;
+using _Scripts.Data.Config;
 using _Scripts.Definition;
 using Cysharp.Threading.Tasks;
 using qtLib.Helper;
@@ -24,19 +25,14 @@ namespace _Scripts.UI.Popup.SkillPopup
             return base.Initialize();
         }
 
-        public void RefreshData()
+        public ItemData GetItemData(int itemID)
         {
-            _isEquipped = false;
-            _skill = APIManager.Instance.GetSkill(Args.skillID);
-            
-            SkillSlot[] skillSlots = APIManager.Instance.GetSkillSlots();
-            for (var i = 0; i < skillSlots.Length; i++)
-            {
-                if (skillSlots[i].equippedSkill == _skill.ID)
-                {
-                    _isEquipped = true;
-                }
-            }
+            return APIManager.Instance.GetItemData(EItemType.Skill, itemID);
+        }
+
+        public LevelConfig GetLevelConfig(int level)
+        {
+            return GameConfig.Instance.GetSkillLevelConfig(level);
         }
 
         public bool EquipSkill(int slotPosition, int skillID)
@@ -67,6 +63,21 @@ namespace _Scripts.UI.Popup.SkillPopup
             }
             return -1;
         }
+        
+        public void RefreshData()
+                {
+                    _isEquipped = false;
+                    _skill = APIManager.Instance.GetSkill(Args.skillID);
+                    
+                    SkillSlot[] skillSlots = APIManager.Instance.GetSkillSlots();
+                    for (var i = 0; i < skillSlots.Length; i++)
+                    {
+                        if (skillSlots[i].equippedSkill == _skill.ID)
+                        {
+                            _isEquipped = true;
+                        }
+                    }
+                }
     }
     
     public class SkillPopupMediator : qtRequestMediator<SkillPopup, SkillPopupLogic, SkillPopupParamInput>
@@ -85,7 +96,7 @@ namespace _Scripts.UI.Popup.SkillPopup
             
             _beforeUIShow = (ui, logic, mediator) =>
             {
-                ui.ShowSkill(logic.Skill, logic.IsEquipped);
+                ui.ShowSkill(logic.Skill, logic.IsEquipped, logic.GetItemData, logic.GetLevelConfig);
                 return UniTask.CompletedTask;
             };
         }
@@ -107,7 +118,7 @@ namespace _Scripts.UI.Popup.SkillPopup
                 return;
             }
 
-            _ui.ShowSkill(_logic.Skill, true);
+            _ui.ShowSkill(_logic.Skill, true, _logic.GetItemData, _logic.GetLevelConfig);
             MessageDispatcher.SendMessage(MessageDispatcher.EEvent.SkillChanged);
         }
 

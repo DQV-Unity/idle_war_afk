@@ -1,4 +1,5 @@
 using _Scripts.Definition;
+using qtLib.Extension;
 
 namespace _Scripts.API
 {
@@ -6,22 +7,22 @@ namespace _Scripts.API
     {
         public Character GetEquippedCharacter()
         {
-            return _characterService.GetEquippedCharacter().Clone();
+            return qtGameExtension.Clone(_characterService.GetEquippedCharacter());
         }
         
         public CharacterCollection GetCharacterCollection()
         {
-            return _characterService.GetCharacterCollection().Clone();
+            return qtGameExtension.Clone(_characterService.GetCharacterCollection());
         }
 
         public Character GetCharacter(int characterID)
         {
-            return _characterService.GetCharacter(characterID).Clone();
+            return qtGameExtension.Clone(_characterService.GetCharacter(characterID));
         }
 
         public StatLevel GetStatLevel()
         {
-            return _characterService.GetStatLevel();
+            return qtGameExtension.Clone(_characterService.GetStatLevel());
         }
 
         public bool EquippedCharacter(int characterID)

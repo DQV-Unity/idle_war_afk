@@ -21,6 +21,11 @@ namespace _Scripts.Data.Config
             return _characterConfigs.GetCharacterConfig(characterID);
         }
 
+        public LevelConfig GetCharacterLevelConfig(int level)
+        {
+            return _characterConfigs.GetLevelConfig(level);
+        }
+
         public EnemyConfig GetEnemyConfig(int enemyID)
         {
             return _enemyConfigs.GetEnemyConfig(enemyID);
@@ -46,9 +51,19 @@ namespace _Scripts.Data.Config
             return _skillConfigs.GetSkillConfig(skillID);
         }
 
+        public LevelConfig GetSkillLevelConfig(int level)
+        {
+            return _skillConfigs.GetLevelConfig(level);
+        }
+
         public EquipmentConfig GetEquipmentConfig(EEquipmentType equipmentType, int equipmentID)
         {
             return _equipmentConfigs.GetEquipmentConfig(equipmentType, equipmentID);
+        }
+       
+        public LevelConfig GetEquipmentLevelConfig(int level)
+        {
+            return _equipmentConfigs.GetLevelConfig(level);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using _Scripts.Data.Asset;
 using _Scripts.Data.Config;
+using _Scripts.Definition;
 using qtLib.UI.Base;
 using TMPro;
 using UnityEngine;
@@ -56,13 +57,23 @@ namespace _Scripts.UI.Popup.EquipmentPopup
 
         #region ----- Public Functions -----
 
-        public void ShowCollection(EquipmentCatalogue equipmentCatalogue, int selectedEquipment, int equippedEquipment,
-            Action<int> onSelectEquipment, bool firstTime = false)
+        public void ShowCollection(
+            EquipmentCatalogue equipmentCatalogue, 
+            int selectedEquipment, 
+            int equippedEquipment,
+            Action<int> onSelectEquipment, 
+            Func<int, ItemData> getItemData,
+            Func<int, LevelConfig> getLevelConfig, 
+            bool firstTime = false)
         {
-            equipmentScrollView.ShowCollection(equipmentCatalogue.owned, onSelectEquipment, selectedEquipment, equippedEquipment, firstTime);
+            equipmentScrollView.ShowCollection(equipmentCatalogue.owned, onSelectEquipment, selectedEquipment, equippedEquipment, getItemData, getLevelConfig, firstTime);
         }
 
-        public void ShowEquipment(Definition.Equipment equipment, bool isEquipped)
+        public void ShowEquipment(
+            Definition.Equipment equipment,
+            bool isEquipped, 
+            Func<int, ItemData> getItemData,
+            Func<int, LevelConfig> getLevelConfig)
         {
             _btnEquip.gameObject.SetActive(!isEquipped);
             _btnUnEquip.gameObject.SetActive(isEquipped);
@@ -71,6 +82,9 @@ namespace _Scripts.UI.Popup.EquipmentPopup
             EquipmentAsset equipmentAsset = GameAsset.Instance.GetEquipmentAsset(equipmentConfig.EquipmentType, equipment.ID);
             EquipmentCatalogueAsset equipmentCatalogueAsset = GameAsset.Instance.GetEquipmentCatalogueAsset(equipmentConfig.EquipmentType);
             RarityAsset rarityAsset = GameAsset.Instance.GetRarityAsset(equipmentConfig.Rarity);
+            ItemData itemData = getItemData(equipment.ID);
+            LevelConfig levelConfig = getLevelConfig(equipment.level);
+            
             _imgEquipment.sprite = equipmentAsset.SprIcon;
             _txtEquipmentName.SetText(equipmentAsset.Name);
             _imgEquipmentType.sprite = equipmentCatalogueAsset.SprIcon;
@@ -79,13 +93,15 @@ namespace _Scripts.UI.Popup.EquipmentPopup
             _txtEquipmentLevel.SetText($"Level {equipment.level}");
             _txtOwnedEffect.SetText($"{equipmentConfig.OwnedBonus.bonusStat} {equipmentConfig.OwnedBonus.value}%");
             _txtEquippedEffect.SetText($"{equipmentConfig.EquippedBonus.bonusStat} {equipmentConfig.EquippedBonus.value}%");
-            // _txtCharacterLevelProgress
-                // _sldCharacterLevel.
+            _txtEquipmentLevel.SetText($"Level {equipment.level}");
+            _txtEquipmentLevelProgress.SetText($"{itemData.amount}/{levelConfig.CardRequire}");
+            _sldEquipmentLevel.maxValue = levelConfig.CardRequire;
+            _sldEquipmentLevel.value = itemData.amount;
         }
         
         public void ShowOwnedAttackEffect(int value)
         {
-            _txtOwnedEffect.SetText($"Owned Effect: <color=yellow>ATK +{value}%</color>");   
+            _txtTotalEffect.SetText($"Owned Effect: <color=yellow>ATK +{value}%</color>");   
         }
         
         #endregion

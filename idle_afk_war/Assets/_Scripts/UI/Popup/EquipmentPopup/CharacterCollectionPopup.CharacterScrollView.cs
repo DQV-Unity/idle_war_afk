@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using _Scripts.Data.Config;
+using _Scripts.Definition;
 using EnhancedUI.EnhancedScroller;
 using UnityEngine;
 
@@ -21,6 +23,9 @@ namespace _Scripts.UI.Popup.EquipmentPopup
         private int _selectedEquipment;
         private int _equippedEquipment;
         
+        private Func<int, ItemData> _getItemData;
+        private Func<int, LevelConfig> _getLevelConfig;
+        
         #endregion
         
         private void Awake()
@@ -28,12 +33,21 @@ namespace _Scripts.UI.Popup.EquipmentPopup
             _scroller.Delegate = this;
         }
 
-        public void ShowCollection(List<Definition.Equipment> equipments, Action<int> onSelectEquipment, int selectedEquipment, int equippedEquipment, bool firstTime)
+        public void ShowCollection(
+            List<Definition.Equipment> equipments,
+            Action<int> onSelectEquipment, 
+            int selectedEquipment,
+            int equippedEquipment, 
+            Func<int, ItemData> getItemData, 
+            Func<int, LevelConfig> getLevelConfig, 
+            bool firstTime)
         {
             _equipments = equipments;
             _onSelectEquipment = onSelectEquipment;
             _selectedEquipment = selectedEquipment;
             _equippedEquipment = equippedEquipment;
+            _getItemData = getItemData;
+            _getLevelConfig = getLevelConfig;
             
             float currentPosition = 0;
             if (!firstTime)
@@ -56,7 +70,7 @@ namespace _Scripts.UI.Popup.EquipmentPopup
         public EnhancedScrollerCellView GetCellView(EnhancedScroller scroller, int dataIndex, int cellIndex)
         {
             EquipmentRow equipmentRow = _scroller.GetCellView(equipmentRowPrefab) as EquipmentRow;
-            equipmentRow.ShowEquipments(ref _equipments, dataIndex, _selectedEquipment, _equippedEquipment, _onSelectEquipment);
+            equipmentRow.ShowEquipments(ref _equipments, dataIndex, _selectedEquipment, _equippedEquipment, _onSelectEquipment, _getItemData, _getLevelConfig);
             return equipmentRow;
         }
     }

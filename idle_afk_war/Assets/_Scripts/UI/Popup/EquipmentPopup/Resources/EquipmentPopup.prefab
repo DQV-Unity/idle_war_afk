@@ -1226,6 +1226,7 @@ MonoBehaviour:
   _btnUnEquip: {fileID: 4285681003157148453}
   _btnFuse: {fileID: 5238005928578976591}
   equipmentScrollView: {fileID: 7925880873369417003}
+  _txtTotalEffect: {fileID: 3323654328960390876}
   _btnSummonEquipment: {fileID: 262220274815391315}
   _btnFuseAll: {fileID: 6707908394927375934}
   _btnClose: {fileID: 977922582777543701}

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using _Scripts.Data.Config;
 using _Scripts.Definition;
 using qtLib.UI.Base;
 using UnityEngine;
@@ -57,9 +58,11 @@ namespace _Scripts.UI.Popup.CharacterPopup
         #region ----- Public Functions -----
 
         //Character
-        public void ShowCharacterDetails(Character equippedCharacter)
+        public void ShowCharacterDetails(Character equippedCharacter, 
+            Func<EItemType, int, ItemData> getItemData, 
+            Func<EItemType, int, LevelConfig> getLevelConfig)
         {
-            _pnlCharacter.ShowCharacterDetail(equippedCharacter);
+            _pnlCharacter.ShowCharacterDetail(equippedCharacter, getItemData, getLevelConfig);
         }
 
         public void ShowEquipment(EquipmentSlot[] equipmentSlots, Action<EEquipmentType> selectEquipmentSlot, Func<EEquipmentType, int, Definition.Equipment> getEquipmentData)
@@ -68,14 +71,14 @@ namespace _Scripts.UI.Popup.CharacterPopup
         }
         
         //Skill
-        public void ShowEquippedSkills(SkillSlot[] skillSlots, Func<int, Definition.Skill> getSkill, Action<int> selectSkill)
+        public void ShowEquippedSkills(SkillSlot[] skillSlots, Func<int, Definition.Skill> getSkill, Action<int> selectSkill, Func<EItemType, int, ItemData> getItemData, Func<EItemType, int, LevelConfig> getLevelConfig)
         {
-            _pnlSkill.ShowSkillSlots(skillSlots, getSkill, selectSkill);
+            _pnlSkill.ShowSkillSlots(skillSlots, getSkill, selectSkill, getItemData, getLevelConfig);
         }
 
-        public void ShowSkillCollection(List<Definition.Skill> skills, Func<int, bool> isEquip, Action<int> selectSkill)
+        public void ShowSkillCollection(List<Definition.Skill> skills, Func<int, bool> isEquip, Action<int> selectSkill, Func<EItemType, int, ItemData> getItemData, Func<EItemType, int, LevelConfig> getLevelConfig)
         {
-            _pnlSkill.ShowSkillCollection(skills, isEquip, selectSkill);
+            _pnlSkill.ShowSkillCollection(skills, isEquip, selectSkill, getItemData, getLevelConfig);
         }
 
         public void ShowOwnedAttackEffect(int value)

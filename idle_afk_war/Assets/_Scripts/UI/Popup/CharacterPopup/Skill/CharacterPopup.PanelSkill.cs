@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using _Scripts.Data.Config;
 using _Scripts.Definition;
 using TMPro;
 using UnityEngine;
@@ -32,14 +33,14 @@ namespace _Scripts.UI.Popup.CharacterPopup
 
         #region ----- Public Functions -----
 
-        public void ShowSkillSlots(SkillSlot[] skillSlots, Func<int, Definition.Skill> getSkill, Action<int> selectSkill)
+        public void ShowSkillSlots(SkillSlot[] skillSlots, Func<int, Definition.Skill> getSkill, Action<int> selectSkill, Func<EItemType, int, ItemData> getItemData, Func<EItemType, int, LevelConfig> getLevelConfig)
         {
             _equippedSkills.ShowSkillSlots(skillSlots, getSkill, selectSkill);
         }
 
-        public void ShowSkillCollection(List<Definition.Skill> skills, Func<int, bool> isEquip, Action<int> selectSkill)
+        public void ShowSkillCollection(List<Definition.Skill> skills, Func<int, bool> isEquip, Action<int> selectSkill, Func<EItemType, int, ItemData> getItemData, Func<EItemType, int, LevelConfig> getLevelConfig)
         {
-            _skillScrollView.ShowCollection(skills, isEquip, selectSkill);
+            _skillScrollView.ShowCollection(skills, isEquip, selectSkill, getItemData, getLevelConfig);
         }
 
         public void ShowOwnedAttackEffect(int value)

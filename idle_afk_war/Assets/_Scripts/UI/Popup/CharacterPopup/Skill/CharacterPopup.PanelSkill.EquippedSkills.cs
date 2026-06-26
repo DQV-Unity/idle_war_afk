@@ -1,4 +1,5 @@
 ﻿using System;
+using _Scripts.Data.Config;
 using _Scripts.Definition;
 using UnityEngine;
 
@@ -15,7 +16,10 @@ namespace _Scripts.UI.Popup.CharacterPopup
 
         #region ----- Public Functions -----
 
-        public void ShowSkillSlots(SkillSlot[] skillSlots, Func<int, Definition.Skill> getSkill, Action<int> selectSkill)
+        public void ShowSkillSlots(
+            SkillSlot[] skillSlots, 
+            Func<int, Definition.Skill> getSkill, 
+            Action<int> selectSkill)
         {
             for (var i = 0; i < skillSlots.Length; i++)
             {

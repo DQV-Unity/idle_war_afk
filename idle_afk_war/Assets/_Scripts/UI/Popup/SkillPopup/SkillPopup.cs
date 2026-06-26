@@ -1,5 +1,7 @@
-﻿using _Scripts.Data.Asset;
+﻿using System;
+using _Scripts.Data.Asset;
 using _Scripts.Data.Config;
+using _Scripts.Definition;
 using qtLib.UI.Base;
 using TMPro;
 using UnityEngine;
@@ -18,6 +20,7 @@ namespace _Scripts.UI.Popup.SkillPopup
         [SerializeField] private TextMeshProUGUI _txtRarity;
         [SerializeField] private TextMeshProUGUI _txtLevel;
         [SerializeField] private TextMeshProUGUI _txtLevelProgress;
+        [SerializeField] private Slider _sldLevelProgress;
         [SerializeField] private TextMeshProUGUI _txtDescription;
         [SerializeField] private TextMeshProUGUI _txtCoolDown;
         [SerializeField] private TextMeshProUGUI _txtOwnedEffect;
@@ -40,11 +43,17 @@ namespace _Scripts.UI.Popup.SkillPopup
 
         #region ----- Public Functions -----
 
-        public void ShowSkill(Definition.Skill skill, bool isEquipped)
+        public void ShowSkill(
+            Definition.Skill skill, 
+            bool isEquipped, 
+            Func<int, ItemData> getItemData,
+            Func<int, LevelConfig> getLevelConfig)
         {
             SkillConfig skillConfig = GameConfig.Instance.GetSkillConfig(skill.ID);
             SkillAsset skillAsset = GameAsset.Instance.GetSkillAsset(skill.ID);
             RarityAsset rarityAsset = GameAsset.Instance.GetRarityAsset(skillConfig.Rarity);
+            ItemData itemData = getItemData(skill.ID);
+            LevelConfig levelConfig = getLevelConfig(skill.level);
             
             _imgRarity.sprite = rarityAsset.SprItemBackground;
             _imgSkillIcon.sprite = skillAsset.SprIcon;
@@ -53,6 +62,10 @@ namespace _Scripts.UI.Popup.SkillPopup
             _txtDescription.SetText(skillAsset.Description);
             _txtCoolDown.SetText($"{skillConfig.ReloadTime}s");
             _txtLevel.SetText($"Lv{skill.level}");
+            _txtLevelProgress.SetText($"{itemData.amount}/{levelConfig.CardRequire}");
+            _sldLevelProgress.maxValue = levelConfig.CardRequire;
+            _sldLevelProgress.value = itemData.amount;
+            
             _txtOwnedEffect.SetText($"{skillConfig.OwnedBonus.bonusStat} {skillConfig.OwnedBonus.value}%");
             
             _btnEquip.gameObject.SetActive(!isEquipped);

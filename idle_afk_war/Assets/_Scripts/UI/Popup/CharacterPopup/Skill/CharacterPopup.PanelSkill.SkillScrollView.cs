@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using _Scripts.Data.Config;
+using _Scripts.Definition;
 using EnhancedUI.EnhancedScroller;
 using UnityEngine;
 
@@ -20,6 +22,9 @@ namespace _Scripts.UI.Popup.CharacterPopup
         private Func<int, bool> _isEquip;
         private Action<int> _selectSkill;
         
+        private Func<EItemType, int, ItemData> _getItemData;
+        private Func<EItemType, int, LevelConfig> _getLevelConfig;
+        
         #endregion
 
         #region ----- Unity Events -----
@@ -33,11 +38,19 @@ namespace _Scripts.UI.Popup.CharacterPopup
         
         #region ----- Public Functions -----
 
-        public void ShowCollection(List<Definition.Skill> skills, Func<int, bool> isEquip, Action<int> selectSkill, bool firstTime = false)
+        public void ShowCollection(
+            List<Definition.Skill> skills, 
+            Func<int, bool> isEquip, 
+            Action<int> selectSkill, 
+            Func<EItemType, int, ItemData> getItemData, 
+            Func<EItemType, int, LevelConfig> getLevelConfig, 
+            bool firstTime = false)
         {
             _skills = skills;
             _isEquip = isEquip;
             _selectSkill = selectSkill;
+            _getItemData = getItemData;
+            _getLevelConfig = getLevelConfig;
             
             float currentPosition = 0;
             if (!firstTime)
@@ -62,7 +75,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
         public EnhancedScrollerCellView GetCellView(EnhancedScroller scroller, int dataIndex, int cellIndex)
         {
             SkillRow skillRow = _scroller.GetCellView(_skillRowPrefab) as SkillRow;
-            skillRow.ShowSkills(ref _skills, dataIndex, _isEquip, _selectSkill);
+            skillRow.ShowSkills(ref _skills, dataIndex, _isEquip, _selectSkill, _getItemData, _getLevelConfig);
             return skillRow;
         }
     }

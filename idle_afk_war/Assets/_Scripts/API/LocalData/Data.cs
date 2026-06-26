@@ -182,4 +182,36 @@ namespace _Scripts.Definition
             };
         }
     }
+
+    [Serializable]
+    public class ItemInventory : ICloneable<ItemInventory>
+    {
+        public EItemType itemType;
+        public List<ItemData> owned;
+        
+        public ItemInventory Clone()
+        {
+            return new ItemInventory()
+            {
+                itemType = itemType,
+                owned = owned.Clone()
+            };
+        }
+    }
+
+    [Serializable]
+    public class ItemData : ICloneable<ItemData>
+    {
+        public int ID;
+        public int amount;
+
+        public ItemData Clone()
+        {
+            return new ItemData()
+            {
+                ID = ID,
+                amount = amount
+            };
+        }
+    }
 }

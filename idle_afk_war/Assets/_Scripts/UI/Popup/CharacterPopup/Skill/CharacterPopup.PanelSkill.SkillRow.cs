@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using _Scripts.Data.Config;
+using _Scripts.Definition;
 using EnhancedUI.EnhancedScroller;
 using UnityEngine;
 
@@ -17,7 +19,13 @@ namespace _Scripts.UI.Popup.CharacterPopup
 
         #region ----- Public Functions -----
 
-        public void ShowSkills(ref List<Definition.Skill> skills, int dataIndex, Func<int, bool> isEquip, Action<int> selectSkill)
+        public void ShowSkills(
+            ref List<Definition.Skill> skills, 
+            int dataIndex, 
+            Func<int, bool> isEquip, 
+            Action<int> selectSkill, 
+            Func<EItemType, int, ItemData> getItemData, 
+            Func<EItemType, int, LevelConfig> getLevelConfig)
         {
             for (var i = 0; i < _skillCells.Length; i++)
             {
@@ -27,7 +35,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
                     continue;
                 }
 
-                _skillCells[i].ShowSkill(skills[i + dataIndex * CellPerRow], isEquip, selectSkill);
+                _skillCells[i].ShowSkill(skills[i + dataIndex * CellPerRow], isEquip, selectSkill, getItemData, getLevelConfig);
             }
         }
 

@@ -1,3 +1,4 @@
+using System;
 using _Scripts.API;
 using _Scripts.Data.Config;
 using _Scripts.Definition;
@@ -7,8 +8,6 @@ using _Scripts.UI.Popup.SkillPopup;
 using Cysharp.Threading.Tasks;
 using qtLib.Helper;
 using qtLib.UI.Base;
-using UnityEngine;
-using static _Scripts.Data.Config.GameConfig;
 
 namespace _Scripts.UI.Popup.CharacterPopup
 {
@@ -39,6 +38,34 @@ namespace _Scripts.UI.Popup.CharacterPopup
 		    LoadCharacterData();
 		    LoadSkillData();
 		    return base.Initialize();
+	    }
+
+	    public ItemData GetItemData(EItemType itemType, int itemID)
+	    {
+		    return APIManager.Instance.GetItemData(itemType, itemID);
+	    }
+
+	    public LevelConfig GetLevelConfig(EItemType itemType, int level)
+	    {
+		    switch (itemType)
+		    {
+			    case EItemType.Character:
+			    {
+				    return GameConfig.Instance.GetCharacterLevelConfig(level);
+			    }
+			    case EItemType.Equipment:
+			    {
+				    return GameConfig.Instance.GetEquipmentLevelConfig(level);
+			    }
+			    case EItemType.Skill:
+			    {
+				    return GameConfig.Instance.GetSkillLevelConfig(level);
+			    }
+			    default:
+			    {
+				    throw new ArgumentOutOfRangeException(nameof(itemType), itemType, null);
+			    }
+		    }
 	    }
 
 	    public Definition.Equipment GetEquipmentData(EEquipmentType equipmentType, int equipmentID)
@@ -116,7 +143,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
 		    {
 			    logic.CurrentTab = CharacterPopupLogic.ETab.Character;
 			    ui.OpenTab(logic.CurrentTab);
-			    ui.ShowCharacterDetails(logic.EquippedCharacter);
+			    ui.ShowCharacterDetails(logic.EquippedCharacter, logic.GetItemData, logic.GetLevelConfig);
 			    ui.ShowEquipment(logic.EquipmentSlots, OnSelectEquipmentSlot, logic.GetEquipmentData);
 			    return UniTask.CompletedTask;
 		    };
@@ -146,7 +173,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
 		    
 		    _logic.CurrentTab = CharacterPopupLogic.ETab.Character;
 		    _ui.OpenTab(CharacterPopupLogic.ETab.Character);
-		    _ui.ShowCharacterDetails(_logic.EquippedCharacter);
+		    _ui.ShowCharacterDetails(_logic.EquippedCharacter, _logic.GetItemData, _logic.GetLevelConfig);
 		    _ui.ShowEquipment(_logic.EquipmentSlots, OnSelectEquipmentSlot, _logic.GetEquipmentData);
 	    }
 	    
@@ -171,7 +198,7 @@ namespace _Scripts.UI.Popup.CharacterPopup
 	    //Character
 	    private void ShowCharacter()
 	    {
-		    _ui.ShowCharacterDetails(_logic.EquippedCharacter);
+		    _ui.ShowCharacterDetails(_logic.EquippedCharacter, _logic.GetItemData, _logic.GetLevelConfig);
 		    _ui.ShowEquipment(_logic.EquipmentSlots, OnSelectEquipmentSlot, _logic.GetEquipmentData);
 	    }
 
@@ -205,12 +232,12 @@ namespace _Scripts.UI.Popup.CharacterPopup
 	    //Skill
 	    private void ShowEquippedSkills()
 	    {
-		    _ui.ShowEquippedSkills(_logic.SkillSlots, _logic.GetSkillData, OnSelectSkill);
+		    _ui.ShowEquippedSkills(_logic.SkillSlots, _logic.GetSkillData, OnSelectSkill, _logic.GetItemData, _logic.GetLevelConfig);
 	    }
 
 	    private void ShowSkillCollection()
 	    {
-		    _ui.ShowSkillCollection(_logic.SkillCollection.owned, _logic.IsSkillEquip, OnSelectSkill);
+		    _ui.ShowSkillCollection(_logic.SkillCollection.owned, _logic.IsSkillEquip, OnSelectSkill, _logic.GetItemData, _logic.GetLevelConfig);
 		    _ui.ShowOwnedAttackEffect(_logic.GetOwnedAttackEffect());
 	    }
 

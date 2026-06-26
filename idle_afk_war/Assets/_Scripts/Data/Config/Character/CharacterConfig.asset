@@ -15,3 +15,4 @@ MonoBehaviour:
   _characterConfigs:
   - {fileID: 11400000, guid: 797be1af1267d9241a18a0f1dcbd33a4, type: 2}
   - {fileID: 11400000, guid: 02c2a8f06e58b5e4581005fb85ee41ca, type: 2}
+  _levelConfigs: {fileID: 11400000, guid: 47712048e5c57a74292cced0e5b1422b, type: 2}

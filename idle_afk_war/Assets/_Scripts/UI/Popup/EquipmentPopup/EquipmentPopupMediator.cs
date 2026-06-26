@@ -36,11 +36,20 @@ namespace _Scripts.UI.Popup.EquipmentPopup
 		public Definition.Equipment SelectedEquipment => _selectedEquipment;
 		public Definition.Equipment EquippedEquipment => _equippedEquipment;
 		
-		
 		public override UniTask Initialize()
 		{
 			RefreshData();
 			return base.Initialize();
+		}
+
+		public ItemData GetItemData(int itemID)
+		{
+			return APIManager.Instance.GetItemData(EItemType.Equipment, itemID);
+		}
+
+		public LevelConfig GetLevelConfig(int level)
+		{
+			return GameConfig.Instance.GetEquipmentLevelConfig(level);
 		}
 
 		public void SelectEquipment(int equipmentID)
@@ -127,8 +136,8 @@ namespace _Scripts.UI.Popup.EquipmentPopup
 
 		    _beforeUIShow = (ui, logic, mediator) =>
 		    {
-			    ui.ShowCollection(logic.EquipmentCatalogue, logic.SelectedEquipmentID, logic.EquippedEquipmentID, OnSelectEquipment,true);
-			    ui.ShowEquipment(logic.SelectedEquipment, logic.IsEquipped(logic.SelectedEquipmentID));
+			    ui.ShowEquipment(logic.SelectedEquipment, logic.IsEquipped(logic.SelectedEquipmentID), logic.GetItemData, logic.GetLevelConfig);
+			    ui.ShowCollection(logic.EquipmentCatalogue, logic.SelectedEquipmentID, logic.EquippedEquipmentID, OnSelectEquipment, logic.GetItemData, logic.GetLevelConfig, true );
 			    ui.ShowOwnedAttackEffect(logic.GetOwnedAttackEffect());
 			    return UniTask.CompletedTask;
 		    };
@@ -153,8 +162,8 @@ namespace _Scripts.UI.Popup.EquipmentPopup
 	    private void ShowCollection()
 	    {
 		    _ui.ShowCollection(_logic.EquipmentCatalogue, _logic.SelectedEquipmentID, _logic.EquippedEquipmentID,
-			    OnSelectEquipment);
-		    _ui.ShowEquipment(_logic.SelectedEquipment, _logic.IsEquipped(_logic.SelectedEquipmentID));
+			    OnSelectEquipment, _logic.GetItemData, _logic.GetLevelConfig);
+		    _ui.ShowEquipment(_logic.SelectedEquipment, _logic.IsEquipped(_logic.SelectedEquipmentID), _logic.GetItemData, _logic.GetLevelConfig);
 	    }
 
 	    #endregion

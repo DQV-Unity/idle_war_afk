@@ -11,6 +11,7 @@ namespace _Scripts.API
         private CharacterService _characterService;
         private BattleService _battleService;
         private SkillServices _skillServices;
+        private InventoryService _inventoryService;
         
         protected override void _Init()
         {
@@ -19,6 +20,7 @@ namespace _Scripts.API
             _characterService = new CharacterService();
             _battleService = new BattleService();
             _skillServices = new SkillServices();
+            _inventoryService = new InventoryService();
         }
 
         // private void _CollectReward(RewardModel reward)

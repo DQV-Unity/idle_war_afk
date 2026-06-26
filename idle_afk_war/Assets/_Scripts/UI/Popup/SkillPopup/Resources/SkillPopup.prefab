@@ -1292,6 +1292,7 @@ MonoBehaviour:
   _txtRarity: {fileID: 2473503855341955708}
   _txtLevel: {fileID: 6900850529585446760}
   _txtLevelProgress: {fileID: 7801235838056333555}
+  _sldLevelProgress: {fileID: 1652112491565287414}
   _txtDescription: {fileID: 4323233299785264883}
   _txtCoolDown: {fileID: 4497409740293370014}
   _txtOwnedEffect: {fileID: 5063391596296841321}

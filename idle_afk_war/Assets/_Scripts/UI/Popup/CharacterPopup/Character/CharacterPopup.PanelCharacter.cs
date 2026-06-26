@@ -1,4 +1,5 @@
 using System;
+using _Scripts.Data.Config;
 using _Scripts.Definition;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,9 +31,11 @@ namespace _Scripts.UI.Popup.CharacterPopup
 
         #region ----- Public Functions -----
 
-        public void ShowCharacterDetail(Character equippedCharacter)
+        public void ShowCharacterDetail(Character equippedCharacter, 
+            Func<EItemType, int, ItemData> getItemData, 
+            Func<EItemType, int, LevelConfig> getLevelConfig)
         {
-            _characterDetail.ShowCharacterDetail(equippedCharacter);
+            _characterDetail.ShowCharacterDetail(equippedCharacter, getItemData, getLevelConfig);
         }
 
         public void ShowEquipment(EquipmentSlot[] equipmentSlots, Action<EEquipmentType> selectEquipmentSlot, Func<EEquipmentType, int, Definition.Equipment> getEquipmentData)

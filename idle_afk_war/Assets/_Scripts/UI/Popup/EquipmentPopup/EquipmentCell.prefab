@@ -931,6 +931,7 @@ MonoBehaviour:
   _imgEquipment: {fileID: 7316998858214239966}
   _imgRarity: {fileID: 3366215077104133641}
   _txtLevel: {fileID: 5665259520746768888}
+  _sldLevelProgress: {fileID: 3218146765537661045}
   _txtLevelProgress: {fileID: 3543968436348606526}
   _goEquipped: {fileID: 5962962782747520724}
 --- !u!1 &8619541206019864225

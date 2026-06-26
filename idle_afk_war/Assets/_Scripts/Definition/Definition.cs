@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace _Scripts.Definition
 {
@@ -25,12 +24,6 @@ namespace _Scripts.Definition
         CritDamage,
     }
 
-    public enum EUnitSide
-    {
-        Alliance,
-        Opponent,
-    }
-
     public enum EEquipmentType
     {
         Axe,
@@ -49,23 +42,7 @@ namespace _Scripts.Definition
     {
         EnemyDeath,
     }
-
-    public enum EUnitState
-    {
-        Idle,
-        PreBattling,
-        Moving,
-        Battling,
-        Dead,
-    }
-
-    public enum ESkillState
-    {
-        Idle,
-        Battling,
-        Playing,
-    }
-
+    
     public enum ETab
     {
         None,
@@ -86,7 +63,37 @@ namespace _Scripts.Definition
     {
         Human
     }
+
+    public enum EItemType
+    {
+        Character,
+        Equipment,
+        Skill,
+    }
     
+    //Game
+    public enum EUnitState
+    {
+        Idle,
+        PreBattling,
+        Moving,
+        Battling,
+        Dead,
+    }
+
+    public enum ESkillState
+    {
+        Idle,
+        Battling,
+        Playing,
+    }
+    
+    public enum EUnitSide
+    {
+        Alliance,
+        Opponent,
+    }
+
     //Stat
     public struct UnitStat
     {

@@ -15,3 +15,4 @@ MonoBehaviour:
   _skillConfigs:
   - {fileID: 11400000, guid: 4f7368900a23aef49a3dd1893dbec2dc, type: 2}
   - {fileID: 11400000, guid: 7c31b4be6cd040845bd18745527c4a63, type: 2}
+  _levelConfigs: {fileID: 11400000, guid: 2a1e82e426195db4ea480eb434163e26, type: 2}

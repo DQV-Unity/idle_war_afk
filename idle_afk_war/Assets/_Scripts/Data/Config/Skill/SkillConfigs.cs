@@ -7,6 +7,7 @@ namespace _Scripts.Data.Config
     public class SkillConfigs : ScriptableObject
     {
         [SerializeField] private List<SkillConfig> _skillConfigs;
+        [SerializeField] private LevelConfigs _levelConfigs;
         
         public SkillConfig GetSkillConfig(int skillID)
         {
@@ -19,6 +20,11 @@ namespace _Scripts.Data.Config
             }
             
             throw new KeyNotFoundException($"Skill ID {skillID} not found");
+        }
+        
+        public LevelConfig GetLevelConfig(int level)
+        {
+            return _levelConfigs.GetLevelConfig(level);
         }
     }
 }

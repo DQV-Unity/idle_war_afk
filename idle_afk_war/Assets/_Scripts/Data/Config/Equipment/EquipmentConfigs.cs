@@ -8,6 +8,7 @@ namespace _Scripts.Data.Config
     public class EquipmentConfigs : ScriptableObject
     {
         [SerializeField] private List<EquipmentCatalogue> _equipmentCatalogues;
+        [SerializeField] private LevelConfigs _levelConfigs;
 
         public EquipmentConfig GetEquipmentConfig(EEquipmentType equipmentType, int equipmentID)
         {
@@ -27,6 +28,11 @@ namespace _Scripts.Data.Config
                 }
             }
             throw new KeyNotFoundException($"Equipment Type {equipmentType} ID {equipmentID} not found");
+        }
+        
+        public LevelConfig GetLevelConfig(int level)
+        {
+            return _levelConfigs.GetLevelConfig(level);
         }
     }
 }

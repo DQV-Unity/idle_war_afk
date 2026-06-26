@@ -1,4 +1,5 @@
 ﻿using _Scripts.Definition;
+using qtLib.Extension;
 
 namespace _Scripts.API
 {
@@ -6,7 +7,7 @@ namespace _Scripts.API
     {
         public CampaignData GetCampaignData()
         {
-            return _battleService.GetCampaignData().Clone();
+            return qtGameExtension.Clone(_battleService.GetCampaignData());
         }
 
         public EGameMode GetCurrentGameMode()
@@ -16,7 +17,7 @@ namespace _Scripts.API
 
         public CampaignData CompleteSubStage()
         {
-            return _battleService.CompleteSubStage().Clone();
+            return qtGameExtension.Clone(_battleService.CompleteSubStage());
         }
     }
 }

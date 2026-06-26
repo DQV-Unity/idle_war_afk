@@ -7,6 +7,7 @@ namespace _Scripts.Data.Config
     public class CharacterConfigs : ScriptableObject
     {
         [SerializeField] private List<CharacterConfig> _characterConfigs;
+        [SerializeField] private LevelConfigs _levelConfigs;
         
         public CharacterConfig GetCharacterConfig(int characterID)
         {
@@ -19,6 +20,11 @@ namespace _Scripts.Data.Config
             }
             
             throw new KeyNotFoundException($"Character ID {characterID} not found");
+        }
+
+        public LevelConfig GetLevelConfig(int level)
+        {
+            return _levelConfigs.GetLevelConfig(level);
         }
     }
 }

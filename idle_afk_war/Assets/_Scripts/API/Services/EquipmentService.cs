@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
 using _Scripts.Definition;
-using qtLib.Extension;
 
 namespace _Scripts.API.Services
 {
     public class EquipmentService : APIService<EquipmentData>
     {
-        protected override string DataPath => "Inventory";
+        protected override string DataPath => "Equipment";
         
         public EquipmentCatalogue GetEquipmentCatalogue(EEquipmentType equipmentType)
         {
